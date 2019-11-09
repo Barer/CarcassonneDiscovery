@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C122E5A3-9786-4563-9751-A55B4A00FA12}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>CarcassonneDiscovery.SimulationServer</RootNamespace>
+    <RootNamespace>CarcassonneDiscovery.Server.Program</RootNamespace>
     <AssemblyName>CarcassonneDiscovery.SimulationServer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

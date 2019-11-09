@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80AE70EB-A49E-41D0-A774-D0435AE10942}</ProjectGuid>
+    <ProjectGuid>{1C9AE392-FA57-47E2-9E75-B65DE3BB3B44}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CarcassonneDiscovery.Ai</RootNamespace>
-    <AssemblyName>CarcassonneDiscovery.AiCommon</AssemblyName>
+    <RootNamespace>CarcassonneDiscovery.Server</RootNamespace>
+    <AssemblyName>CarcassonneDiscovery.ServerCommon</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
