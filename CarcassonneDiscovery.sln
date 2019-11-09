@@ -20,6 +20,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{DF2987E7-59B1-43B4-A1E2-D57D0550F451}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tech", "Tech", "{BA886514-F88B-428F-AEED-3A9FF67509EC}"
+	ProjectSection(SolutionItems) = preProject
+		Entity.md = Entity.md
+		Tools.md = Tools.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AI", "AI", "{ABFDAD13-8202-4290-BDCB-7D8A9B1C506D}"
 EndProject

@@ -40,7 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\PlayerColor.cs" />
+    <Compile Include="Coords.cs" />
+    <Compile Include="Enums\MoveWorkflow.cs" />
+    <Compile Include="Enums\RegionType.cs" />
+    <Compile Include="GameParams.cs" />
+    <Compile Include="GameState.cs" />
+    <Compile Include="Grid\FollowerPlacement.cs" />
+    <Compile Include="Grid\TilePlacement.cs" />
+    <Compile Include="ITileScheme.cs" />
+    <Compile Include="ITileSupplier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Enums\TileOrientation.cs" />
+    <Compile Include="TileSetParams.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

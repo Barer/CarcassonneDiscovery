@@ -40,7 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoordsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarcassonneDiscovery.Entity\CarcassonneDiscovery.Entity.csproj">
+      <Project>{77863305-256A-4D0F-B7E6-1522D8AE469D}</Project>
+      <Name>CarcassonneDiscovery.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
