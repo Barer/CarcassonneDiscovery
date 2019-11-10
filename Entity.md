@@ -24,7 +24,7 @@ Pomocí barev jsou hráèi identifikováni pro úèely hry.
 ### `MoveWorkflow`
 
 Výètový typ `MoveWorkflow` reprezentuje stav tahu.
-TODO (pøi implementaci logiky): Popis jednotlivých fází
+TODO (pøi revizi dokumentace): Graf s popisem herních fází
 
 
 ## Struktury, tøídy a rozhraní

@@ -31,11 +31,6 @@
         MoveEnded,
 
         /// <summary>
-        /// The game has ended and scores for the remaining followers will be counted.
-        /// </summary>
-        EndFollowerCounting,
-
-        /// <summary>
         /// The game has ended and the results are final.
         /// </summary>
         GameEnded

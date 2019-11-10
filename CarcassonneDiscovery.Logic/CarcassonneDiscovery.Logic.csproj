@@ -40,8 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Execution\GameEndExecutionResult.cs" />
     <Compile Include="Execution\GameExecutionResult.cs" />
-    <Compile Include="Execution\RuleViolationType.cs" />
+    <Compile Include="Execution\PassMoveExecutionResult.cs" />
+    <Compile Include="Execution\RemoveFollowerExecutionResult.cs" />
+    <Compile Include="Execution\PlaceFollowerExecutionResult.cs" />
+    <Compile Include="RuleViolationType.cs" />
+    <Compile Include="Execution\PlaceTileExecutionResult.cs" />
     <Compile Include="Execution\StartMoveExecutionResult.cs" />
     <Compile Include="Execution\StartGameExecutionResult.cs" />
     <Compile Include="GameExecutor.cs" />

@@ -12,33 +12,6 @@
     public class GameExecutor
     {
         /// <summary>
-        /// Tries to start new game.
-        /// </summary>
-        /// <param name="state">Current game state.</param>
-        /// <returns>Game execution result.</returns>
-        public StartGameExecutionResult TryStartGame(GameState state)
-        {
-            var stateParams = state.Params;
-
-            if (stateParams.PlayerOrder.Length != stateParams.FollowerAmount)
-            {
-                return new StartGameExecutionResult(RuleViolationType.InconsistentGameParameters);
-            }
-
-            if (stateParams.TileSetParams == null)
-            {
-                return new StartGameExecutionResult(RuleViolationType.InconsistentGameParameters);
-            }
-
-            if (state.MovePhase != MoveWorkflow.GameStarted)
-            {
-                return new StartGameExecutionResult(RuleViolationType.InvalidMovePhase);
-            }
-
-            return SetStartGame(state);
-        }
-
-        /// <summary>
         /// Starts new game.
         /// </summary>
         /// <param name="state">Current game state.</param>
@@ -78,6 +51,33 @@
             state.MovePhase = MoveWorkflow.FirstTilePlaced;
 
             return new StartGameExecutionResult(firstTile, firstCoords, firstOrientation);
+        }
+
+        /// <summary>
+        /// Tries to start new game.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <returns>Game execution result.</returns>
+        public StartGameExecutionResult TryStartGame(GameState state)
+        {
+            var stateParams = state.Params;
+
+            if (stateParams.PlayerOrder.Length != stateParams.FollowerAmount)
+            {
+                return new StartGameExecutionResult(RuleViolationType.InconsistentGameState);
+            }
+
+            if (stateParams.TileSetParams == null)
+            {
+                return new StartGameExecutionResult(RuleViolationType.InconsistentGameState);
+            }
+
+            if (state.MovePhase != MoveWorkflow.GameStarted)
+            {
+                return new StartGameExecutionResult(RuleViolationType.InvalidMovePhase);
+            }
+
+            return SetStartGame(state);
         }
 
         /// <summary>
@@ -124,6 +124,285 @@
             var nextPlayer = stateParams.PlayerOrder[nextPlayerIndex];
 
             return SetStartMove(state, nextPlayer, nextTile);
+        }
+
+        /// <summary>
+        /// Places tile on the gird.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <param name="color">Current player on move.</param>
+        /// <param name="tile">Placed tile.</param>
+        /// <param name="coords">Coordinates of the placed tile.</param>
+        /// <param name="orientation">Orientation of the placed tile.</param>
+        /// <returns>Game execution result.</returns>
+        public PlaceTileExecutionResult SetPlaceTile(GameState state, PlayerColor color, ITileScheme tile, Coords coords, TileOrientation orientation)
+        {
+            state.Grid.Add(
+                coords,
+                new TilePlacement
+                {
+                    Coords = coords,
+                    TileScheme = tile,
+                    Orientation = orientation,
+                    FollowerPlacement = null
+                });
+            
+            state.CurrentTileCoords = coords;
+
+            state.MovePhase = MoveWorkflow.TilePlaced;
+
+            return new PlaceTileExecutionResult(color, tile, coords, orientation);
+        }
+
+        /// <summary>
+        /// Tries to place tile on the gird.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <param name="color">Current player on move.</param>
+        /// <param name="tile">Placed tile.</param>
+        /// <param name="coords">Coordinates of the placed tile.</param>
+        /// <param name="orientation">Orientation of the placed tile.</param>
+        /// <returns>Game execution result.</returns>
+        public PlaceTileExecutionResult TryPlaceTile(GameState state, PlayerColor color, ITileScheme tile, Coords coords, TileOrientation orientation)
+        {
+            if (!IsPlayerOnMove(state, color))
+            {
+                return new PlaceTileExecutionResult(RuleViolationType.NotOnMove);
+            }
+
+            if (!IsCorrectMovePhase(state, MoveWorkflow.NextTileSelected))
+            {
+                return new PlaceTileExecutionResult(RuleViolationType.InvalidMovePhase);
+            }
+
+            if (true) // TODO: tile is the same
+            {
+                throw new NotImplementedException();
+            }
+
+            if (true) // TODO: tile surroundings
+            {
+                throw new NotImplementedException();
+            }
+
+            return SetPlaceTile(state, color, tile, coords, orientation);
+        }
+
+        /// <summary>
+        /// Places follower on the board.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <param name="color">Current player on move.</param>
+        /// <param name="coords">Coordinates of the tile where the follower is being placed.</param>
+        /// <param name="regionId">Identifier of the region where the follower is being placed.</param>
+        /// <returns>Game execution result.</returns>
+        public PlaceFollowerExecutionResult SetPlaceFollower(GameState state, PlayerColor color, Coords coords, int regionId)
+        {
+            var placement = new FollowerPlacement
+            {
+                Color = color,
+                Coords = coords,
+                RegionId = regionId
+            };
+
+            state.PlacedFollowers[color].Add(placement);
+            state.Grid[coords].FollowerPlacement = placement;
+
+            state.MovePhase = MoveWorkflow.MoveEnded;
+
+            return new PlaceFollowerExecutionResult(color, coords, regionId);
+        }
+
+        /// <summary>
+        /// Tries to place follower on the board.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <param name="color">Current player on move.</param>
+        /// <param name="coords">Coordinates of the tile where the follower is being placed.</param>
+        /// <param name="regionId">Identifier of the region where the follower is being placed.</param>
+        /// <returns>Game execution result.</returns>
+        public PlaceFollowerExecutionResult TryPlaceFollower(GameState state, PlayerColor color, Coords coords, int regionId)
+        {
+            if (!IsPlayerOnMove(state, color))
+            {
+                return new PlaceFollowerExecutionResult(RuleViolationType.NotOnMove);
+            }
+
+            if (!IsCorrectMovePhase(state, MoveWorkflow.TilePlaced))
+            {
+                return new PlaceFollowerExecutionResult(RuleViolationType.InvalidMovePhase);
+            }
+
+            if (state.PlacedFollowers[color].Count >= state.Params.FollowerAmount)
+            {
+                return new PlaceFollowerExecutionResult(RuleViolationType.NoFollowerAvailable);
+            }
+
+            if (state.CurrentTileCoords != coords)
+            {
+                return new PlaceFollowerExecutionResult(RuleViolationType.InvalidCoordinates);
+            }
+
+            if (true) // TODO: occupied region
+            {
+                throw new NotImplementedException();
+            }
+
+            return SetPlaceFollower(state, color, coords, regionId);
+        }
+
+        /// <summary>
+        /// Removes follower form the board.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <param name="color">Current player on move.</param>
+        /// <param name="coords">Coordinates of the tile where the follower is being removed from.</param>
+        /// <returns>Game execution result.</returns>
+        public RemoveFollowerExecutionResult SetRemoveFollower(GameState state, PlayerColor color, Coords coords)
+        {
+            var placement = state.Grid[coords].FollowerPlacement;
+
+            state.Grid[coords].FollowerPlacement = null;
+            state.PlacedFollowers[color].Remove(placement);
+
+            var score = 0;
+            throw new NotImplementedException();
+
+            state.MovePhase = MoveWorkflow.MoveEnded;
+
+            return new RemoveFollowerExecutionResult(color, coords, score);
+        }
+
+        /// <summary>
+        /// Tries to remove follower form the board.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <param name="color">Current player on move.</param>
+        /// <param name="coords">Coordinates of the tile where the follower is being removed from.</param>
+        /// <returns>Game execution result.</returns>
+        public RemoveFollowerExecutionResult TryRemoveFollower(GameState state, PlayerColor color, Coords coords)
+        {
+            if (!IsPlayerOnMove(state, color))
+            {
+                return new RemoveFollowerExecutionResult(RuleViolationType.NotOnMove);
+            }
+
+            if (!IsCorrectMovePhase(state, MoveWorkflow.TilePlaced))
+            {
+                return new RemoveFollowerExecutionResult(RuleViolationType.InvalidMovePhase);
+            }
+
+            var fpInGrid = state.Grid.TryGetValue(coords, out var tp) ? tp.FollowerPlacement : null;
+            var fpInList = state.PlacedFollowers.TryGetValue(color, out var fpList) ? fpList.FirstOrDefault(fp => fp.Coords == coords) : null;
+
+            if (fpInGrid == null && fpInList == null)
+            {
+                return new RemoveFollowerExecutionResult(RuleViolationType.InvalidCoordinates);
+            }
+
+            if (fpInGrid == null || fpInList == null || !fpInGrid.Equals(fpInList))
+            {
+                return new RemoveFollowerExecutionResult(RuleViolationType.InconsistentGameState);
+            }
+
+            return SetRemoveFollower(state, color, coords);
+        }
+
+        /// <summary>
+        /// Passes move.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <param name="color">Current player on move.</param>
+        /// <returns>Game execution result.</returns>
+        public PassMoveExecutionResult SetPassMove(GameState state, PlayerColor color)
+        {
+            state.MovePhase = MoveWorkflow.MoveEnded;
+
+            return new PassMoveExecutionResult(color);
+        }
+
+        /// <summary>
+        /// Tries to pass move.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <param name="color">Current player on move.</param>
+        /// <returns>Game execution result.</returns>
+        public PassMoveExecutionResult TryPassMove(GameState state, PlayerColor color)
+        {
+            if (!IsPlayerOnMove(state, color))
+            {
+                return new PassMoveExecutionResult(RuleViolationType.NotOnMove);
+            }
+
+            if (!IsCorrectMovePhase(state, MoveWorkflow.TilePlaced))
+            {
+                return new PassMoveExecutionResult(RuleViolationType.InvalidMovePhase);
+            }
+
+            return SetPassMove(state, color);
+        }
+
+        /// <summary>
+        /// Ends the game.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <returns>Game execution result.</returns>
+        public GameEndExecutionResult SetEndGame(GameState state)
+        {
+            var allPlacements = state.PlacedFollowers.SelectMany(x => x.Value).ToList();
+            var allScores = new List<RemoveFollowerExecutionResult>();
+
+            foreach (var fp in allPlacements)
+            {
+                var score = SetRemoveFollower(state, fp.Color, fp.Coords);
+                allScores.Add(score);
+            }
+
+            state.MovePhase = MoveWorkflow.GameEnded;
+
+            return new GameEndExecutionResult(allScores);
+        }
+
+        /// <summary>
+        /// Tries to end the game.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <returns>Game execution result.</returns>
+        public GameEndExecutionResult TryEndGame(GameState state)
+        {
+            if (!IsCorrectMovePhase(state, MoveWorkflow.MoveEnded))
+            {
+                return new GameEndExecutionResult(RuleViolationType.InvalidMovePhase);
+            }
+
+            if (state.TileSupplier.RemainingCount > 0)
+            {
+                return new GameEndExecutionResult(RuleViolationType.TilesRemaining);
+            }
+
+            return SetEndGame(state);
+        }
+
+        /// <summary>
+        /// Checks whether the specified player is on move.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <param name="color">Color of the player.</param>
+        /// <returns>True if the player is on move; otherwise false.</returns>
+        protected bool IsPlayerOnMove(GameState state, PlayerColor color)
+        {
+            return state.Params.PlayerOrder[state.CurrentPlayerIndex] == color;
+        }
+
+        /// <summary>
+        /// Checks whether it is the specified move phase.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <param name="phase">Expected move phase.</param>
+        /// <returns>True if it is the specified move phase; otherwise false.</returns>
+        protected bool IsCorrectMovePhase(GameState state, MoveWorkflow phase)
+        {
+            return state.MovePhase == phase;
         }
     }
 }

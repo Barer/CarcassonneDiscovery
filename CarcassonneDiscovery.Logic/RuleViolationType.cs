@@ -1,4 +1,4 @@
-﻿namespace CarcassonneDiscovery.Logic.Execution
+﻿namespace CarcassonneDiscovery.Logic
 {
     /// <summary>
     /// Type of rule violation.
@@ -16,13 +16,20 @@
         /// </summary>
         InvalidMovePhase,
 
-        #endregion
-
-        #region Game start
         /// <summary>
-        /// The game parameters are inconsistent.
+        /// Player is not on move.
         /// </summary>
-        InconsistentGameParameters,
+        NotOnMove,
+
+        /// <summary>
+        /// Invalid coordinates were given for the action.
+        /// </summary>
+        InvalidCoordinates,
+
+        /// <summary>
+        /// The game state is inconsistent.
+        /// </summary>
+        InconsistentGameState,
         #endregion
 
         #region Move start
@@ -36,12 +43,23 @@
         #endregion
 
         #region Follower placement
+        /// <summary>
+        /// Player has no follower available.
+        /// </summary>
+        NoFollowerAvailable,
         #endregion
 
         #region Follower removement
         #endregion
 
         #region Move passing
+        #endregion
+
+        #region Game end
+        /// <summary>
+        /// There are still tiles remaining.
+        /// </summary>
+        TilesRemaining,
         #endregion
     }
 }
