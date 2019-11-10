@@ -17,7 +17,7 @@ Výètový typ `RegionType` reprezentuje typ regionu na kartièce (hory, nížiny a mo
 
 ### `PlayerColor`
 
-Výètový typ `PlayerColor` reprezentuje barvu figurek hráèe. Zvláštní barva `None` je použita pøi akcích, které nejsou iniciovány žádným hráèem.
+Výètový typ `PlayerColor` reprezentuje barvu figurek hráèe. Zvláštní barva `PlayerColor.None` je použita pøi akcích, které nejsou iniciovány žádným hráèem.
 
 Pomocí barev jsou hráèi identifikováni pro úèely hry.
 
@@ -37,7 +37,12 @@ TODO (pøi definování properties): Popis jednotlivých property
 ### `ITileSupplier`
 
 Rozhraní `ITileSupplier` reprezentuje poskytování kartièek pro hru.
-TODO (pøi definování metod): Popis jednotlivých metod
+
+Poskytuje:
+- poèet zbývajícíh kartièek,
+- první kartièku ve høe,
+- následující kartièku,
+- možnost vrácení kartièky do sady (pokud napø. nelze umstit).
 
 ### `GameParams`
 

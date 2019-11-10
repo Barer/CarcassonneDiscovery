@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="CoordsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TileOrientationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CarcassonneDiscovery.Entity\CarcassonneDiscovery.Entity.csproj">
