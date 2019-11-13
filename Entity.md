@@ -48,7 +48,7 @@ Je nutné implementovat následující metody a property:
 Rozhraní `ITileSupplier` reprezentuje poskytování kartièek pro hru.
 
 Poskytuje:
-- poèet zbývajícíh kartièek,
+- poèet zbývajících kartièek,
 - první kartièku ve høe,
 - následující kartièku,
 - možnost vrácení kartièky do sady (pokud napø. nelze umstit).

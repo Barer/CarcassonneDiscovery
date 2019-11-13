@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CarcassonneDiscovery.Server</RootNamespace>
-    <AssemblyName>CarcassonneDiscovery.ServerCommon</AssemblyName>
+    <AssemblyName>CarcassonneDiscovery.ServerBase</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.Messag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.UserClient", "CarcassonneDiscovery.UserClient\CarcassonneDiscovery.UserClient.csproj", "{FB97C668-B46B-4903-8B72-0746E74779BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.AiCommon", "CarcassonneDiscovery.AiCommon\CarcassonneDiscovery.AiCommon.csproj", "{80AE70EB-A49E-41D0-A774-D0435AE10942}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.AiBase", "CarcassonneDiscovery.AiBase\CarcassonneDiscovery.AiBase.csproj", "{80AE70EB-A49E-41D0-A774-D0435AE10942}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.TrivialAi", "CarcassonneDiscovery.TrivialAi\CarcassonneDiscovery.TrivialAi.csproj", "{AFB4CCD2-1774-4266-B43A-E38C11F8ADC0}"
 EndProject
@@ -42,15 +42,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{9FE1246A-E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarcassonneDiscovery.Tests", "CarcassonneDiscovery.Tests\CarcassonneDiscovery.Tests.csproj", "{45DDB081-8E0F-4233-B3F2-47442226B39A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.SimulationServer", "CarcassonneDiscovery.SimulationServer\CarcassonneDiscovery.SimulationServer.csproj", "{C122E5A3-9786-4563-9751-A55B4A00FA12}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.Tools", "CarcassonneDiscovery.Tools\CarcassonneDiscovery.Tools.csproj", "{467BA373-88BD-4895-9B98-C87A8A0F853D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.HeadlessServer", "CarcassonneDiscovery.HeadlessServer\CarcassonneDiscovery.HeadlessServer.csproj", "{26D645ED-9C98-4E95-A406-160A284609D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.GuiServer", "CarcassonneDiscovery.GuiServer\CarcassonneDiscovery.GuiServer.csproj", "{1B02B7F2-50E6-4475-A6BA-B8946167BBD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.ServerCommon", "CarcassonneDiscovery.ServerCommon\CarcassonneDiscovery.ServerCommon.csproj", "{1C9AE392-FA57-47E2-9E75-B65DE3BB3B44}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.ServerBase", "CarcassonneDiscovery.ServerBase\CarcassonneDiscovery.ServerBase.csproj", "{1C9AE392-FA57-47E2-9E75-B65DE3BB3B44}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messaging", "Messaging", "{3DA12049-3A39-4F61-A0F1-A0D86D0BBF5E}"
 EndProject

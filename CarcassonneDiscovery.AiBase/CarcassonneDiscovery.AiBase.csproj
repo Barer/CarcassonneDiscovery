@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CarcassonneDiscovery.Ai</RootNamespace>
-    <AssemblyName>CarcassonneDiscovery.AiCommon</AssemblyName>
+    <AssemblyName>CarcassonneDiscovery.AiBase</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
