@@ -14,7 +14,7 @@
         /// <param name="coords">Coordinates of a tile.</param>
         /// <param name="direction">Direction where the neighboring tile is located.</param>
         /// <returns>Coordinates of a neighboring tile.</returns>
-        public static Coords GetNeighboringCoords(Coords coords, TileOrientation direction)
+        public static Coords GetNeighboringCoords(this Coords coords, TileOrientation direction)
         {
             switch (direction)
             {

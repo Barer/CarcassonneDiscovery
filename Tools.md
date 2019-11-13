@@ -2,7 +2,6 @@
 
 V tomto projektu VS se nachází pomocné nástroje pro manipulaci s herními prvky.
 
-
 ## Extension metody
 
 ### `CoordsExtensions`
@@ -37,4 +36,6 @@ jsou uloeny v instancích `RegionInfo`.
 
 ## Prohledávání na herní desce
 
-TODO: popis, graf kartièek, implementované metody
+Pro zjišování informací z herní desky slouí tøída `GridSearch`. Je v ní implementováno DFS
+z vıchozí pozice dané dvojicí souøadnice - identifikátor regionu. Obsahuje metdody pro kontrolu
+umístìní kartièky, pro zjišování uzavøenosti a obsazenosti regionù a pro vıpoèet bodù.

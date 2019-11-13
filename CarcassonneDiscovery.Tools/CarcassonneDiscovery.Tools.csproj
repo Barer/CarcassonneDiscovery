@@ -41,8 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\CoordsExtensions.cs" />
+    <Compile Include="Grid\CoordsRegionIdTuple.cs" />
+    <Compile Include="Grid\GridRuleViolation.cs" />
     <Compile Include="Grid\GridSearch.cs" />
     <Compile Include="Extensions\ITileSchemeExtensions.cs" />
+    <Compile Include="Grid\GridSearchResult.cs" />
+    <Compile Include="Grid\RegionSearchInfo.cs" />
+    <Compile Include="Grid\ValidTilePlacement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\TileOrientationExtensions.cs" />
     <Compile Include="Tiles\RegionInfo.cs" />

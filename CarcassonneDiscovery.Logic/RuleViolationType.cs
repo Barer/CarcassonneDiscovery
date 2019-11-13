@@ -40,6 +40,20 @@
         #endregion
 
         #region Tile placement
+        /// <summary>
+        /// Specified tile is not selected to be placed.
+        /// </summary>
+        InvalidTile,
+
+        /// <summary>
+        /// Tile placement is invalid because of incompatible surroundings.
+        /// </summary>
+        IncompatibleSurroundings,
+
+        /// <summary>
+        /// Tile placement is invalid because the tile has no neighboring tile.
+        /// </summary>
+        NoNeighboringTile,
         #endregion
 
         #region Follower placement
@@ -47,6 +61,11 @@
         /// Player has no follower available.
         /// </summary>
         NoFollowerAvailable,
+
+        /// <summary>
+        /// Region is already occupied.
+        /// </summary>
+        RegionOccupied,
         #endregion
 
         #region Follower removement

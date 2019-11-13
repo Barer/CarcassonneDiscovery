@@ -5,12 +5,26 @@
     using System.Linq;
     using CarcassonneDiscovery.Entity;
     using CarcassonneDiscovery.Logic.Execution;
+    using CarcassonneDiscovery.Tools;
 
     /// <summary>
     /// Performs game actions.
     /// </summary>
     public class GameExecutor
     {
+        /// <summary>
+        /// Grid search algorithm.
+        /// </summary>
+        protected GridSearch GridSearch { get; set; }
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public GameExecutor()
+        {
+            GridSearch = new GridSearch();
+        }
+
         /// <summary>
         /// Starts new game.
         /// </summary>
@@ -146,7 +160,7 @@
                     Orientation = orientation,
                     FollowerPlacement = null
                 });
-            
+
             state.CurrentTileCoords = coords;
 
             state.MovePhase = MoveWorkflow.TilePlaced;
@@ -175,17 +189,22 @@
                 return new PlaceTileExecutionResult(RuleViolationType.InvalidMovePhase);
             }
 
-            if (true) // TODO: tile is the same
+            if (!tile.TileEquals(state.CurrentTile))
             {
-                throw new NotImplementedException();
+                return new PlaceTileExecutionResult(RuleViolationType.InvalidTile);
             }
 
-            if (true) // TODO: tile surroundings
+            switch (GridSearch.CheckTilePlacement(state.Grid, tile, coords, orientation))
             {
-                throw new NotImplementedException();
+                case GridRuleViolation.Ok:
+                    return SetPlaceTile(state, color, tile, coords, orientation);
+                case GridRuleViolation.IncompatibleSurroundings:
+                    return new PlaceTileExecutionResult(RuleViolationType.IncompatibleSurroundings);
+                case GridRuleViolation.NoNeighboringTile:
+                    return new PlaceTileExecutionResult(RuleViolationType.NoNeighboringTile);
+                default:
+                    throw new InvalidOperationException();
             }
-
-            return SetPlaceTile(state, color, tile, coords, orientation);
         }
 
         /// <summary>
@@ -243,9 +262,9 @@
                 return new PlaceFollowerExecutionResult(RuleViolationType.InvalidCoordinates);
             }
 
-            if (true) // TODO: occupied region
+            if (GridSearch.IsRegionOccupied(state.Grid, coords, regionId))
             {
-                throw new NotImplementedException();
+                return new PlaceFollowerExecutionResult(RuleViolationType.RegionOccupied);
             }
 
             return SetPlaceFollower(state, color, coords, regionId);
@@ -265,8 +284,7 @@
             state.Grid[coords].FollowerPlacement = null;
             state.PlacedFollowers[color].Remove(placement);
 
-            var score = 0;
-            throw new NotImplementedException();
+            var score = GridSearch.GetScoreForFollower(state.Grid, coords, placement.RegionId);
 
             state.MovePhase = MoveWorkflow.MoveEnded;
 
