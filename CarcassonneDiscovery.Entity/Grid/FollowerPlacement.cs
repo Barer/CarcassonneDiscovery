@@ -19,5 +19,24 @@
         /// Coordinates of the region where the follower is placed.
         /// </summary>
         public int RegionId { get; set; }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            var fp = obj as FollowerPlacement;
+
+            if (fp == null)
+            {
+                return false;
+            }
+
+            return fp.Coords == Coords && fp.Color == Color && fp.RegionId == RegionId;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Coords.GetHashCode() ^ ((int)Color << 24) ^ (RegionId << 8);
+        }
     }
 }

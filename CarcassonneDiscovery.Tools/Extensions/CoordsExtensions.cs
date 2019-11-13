@@ -11,12 +11,12 @@
         /// <summary>
         /// Computes coordinates of a neighboring tile in a grid for given direction.
         /// </summary>
-        /// <param name="coords">Coodrinates of a tile.</param>
+        /// <param name="coords">Coordinates of a tile.</param>
         /// <param name="direction">Direction where the neighboring tile is located.</param>
-        /// <returns></returns>
+        /// <returns>Coordinates of a neighboring tile.</returns>
         public static Coords GetNeighboringCoords(Coords coords, TileOrientation direction)
         {
-            switch(direction)
+            switch (direction)
             {
                 case TileOrientation.N:
                     return new Coords(coords.X, coords.Y - 1);

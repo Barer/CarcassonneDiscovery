@@ -32,7 +32,16 @@ TODO (pøi revizi dokumentace): Graf s popisem herních fází
 ### `ITileScheme`
 
 Rozhraní `ITileScheme` reprezentuje vzhled kartièky.
-TODO (pøi definování properties): Popis jednotlivých property
+Vzhled kartièek je urèen poètem a strukturou regionù a mìst.
+
+Je nutné implementovat následující metody a property:
+- zjištìní poètu regionù a mìst,
+- zjištìní, který region se nachází na dané hranici,
+- dotazy na konkrétní region (podle jeho identifikátoru):
+   - typ regionu,
+   - seznam náležících mìst,
+   - seznam sousedních regionù,
+- identifikátor kartièky uvnitø herní sady (string s libovolnou hodnotou, podle dané herní sady).
 
 ### `ITileSupplier`
 
