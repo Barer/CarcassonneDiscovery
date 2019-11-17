@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using CarcassonneDiscovery.Entity;
-    using CarcassonneDiscovery.Logic.Execution;
     using CarcassonneDiscovery.Tools;
 
     /// <summary>
@@ -365,7 +364,7 @@
         /// </summary>
         /// <param name="state">Current game state.</param>
         /// <returns>Game execution result.</returns>
-        public GameEndExecutionResult SetEndGame(GameState state)
+        public EndGameExecutionResult SetEndGame(GameState state)
         {
             var allPlacements = state.PlacedFollowers.SelectMany(x => x.Value).ToList();
             var allScores = new List<RemoveFollowerExecutionResult>();
@@ -378,7 +377,7 @@
 
             state.MovePhase = MoveWorkflow.GameEnded;
 
-            return new GameEndExecutionResult(allScores);
+            return new EndGameExecutionResult(allScores);
         }
 
         /// <summary>
@@ -386,16 +385,16 @@
         /// </summary>
         /// <param name="state">Current game state.</param>
         /// <returns>Game execution result.</returns>
-        public GameEndExecutionResult TryEndGame(GameState state)
+        public EndGameExecutionResult TryEndGame(GameState state)
         {
             if (!IsCorrectMovePhase(state, MoveWorkflow.MoveEnded))
             {
-                return new GameEndExecutionResult(RuleViolationType.InvalidMovePhase);
+                return new EndGameExecutionResult(RuleViolationType.InvalidMovePhase);
             }
 
             if (state.TileSupplier.RemainingCount > 0)
             {
-                return new GameEndExecutionResult(RuleViolationType.TilesRemaining);
+                return new EndGameExecutionResult(RuleViolationType.TilesRemaining);
             }
 
             return SetEndGame(state);

@@ -1,4 +1,4 @@
-﻿namespace CarcassonneDiscovery.Logic.Execution
+﻿namespace CarcassonneDiscovery.Logic
 {
     using System;
     using CarcassonneDiscovery.Entity;

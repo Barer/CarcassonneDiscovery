@@ -1,12 +1,12 @@
-﻿namespace CarcassonneDiscovery.Logic.Execution
+﻿namespace CarcassonneDiscovery.Logic
 {
     using System;
     using System.Collections.Generic;
 
     /// <summary>
-    /// Result of pass move action execution.
+    /// Result of game end action execution.
     /// </summary>
-    public class GameEndExecutionResult : GameExecutionResult
+    public class EndGameExecutionResult : GameExecutionResult
     {
         /// <summary>
         /// List of removed followers and scored points.
@@ -17,13 +17,13 @@
         /// Constructor for correct game action.
         /// </summary>
         /// <param name="followerRemovements">List of removed followers and scored points.</param>
-        public GameEndExecutionResult(List<RemoveFollowerExecutionResult> followerRemovements) : base()
+        public EndGameExecutionResult(List<RemoveFollowerExecutionResult> followerRemovements) : base()
         {
             FollowerRemovements = followerRemovements;
         }
 
         /// <inheritdoc />
-        public GameEndExecutionResult(RuleViolationType type) : base(type)
+        public EndGameExecutionResult(RuleViolationType type) : base(type)
         {
             if (type == RuleViolationType.Ok)
             {

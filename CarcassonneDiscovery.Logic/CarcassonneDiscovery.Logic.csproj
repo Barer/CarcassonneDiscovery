@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Execution\GameEndExecutionResult.cs" />
+    <Compile Include="Execution\EndGameExecutionResult.cs" />
     <Compile Include="Execution\GameExecutionResult.cs" />
     <Compile Include="Execution\PassMoveExecutionResult.cs" />
     <Compile Include="Execution\RemoveFollowerExecutionResult.cs" />

@@ -1,4 +1,4 @@
-﻿namespace CarcassonneDiscovery.Logic.Execution
+﻿namespace CarcassonneDiscovery.Logic
 {
     /// <summary>
     /// Result of game action execution.
