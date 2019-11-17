@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CarcassonneDiscovery.GuiServer
+namespace CarcassonneDiscovery.Server.Gui
 {
     /// <summary>
     /// Interakční logika pro MainWindow.xaml

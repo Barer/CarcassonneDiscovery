@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1B02B7F2-50E6-4475-A6BA-B8946167BBD3}</ProjectGuid>
+    <ProjectGuid>{E0BFAEA3-07B2-4856-822A-099E3E127FF7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>CarcassonneDiscovery.Server.Gui</RootNamespace>
     <AssemblyName>CarcassonneDiscovery.GuiServer</AssemblyName>

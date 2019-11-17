@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
-namespace CarcassonneDiscovery.GuiServer
+namespace CarcassonneDiscovery.Server.Gui
 {
     /// <summary>
     /// Interakční logika pro App.xaml

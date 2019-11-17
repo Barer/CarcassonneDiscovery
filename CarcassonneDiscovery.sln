@@ -47,8 +47,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.Tools"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.HeadlessServer", "CarcassonneDiscovery.HeadlessServer\CarcassonneDiscovery.HeadlessServer.csproj", "{26D645ED-9C98-4E95-A406-160A284609D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.GuiServer", "CarcassonneDiscovery.GuiServer\CarcassonneDiscovery.GuiServer.csproj", "{1B02B7F2-50E6-4475-A6BA-B8946167BBD3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.ServerBase", "CarcassonneDiscovery.ServerBase\CarcassonneDiscovery.ServerBase.csproj", "{1C9AE392-FA57-47E2-9E75-B65DE3BB3B44}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messaging", "Messaging", "{3DA12049-3A39-4F61-A0F1-A0D86D0BBF5E}"
@@ -56,6 +54,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{22039819-AB4B-4E9F-A095-FDF8E6359225}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.StandardTileSet", "CarcassonneDiscovery.StandardTileSet\CarcassonneDiscovery.StandardTileSet.csproj", "{9635A9F0-F6BB-4447-9E57-A61B682AAD72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarcassonneDiscovery.GuiServer", "CarcassonneDiscovery.GuiServer\CarcassonneDiscovery.GuiServer.csproj", "{E0BFAEA3-07B2-4856-822A-099E3E127FF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,10 +103,6 @@ Global
 		{26D645ED-9C98-4E95-A406-160A284609D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26D645ED-9C98-4E95-A406-160A284609D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26D645ED-9C98-4E95-A406-160A284609D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B02B7F2-50E6-4475-A6BA-B8946167BBD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B02B7F2-50E6-4475-A6BA-B8946167BBD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B02B7F2-50E6-4475-A6BA-B8946167BBD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B02B7F2-50E6-4475-A6BA-B8946167BBD3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1C9AE392-FA57-47E2-9E75-B65DE3BB3B44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1C9AE392-FA57-47E2-9E75-B65DE3BB3B44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C9AE392-FA57-47E2-9E75-B65DE3BB3B44}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -115,6 +111,10 @@ Global
 		{9635A9F0-F6BB-4447-9E57-A61B682AAD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9635A9F0-F6BB-4447-9E57-A61B682AAD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9635A9F0-F6BB-4447-9E57-A61B682AAD72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0BFAEA3-07B2-4856-822A-099E3E127FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0BFAEA3-07B2-4856-822A-099E3E127FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0BFAEA3-07B2-4856-822A-099E3E127FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0BFAEA3-07B2-4856-822A-099E3E127FF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,9 +133,9 @@ Global
 		{45DDB081-8E0F-4233-B3F2-47442226B39A} = {9FE1246A-E0BD-45A9-A8DE-1688DCE0BA0A}
 		{467BA373-88BD-4895-9B98-C87A8A0F853D} = {F614725E-5972-43CF-B4F2-3EA3D6274692}
 		{26D645ED-9C98-4E95-A406-160A284609D8} = {35C17FD6-D8C1-4C2D-8257-1D7FCDD11DB9}
-		{1B02B7F2-50E6-4475-A6BA-B8946167BBD3} = {35C17FD6-D8C1-4C2D-8257-1D7FCDD11DB9}
 		{1C9AE392-FA57-47E2-9E75-B65DE3BB3B44} = {35C17FD6-D8C1-4C2D-8257-1D7FCDD11DB9}
 		{9635A9F0-F6BB-4447-9E57-A61B682AAD72} = {22039819-AB4B-4E9F-A095-FDF8E6359225}
+		{E0BFAEA3-07B2-4856-822A-099E3E127FF7} = {35C17FD6-D8C1-4C2D-8257-1D7FCDD11DB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EDC36A7-7475-48EA-9092-5ED48212CCF1}
