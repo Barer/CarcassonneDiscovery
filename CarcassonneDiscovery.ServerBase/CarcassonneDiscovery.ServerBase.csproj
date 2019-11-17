@@ -40,23 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameSimulator.cs" />
+    <Compile Include="Simulation\GameSimulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestResult\EndGameRequestResult.cs" />
-    <Compile Include="RequestResult\PassMoveRequestResult.cs" />
-    <Compile Include="RequestResult\PlaceTileRequestResult.cs" />
-    <Compile Include="RequestResult\PlaceFollowerRequestResult.cs" />
-    <Compile Include="RequestResult\RemoveFollowerRequestResult.cs" />
-    <Compile Include="RequestResult\StartGameRequestResult.cs" />
-    <Compile Include="RequestResult\ExitCode\GameExecutionRequestExitCode.cs" />
-    <Compile Include="RequestResult\GameExecutionRequestResultBase.cs" />
-    <Compile Include="RequestResult\ExitCode\RemovePlayerRequestExitCode.cs" />
-    <Compile Include="RequestResult\ExitCode\AddPlayerRequestExitCode.cs" />
-    <Compile Include="RequestResult\RemovePlayerRequestResult.cs" />
-    <Compile Include="RequestResult\AddPlayerRequestResult.cs" />
-    <Compile Include="RequestResult\RequestResultBase.cs" />
-    <Compile Include="RequestResult\StartMoveRequestResult.cs" />
-    <Compile Include="SimulationWorkflow.cs" />
+    <Compile Include="Simulation\RequestResult\EndGameRequestResult.cs" />
+    <Compile Include="Simulation\RequestResult\PassMoveRequestResult.cs" />
+    <Compile Include="Simulation\RequestResult\PlaceTileRequestResult.cs" />
+    <Compile Include="Simulation\RequestResult\PlaceFollowerRequestResult.cs" />
+    <Compile Include="Simulation\RequestResult\RemoveFollowerRequestResult.cs" />
+    <Compile Include="Simulation\RequestResult\StartGameRequestResult.cs" />
+    <Compile Include="Simulation\RequestResult\ExitCode\GameExecutionRequestExitCode.cs" />
+    <Compile Include="Simulation\RequestResult\GameExecutionRequestResultBase.cs" />
+    <Compile Include="Simulation\RequestResult\ExitCode\RemovePlayerRequestExitCode.cs" />
+    <Compile Include="Simulation\RequestResult\ExitCode\AddPlayerRequestExitCode.cs" />
+    <Compile Include="Simulation\RequestResult\RemovePlayerRequestResult.cs" />
+    <Compile Include="Simulation\RequestResult\AddPlayerRequestResult.cs" />
+    <Compile Include="Simulation\RequestResult\RequestResultBase.cs" />
+    <Compile Include="Simulation\RequestResult\StartMoveRequestResult.cs" />
+    <Compile Include="Simulation\SimulationWorkflow.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CarcassonneDiscovery.Entity\CarcassonneDiscovery.Entity.csproj">
@@ -66,6 +66,10 @@
     <ProjectReference Include="..\CarcassonneDiscovery.Logic\CarcassonneDiscovery.Logic.csproj">
       <Project>{4b8d8c51-a614-41ce-89d3-163fb6eed828}</Project>
       <Name>CarcassonneDiscovery.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Messaging\CarcassonneDiscovery.Messaging.csproj">
+      <Project>{DF3BD70B-0CC6-44B8-8924-C81778627399}</Project>
+      <Name>CarcassonneDiscovery.Messaging</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -32,6 +32,13 @@
         InconsistentGameState,
         #endregion
 
+        #region Game start
+        /// <summary>
+        /// There are not enough players to start the game.
+        /// </summary>
+        NotEnoughPlayers,
+        #endregion
+
         #region Move start
         /// <summary>
         /// There is no tile remaining in the set.

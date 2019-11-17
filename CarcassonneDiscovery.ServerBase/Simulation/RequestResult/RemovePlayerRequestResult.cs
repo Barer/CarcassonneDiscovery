@@ -7,5 +7,9 @@
     /// </summary>
     public class RemovePlayerRequestResult : RequestResultBase<RemovePlayerRequestExitCode>
     {
+        /// <summary>
+        /// Color of the removed player.
+        /// </summary>
+        public PlayerColor Color { get; set; }
     }
 }

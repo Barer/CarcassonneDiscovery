@@ -75,7 +75,7 @@
         {
             var stateParams = state.Params;
 
-            if (stateParams.PlayerOrder.Length != stateParams.FollowerAmount)
+            if (stateParams.PlayerOrder.Length != stateParams.PlayerAmount)
             {
                 return new StartGameExecutionResult(RuleViolationType.InconsistentGameState);
             }
@@ -83,6 +83,11 @@
             if (stateParams.TileSetParams == null)
             {
                 return new StartGameExecutionResult(RuleViolationType.InconsistentGameState);
+            }
+
+            if (stateParams.PlayerAmount < 2)
+            {
+                return new StartGameExecutionResult(RuleViolationType.NotEnoughPlayers);
             }
 
             if (state.MovePhase != MoveWorkflow.GameStarted)
