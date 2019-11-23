@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ILogController.cs" />
+    <Compile Include="SimulationController.cs" />
     <Compile Include="Simulation\GameSimulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simulation\RequestResult\EndGameRequestResult.cs" />

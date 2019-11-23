@@ -14,22 +14,22 @@
         /// <summary>
         /// State of the simulation.
         /// </summary>
-        protected SimulationWorkflow SimulationState;
+        protected SimulationWorkflow SimulationState { get; set; }
 
         /// <summary>
         /// Players in the game.
         /// </summary>
-        protected Dictionary<PlayerColor, string> Players;
+        protected Dictionary<PlayerColor, string> Players { get; set; }
 
         /// <summary>
         /// Game executor.
         /// </summary>
-        protected GameExecutor Executor;
+        protected GameExecutor Executor { get; set; }
 
         /// <summary>
         /// Current game state.
         /// </summary>
-        protected GameState GameState;
+        protected GameState GameState { get; set; }
 
         /// <summary>
         /// Default constructor.
@@ -240,7 +240,6 @@
             };
         }
 
-
         /// <summary>
         /// Removes a follower.
         /// </summary>
@@ -270,7 +269,7 @@
         /// Passes the move.
         /// </summary>
         /// <param name="color">Color of player making the move.</param>
-        /// <returns>Reuqest result.</returns>
+        /// <returns>Request result.</returns>
         public PassMoveRequestResult PassMove(PlayerColor color)
         {
             if (SimulationState != SimulationWorkflow.InGame)
@@ -293,7 +292,7 @@
         /// <summary>
         /// Ends the game.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Request result.</returns>
         public EndGameRequestResult EndGame()
         {
             if (SimulationState != SimulationWorkflow.InGame)

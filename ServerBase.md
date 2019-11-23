@@ -2,10 +2,24 @@
 
 V tomto projektu VS se nachází objekty TODO
 
-## `GameSimulator`
+## Architektura serveru
 
-TODO - princip
+TODO - schéma
 
-### `RequestResult` a `ExitCode`
+TODO - jednotlivé kompetence
 
-TODO - dovysvìtlení
+## `ServerController`
+
+TODO - hlavní tøída
+
+### `SimulationController`
+
+TODO - automatická simulace
+
+#### `GameSimulator`, `RequestResult` a `ExitCode`
+
+TODO - mezikrok a  dovysvìtlení
+
+### `ILogController`
+
+TODO - úèel
