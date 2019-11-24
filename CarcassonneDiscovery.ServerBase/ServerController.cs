@@ -4,9 +4,9 @@
     using System.Threading;
 
     /// <summary>
-    /// Main server class.
+    /// Main server controller.
     /// </summary>
-    public class Server
+    public class ServerController
     {
         /// <summary>
         /// Queue with actions.
@@ -22,6 +22,23 @@
         /// Main thread for action execution.
         /// </summary>
         public Thread ActionQueueThread { get; set; }
+
+        /// <summary>
+        /// Starts the server.
+        /// </summary>
+        public void Start()
+        {
+            ActionQueueThread = new Thread(Loop);
+            ActionQueueThread.Start();
+        }
+
+        /// <summary>
+        /// Stops the server.
+        /// </summary>
+        public void Stop()
+        {
+            ActionQueueThread.Abort();
+        }
 
         /// <summary>
         /// Main loop with actions.

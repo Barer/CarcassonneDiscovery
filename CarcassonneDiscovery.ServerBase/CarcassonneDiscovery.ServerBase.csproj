@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\Messaging\MessageReceivedAction.cs" />
     <Compile Include="Actions\ServerAction.cs" />
     <Compile Include="Actions\SimulationRequests\PlaceFollowerAction.cs" />
     <Compile Include="Actions\SimulationRequests\RemoveFollowerAction.cs" />
@@ -52,7 +53,7 @@
     <Compile Include="Logging\LogLevel.cs" />
     <Compile Include="Logging\LogType.cs" />
     <Compile Include="Messaging\ClientMessager.cs" />
-    <Compile Include="Server.cs" />
+    <Compile Include="ServerController.cs" />
     <Compile Include="ServerServiceProvider.cs" />
     <Compile Include="Simulation\GameSimulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,6 +86,9 @@
       <Project>{DF3BD70B-0CC6-44B8-8924-C81778627399}</Project>
       <Name>CarcassonneDiscovery.Messaging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Actions\Input\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

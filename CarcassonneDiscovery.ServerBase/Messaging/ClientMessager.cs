@@ -26,7 +26,7 @@
         /// </summary>
         /// <param name="clientId">Id of the client.</param>
         /// <param name="msg">Message to be sent.</param>
-        public void SendToClient(ClientId clientId, ServerResponse msg)
+        public virtual void SendToClient(ClientId clientId, ServerResponse msg)
         {
             // TODO (with error)
             ServerServiceProvider.Logger.Log($"Message sent to client {clientId}.", LogLevel.Normal, LogType.Messaging);
@@ -37,7 +37,7 @@
         /// </summary>
         /// <param name="color">Color of the player.</param>
         /// <param name="msg">Message to be sent.</param>
-        public void SendToPlayer(PlayerColor color, ServerResponse msg)
+        public virtual void SendToPlayer(PlayerColor color, ServerResponse msg)
         {
             if (Players.TryGetValue(color, out var clientId))
             {
@@ -53,7 +53,7 @@
         /// Sends message to all clients.
         /// </summary>
         /// <param name="msg">Message to be sent.</param>
-        public void SendToAll(ServerResponse msg)
+        public virtual void SendToAll(ServerResponse msg)
         {
             foreach (var clientId in Clients.Keys)
             {
