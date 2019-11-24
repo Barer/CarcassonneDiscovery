@@ -1,0 +1,38 @@
+﻿namespace CarcassonneDiscovery.Server
+{
+    using CarcassonneDiscovery.Logic;
+
+    /// <summary>
+    /// Start move action.
+    /// </summary>
+    public class StartMoveAction : ServerAction
+    {
+        /// <inheritdoc />
+        public override void Execute()
+        {
+            var result = ServerServiceProvider.GameSimulator.StartMove();
+
+            switch(result.ExitCode)
+            {
+                case GameExecutionRequestExitCode.Ok:
+                    ServerServiceProvider.Logger.Log("Move started.", LogLevel.Normal, LogType.SimulationExecution);
+                    break;
+
+                case GameExecutionRequestExitCode.WrongSimulationState:
+                    ServerServiceProvider.Logger.Log("WrongSimulationState.", LogLevel.Warning, LogType.SimulationExecutionError);
+                    break;
+
+                case GameExecutionRequestExitCode.Error:
+                    if (result.ExecutionResult.RuleViolationType == RuleViolationType.NoTileRemaining)
+                    {
+                        new EndGameAction().Execute();
+                    }
+                    else
+                    {
+                        ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.Warning, LogType.SimulationExecutionError);
+                    }
+                    break;
+            }
+        }
+    }
+}

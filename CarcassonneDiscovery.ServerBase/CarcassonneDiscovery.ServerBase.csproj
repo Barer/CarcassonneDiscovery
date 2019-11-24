@@ -40,8 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILogController.cs" />
-    <Compile Include="SimulationController.cs" />
+    <Compile Include="Actions\ServerAction.cs" />
+    <Compile Include="Actions\SimulationRequests\PlaceFollowerAction.cs" />
+    <Compile Include="Actions\SimulationRequests\RemoveFollowerAction.cs" />
+    <Compile Include="Actions\SimulationRequests\PlaceTileAction.cs" />
+    <Compile Include="Actions\SimulationRequests\EndGameAction.cs" />
+    <Compile Include="Actions\SimulationRequests\StartGameAction.cs" />
+    <Compile Include="Actions\SimulationRequests\PassMoveAction.cs" />
+    <Compile Include="Actions\SimulationRequests\StartMoveAction.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Logging\LogType.cs" />
+    <Compile Include="Messaging\ClientMessager.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="ServerServiceProvider.cs" />
     <Compile Include="Simulation\GameSimulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simulation\RequestResult\EndGameRequestResult.cs" />
