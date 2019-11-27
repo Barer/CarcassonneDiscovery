@@ -41,7 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarcassonneDiscovery.ServerBase\CarcassonneDiscovery.ServerBase.csproj">
+      <Project>{1c9ae392-fa57-47e2-9e75-b65de3bb3b44}</Project>
+      <Name>CarcassonneDiscovery.ServerBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

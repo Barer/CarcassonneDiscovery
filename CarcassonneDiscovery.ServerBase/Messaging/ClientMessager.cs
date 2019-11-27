@@ -2,9 +2,8 @@
 {
     using System.Collections.Generic;
     using CarcassonneDiscovery.Entity;
-
+    using CarcassonneDiscovery.Messaging;
     using ClientId = System.String;
-    using ServerResponse = System.Object;
 
     /// <summary>
     /// Sends messages to and receives messages from clients.
@@ -14,7 +13,7 @@
         /// <summary>
         /// Connected clients.
         /// </summary>
-        protected Dictionary<ClientId, object> Clients { get; set; }
+        protected Dictionary<ClientId, IClientHandler> Clients { get; set; }
 
         /// <summary>
         /// Ids of the players.
@@ -22,18 +21,25 @@
         public Dictionary<PlayerColor, ClientId> Players { get; set; }
 
         /// <summary>
-        /// Sends message to a client.
+        /// Sends execution result to a client.
         /// </summary>
         /// <param name="clientId">Id of the client.</param>
         /// <param name="msg">Message to be sent.</param>
         public virtual void SendToClient(ClientId clientId, ServerResponse msg)
         {
-            // TODO (with error)
+            if (!Clients.TryGetValue(clientId, out var clientHandler))
+            {
+                ServerServiceProvider.Logger.Log($"Unknown client: {clientId}", LogLevel.Warning, LogType.Messaging);
+                return;
+            };
+
+            clientHandler.SendMessage(msg);
+
             ServerServiceProvider.Logger.Log($"Message sent to client {clientId}.", LogLevel.Normal, LogType.Messaging);
         }
 
         /// <summary>
-        /// Sends message to a player.
+        /// Sends execution result to a player.
         /// </summary>
         /// <param name="color">Color of the player.</param>
         /// <param name="msg">Message to be sent.</param>
@@ -50,9 +56,9 @@
         }
 
         /// <summary>
-        /// Sends message to all clients.
+        /// Sends execution result to all clients.
         /// </summary>
-        /// <param name="msg">Message to be sent.</param>
+        /// <param name="msg">Game execution result to be sent.</param>
         public virtual void SendToAll(ServerResponse msg)
         {
             foreach (var clientId in Clients.Keys)

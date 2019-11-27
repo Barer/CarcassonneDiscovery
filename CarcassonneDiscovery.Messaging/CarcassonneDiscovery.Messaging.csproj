@@ -40,7 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\ClientRequest.cs" />
+    <Compile Include="Dto\ServerResponse.cs" />
+    <Compile Include="Mappings\ExecutionResultMappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarcassonneDiscovery.Entity\CarcassonneDiscovery.Entity.csproj">
+      <Project>{77863305-256a-4d0f-b7e6-1522d8ae469d}</Project>
+      <Name>CarcassonneDiscovery.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Logic\CarcassonneDiscovery.Logic.csproj">
+      <Project>{4b8d8c51-a614-41ce-89d3-163fb6eed828}</Project>
+      <Name>CarcassonneDiscovery.Logic</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -12,14 +12,15 @@
         {
             var result = ServerServiceProvider.GameSimulator.StartMove();
 
-            switch(result.ExitCode)
+            switch (result.ExitCode)
             {
                 case GameExecutionRequestExitCode.Ok:
                     ServerServiceProvider.Logger.Log("Move started.", LogLevel.Normal, LogType.SimulationExecution);
+                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult);
                     break;
 
                 case GameExecutionRequestExitCode.WrongSimulationState:
-                    ServerServiceProvider.Logger.Log("WrongSimulationState.", LogLevel.Warning, LogType.SimulationExecutionError);
+                    ServerServiceProvider.Logger.Log("WrongSimulationState.", LogLevel.ProgramError, LogType.SimulationExecutionError);
                     break;
 
                 case GameExecutionRequestExitCode.Error:
@@ -29,7 +30,7 @@
                     }
                     else
                     {
-                        ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.Warning, LogType.SimulationExecutionError);
+                        ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.ProgramError, LogType.SimulationExecutionError);
                     }
                     break;
             }

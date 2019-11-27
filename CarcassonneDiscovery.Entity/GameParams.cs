@@ -23,6 +23,6 @@
         /// <summary>
         /// Parameters of the tile set.
         /// </summary>
-        public TileSetParams TileSetParams { get; set; }
+        public TileSetParams TileSetParams { get; set; } = new TileSetParams();
     }
 }

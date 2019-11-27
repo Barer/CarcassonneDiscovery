@@ -11,17 +11,17 @@
         /// <summary>
         /// Queue with actions.
         /// </summary>
-        public Queue<ServerAction> ActionQueue { get; set; }
+        protected Queue<ServerAction> ActionQueue { get; set; } = new Queue<ServerAction>();
 
         /// <summary>
         /// Event when the queue has any action.
         /// </summary>
-        public ManualResetEventSlim ActionQueueEvent { get; set; }
+        protected ManualResetEventSlim ActionQueueEvent { get; set; } = new ManualResetEventSlim();
 
         /// <summary>
         /// Main thread for action execution.
         /// </summary>
-        public Thread ActionQueueThread { get; set; }
+        protected Thread ActionQueueThread { get; set; }
 
         /// <summary>
         /// Starts the server.
@@ -30,6 +30,8 @@
         {
             ActionQueueThread = new Thread(Loop);
             ActionQueueThread.Start();
+
+            ServerServiceProvider.Logger.Log("Server started.", LogLevel.Normal, LogType.ServerController);
         }
 
         /// <summary>
@@ -43,7 +45,7 @@
         /// <summary>
         /// Main loop with actions.
         /// </summary>
-        public void Loop()
+        protected void Loop()
         {
             while (true)
             {

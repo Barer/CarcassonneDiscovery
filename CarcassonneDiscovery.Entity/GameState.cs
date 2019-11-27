@@ -10,7 +10,7 @@
         /// <summary>
         /// Parameters of the game.
         /// </summary>
-        public GameParams Params { get; set; }
+        public GameParams Params { get; set; } = new GameParams();
 
         /// <summary>
         /// Supplier of the tile.

@@ -42,16 +42,18 @@
   <ItemGroup>
     <Compile Include="Actions\Messaging\MessageReceivedAction.cs" />
     <Compile Include="Actions\ServerAction.cs" />
-    <Compile Include="Actions\SimulationRequests\PlaceFollowerAction.cs" />
-    <Compile Include="Actions\SimulationRequests\RemoveFollowerAction.cs" />
-    <Compile Include="Actions\SimulationRequests\PlaceTileAction.cs" />
-    <Compile Include="Actions\SimulationRequests\EndGameAction.cs" />
-    <Compile Include="Actions\SimulationRequests\StartGameAction.cs" />
-    <Compile Include="Actions\SimulationRequests\PassMoveAction.cs" />
-    <Compile Include="Actions\SimulationRequests\StartMoveAction.cs" />
+    <Compile Include="Actions\SimulationExecution\PlaceFollowerAction.cs" />
+    <Compile Include="Actions\SimulationExecution\RemoveFollowerAction.cs" />
+    <Compile Include="Actions\SimulationExecution\PlaceTileAction.cs" />
+    <Compile Include="Actions\SimulationExecution\EndGameAction.cs" />
+    <Compile Include="Actions\SimulationExecution\StartGameAction.cs" />
+    <Compile Include="Actions\SimulationExecution\PassMoveAction.cs" />
+    <Compile Include="Actions\SimulationExecution\StartMoveAction.cs" />
+    <Compile Include="Actions\SimulationSettings\AddPlayerAction.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogLevel.cs" />
     <Compile Include="Logging\LogType.cs" />
+    <Compile Include="Messaging\IClientHandler.cs" />
     <Compile Include="Messaging\ClientMessager.cs" />
     <Compile Include="ServerController.cs" />
     <Compile Include="ServerServiceProvider.cs" />

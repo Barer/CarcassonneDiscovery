@@ -1,4 +1,6 @@
-﻿namespace CarcassonneDiscovery.Server
+﻿using System.Threading;
+
+namespace CarcassonneDiscovery.Server
 {
     /// <summary>
     /// Provider of service classes.
@@ -40,5 +42,23 @@
             Logger = logger;
             ServerController = serverController;
         }
+
+        /// <summary>
+        /// Starts the services.
+        /// </summary>
+        public static void Start()
+        {
+            ServerController.Start();
+        }
+
+        /// <summary>
+        /// Stops the services.
+        /// </summary>
+        public static void Stop()
+        {
+            ServerController.Stop();
+        }
+
+
     }
 }
