@@ -65,6 +65,42 @@
         }
 
         /// <summary>
+        /// Creates copy of tile in standard <see cref="TileScheme" /> representation.
+        /// </summary>
+        /// <param name="scheme">Tile to be copied.</param>
+        /// <returns>Copy of tile in standard representation.</returns>
+        public static TileScheme Copy(this ITileScheme scheme)
+        {
+            var result = new TileScheme
+            {
+                Id = scheme.Id,
+                CityAmount = scheme.CityAmount,
+                Regions = new RegionInfo[scheme.RegionAmount],
+                RegionsOnBorders = new Dictionary<TileOrientation, int>
+                {
+                    { TileOrientation.N, scheme.GetRegionOnBorder(TileOrientation.N) },
+                    { TileOrientation.E, scheme.GetRegionOnBorder(TileOrientation.E) },
+                    { TileOrientation.S, scheme.GetRegionOnBorder(TileOrientation.S) },
+                    { TileOrientation.W, scheme.GetRegionOnBorder(TileOrientation.W) }
+                }
+            };
+
+            for (int rId = 0; rId < result.CityAmount; rId++)
+            {
+                result.Regions[rId] = new RegionInfo
+                {
+                    Id = rId,
+                    Type = scheme.GetRegionType(rId),
+                    Borders = scheme.GetRegionBorders(rId),
+                    NeighboringCities = scheme.GetRegionCities(rId).ToList(),
+                    NeighboringRegions = scheme.GetRegionNeighbors(rId).ToList()
+                };
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Checks whether given tile scheme is consistent.
         /// </summary>
         /// <param name="scheme">Tile scheme.</param>

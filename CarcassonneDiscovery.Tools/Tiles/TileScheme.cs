@@ -10,10 +10,10 @@
     public class TileScheme : ITileScheme
     {
         /// <inheritdoc />
-        public string Id { get; protected set; }
+        public string Id { get; internal set; }
 
         /// <inheritdoc />
-        public int CityAmount { get; protected set; }
+        public int CityAmount { get; internal set; }
 
         /// <inheritdoc />
         public int RegionAmount => Regions?.Length ?? 0;
@@ -21,12 +21,12 @@
         /// <summary>
         /// Information about regions.
         /// </summary>
-        protected RegionInfo[] Regions { get; set; }
+        internal RegionInfo[] Regions { get; set; }
 
         /// <summary>
         /// Regions on tile borders.
         /// </summary>
-        protected Dictionary<TileOrientation, int> RegionsOnBorders { get; set; }
+        internal Dictionary<TileOrientation, int> RegionsOnBorders { get; set; }
 
         /// <inheritdoc />
         public TileOrientation GetRegionBorders(int id)
