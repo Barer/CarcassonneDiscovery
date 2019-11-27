@@ -1,6 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
-    using CarcassonneDiscovery.Entity;
+    using CarcassonneDiscovery.Logic;
     using CarcassonneDiscovery.Messaging;
 
     /// <summary>
@@ -9,23 +9,23 @@
     public class PassMoveAction : ServerAction
     {
         /// <summary>
-        /// Color of player passing the move.
+        /// Game action request.
         /// </summary>
-        protected PlayerColor Color { get; set; }
+        protected PassMoveExecutionRequest Request { get; set; }
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        /// <param name="color">Color of player passing the move.</param>
-        public PassMoveAction(PlayerColor color)
+        /// <param name="request">Game action request.</param>
+        public PassMoveAction(PassMoveExecutionRequest request)
         {
-            Color = color;
+            Request = request;
         }
 
         /// <inheritdoc />
         public override void Execute()
         {
-            var result = ServerServiceProvider.GameSimulator.PassMove(Color);
+            var result = ServerServiceProvider.GameSimulator.PassMove(Request.Color);
 
             switch (result.ExitCode)
             {
@@ -41,7 +41,7 @@
 
                 case GameExecutionRequestExitCode.Error:
                     ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.Warning, LogType.SimulationExecutionError);
-                    ServerServiceProvider.ClientMessager.SendToPlayer(Color, result.ExecutionResult.ToServerResponse());
+                    ServerServiceProvider.ClientMessager.SendToPlayer(Request.Color, result.ExecutionResult.ToServerResponse());
                     break;
             }
         }

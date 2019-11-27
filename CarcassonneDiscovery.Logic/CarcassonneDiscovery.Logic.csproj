@@ -40,15 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Execution\EndGameExecutionResult.cs" />
-    <Compile Include="Execution\GameExecutionResult.cs" />
-    <Compile Include="Execution\PassMoveExecutionResult.cs" />
-    <Compile Include="Execution\RemoveFollowerExecutionResult.cs" />
-    <Compile Include="Execution\PlaceFollowerExecutionResult.cs" />
+    <Compile Include="ExecutionRequest\GameExecutionRequest.cs" />
+    <Compile Include="ExecutionRequest\PassMoveExecutionRequest.cs" />
+    <Compile Include="ExecutionRequest\PlaceFollowerExecutionRequest.cs" />
+    <Compile Include="ExecutionRequest\PlaceTileExecutionRequest.cs" />
+    <Compile Include="ExecutionRequest\RemoveFollowerExecutionRequest.cs" />
+    <Compile Include="ExecutionResult\EndGameExecutionResult.cs" />
+    <Compile Include="ExecutionResult\GameExecutionResult.cs" />
+    <Compile Include="ExecutionResult\PassMoveExecutionResult.cs" />
+    <Compile Include="ExecutionResult\RemoveFollowerExecutionResult.cs" />
+    <Compile Include="ExecutionResult\PlaceFollowerExecutionResult.cs" />
     <Compile Include="RuleViolationType.cs" />
-    <Compile Include="Execution\PlaceTileExecutionResult.cs" />
-    <Compile Include="Execution\StartMoveExecutionResult.cs" />
-    <Compile Include="Execution\StartGameExecutionResult.cs" />
+    <Compile Include="ExecutionResult\PlaceTileExecutionResult.cs" />
+    <Compile Include="ExecutionResult\StartMoveExecutionResult.cs" />
+    <Compile Include="ExecutionResult\StartGameExecutionResult.cs" />
     <Compile Include="GameExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>

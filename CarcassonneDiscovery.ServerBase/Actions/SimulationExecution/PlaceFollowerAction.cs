@@ -1,6 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
-    using CarcassonneDiscovery.Entity;
+    using CarcassonneDiscovery.Logic;
     using CarcassonneDiscovery.Messaging;
 
     /// <summary>
@@ -9,37 +9,23 @@
     public class PlaceFollowerAction : ServerAction
     {
         /// <summary>
-        /// Color of player placing the follower.
+        /// Game action request.
         /// </summary>
-        protected PlayerColor Color { get; set; }
-
-        /// <summary>
-        /// Coordinates of the follower.
-        /// </summary>
-        protected Coords Coords { get; set; }
-
-        /// <summary>
-        /// Identifier of the region.
-        /// </summary>
-        protected int RegionId { get; set; }
+        protected PlaceFollowerExecutionRequest Request { get; set; }
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        /// <param name="color">Color of player removing the follower.</param>
-        /// <param name="coords">Coordinates of the follower.</param>
-        /// <param name="regionId">Identifier of the region.</param>
-        public PlaceFollowerAction(PlayerColor color, Coords coords, int regionId)
+        /// <param name="request">Game action request.</param>
+        public PlaceFollowerAction(PlaceFollowerExecutionRequest request)
         {
-            Color = color;
-            Coords = coords;
-            RegionId = regionId;
+            Request = request;
         }
 
         /// <inheritdoc />
         public override void Execute()
         {
-            var result = ServerServiceProvider.GameSimulator.PlaceFollower(Color, Coords, RegionId);
+            var result = ServerServiceProvider.GameSimulator.PlaceFollower(Request.Color, Request.Coords, Request.RegionId);
 
             switch (result.ExitCode)
             {
@@ -55,7 +41,7 @@
 
                 case GameExecutionRequestExitCode.Error:
                     ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.Warning, LogType.SimulationExecutionError);
-                    ServerServiceProvider.ClientMessager.SendToPlayer(Color, result.ExecutionResult.ToServerResponse());
+                    ServerServiceProvider.ClientMessager.SendToPlayer(Request.Color, result.ExecutionResult.ToServerResponse());
                     break;
             }
         }

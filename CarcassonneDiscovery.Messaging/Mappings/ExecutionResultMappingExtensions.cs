@@ -304,7 +304,7 @@
         #region Helper methods
         /// <summary>
         /// Checks whether nullable parameter has value.
-        /// Throw <see cref="InvalidDtoValuesException" /> when has no value.
+        /// Throw <see cref="ArgumentException" /> when has no value.
         /// </summary>
         /// <typeparam name="T">Type of nullable struct.</typeparam>
         /// <param name="value">Value to be null-checked.</param>
@@ -314,13 +314,13 @@
         {
             if (!value.HasValue)
             {
-                throw new InvalidDtoValuesException(errorMsg);
+                throw new ArgumentException(errorMsg);
             }
         }
 
         /// <summary>
         /// Checks whether nullable parameter has value.
-        /// Throw <see cref="InvalidDtoValuesException" /> when has no value.
+        /// Throw <see cref="ArgumentException" /> when has no value.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="value">Value to be null-checked.</param>
@@ -330,13 +330,13 @@
         {
             if (value == null)
             {
-                throw new InvalidDtoValuesException(errorMsg);
+                throw new ArgumentException(errorMsg);
             }
         }
 
         /// <summary>
         /// Checks whether a value is equal to the expected value.
-        /// Throw <see cref="InvalidDtoValuesException" /> when has no value.
+        /// Throw <see cref="ArgumentException" /> when has no value.
         /// </summary>
         /// <param name="expected">Expected value.</param>
         /// <param name="actual">Actual value.</param>
@@ -344,7 +344,7 @@
         {
             if (expected != actual)
             {
-                throw new InvalidDtoValuesException($"Expected type {expected}, actually got {actual}.");
+                throw new ArgumentException($"Expected type {expected}, actually got {actual}.");
             }
         }
         #endregion

@@ -1,6 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
-    using CarcassonneDiscovery.Entity;
+    using CarcassonneDiscovery.Logic;
     using CarcassonneDiscovery.Messaging;
 
     /// <summary>
@@ -9,30 +9,23 @@
     public class RemoveFollowerAction : ServerAction
     {
         /// <summary>
-        /// Color of player removing the follower.
+        /// Game action request.
         /// </summary>
-        protected PlayerColor Color { get; set; }
-
-        /// <summary>
-        /// Coordinates of the follower.
-        /// </summary>
-        protected Coords Coords { get; set; }
+        protected RemoveFollowerExecutionRequest Request { get; set; }
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        /// <param name="color">Color of player removing the follower.</param>
-        /// <param name="coords">Coordinates of the follower.</param>
-        public RemoveFollowerAction(PlayerColor color, Coords coords)
+        /// <param name="request">Game action request.</param>
+        public RemoveFollowerAction(RemoveFollowerExecutionRequest request)
         {
-            Color = color;
-            Coords = coords;
+            Request = request;
         }
 
         /// <inheritdoc />
         public override void Execute()
         {
-            var result = ServerServiceProvider.GameSimulator.RemoveFollower(Color, Coords);
+            var result = ServerServiceProvider.GameSimulator.RemoveFollower(Request.Color, Request.Coords);
 
             switch (result.ExitCode)
             {
@@ -48,7 +41,7 @@
 
                 case GameExecutionRequestExitCode.Error:
                     ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.Warning, LogType.SimulationExecutionError);
-                    ServerServiceProvider.ClientMessager.SendToPlayer(Color, result.ExecutionResult.ToServerResponse());
+                    ServerServiceProvider.ClientMessager.SendToPlayer(Request.Color, result.ExecutionResult.ToServerResponse());
                     break;
             }
         }

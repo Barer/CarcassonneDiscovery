@@ -1,6 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
-    using CarcassonneDiscovery.Entity;
+    using CarcassonneDiscovery.Logic;
     using CarcassonneDiscovery.Messaging;
 
     /// <summary>
@@ -9,44 +9,23 @@
     public class PlaceTileAction : ServerAction
     {
         /// <summary>
-        /// Color of player placing the tile.
+        /// Game action request.
         /// </summary>
-        protected PlayerColor Color { get; set; }
-
-        /// <summary>
-        /// Tile to be placed.
-        /// </summary>
-        protected ITileScheme Tile { get; set; }
-
-        /// <summary>
-        /// Coordinates of the tile.
-        /// </summary>
-        protected Coords Coords { get; set; }
-
-        /// <summary>
-        /// Orientation of the tile.
-        /// </summary>
-        protected TileOrientation Orientation { get; set; }
+        protected PlaceTileExecutionRequest Request { get; set; }
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        /// <param name="color">Color of player placing the tile.</param>
-        /// <param name="tile">Tile to be placed.</param>
-        /// <param name="coords">Coordinates of the tile.</param>
-        /// <param name="orientation">Orientation of the tile.</param>
-        public PlaceTileAction(PlayerColor color, ITileScheme tile, Coords coords, TileOrientation orientation)
+        /// <param name="request">Game action request.</param>
+        public PlaceTileAction(PlaceTileExecutionRequest request)
         {
-            Color = color;
-            Tile = tile;
-            Coords = coords;
-            Orientation = orientation;
+            Request = request;
         }
 
         /// <inheritdoc />
         public override void Execute()
         {
-            var result = ServerServiceProvider.GameSimulator.PlaceTile(Color, Tile, Coords, Orientation);
+            var result = ServerServiceProvider.GameSimulator.PlaceTile(Request.Color, Request.Tile, Request.Coords, Request.Orientation);
 
             switch (result.ExitCode)
             {
@@ -61,7 +40,7 @@
 
                 case GameExecutionRequestExitCode.Error:
                     ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.Warning, LogType.SimulationExecutionError);
-                    ServerServiceProvider.ClientMessager.SendToPlayer(Color, result.ExecutionResult.ToServerResponse());
+                    ServerServiceProvider.ClientMessager.SendToPlayer(Request.Color, result.ExecutionResult.ToServerResponse());
                     break;
             }
         }
