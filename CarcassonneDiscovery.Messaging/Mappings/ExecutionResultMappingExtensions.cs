@@ -21,7 +21,7 @@
             {
                 Type = ServerResponseType.StartGame,
                 RuleViolation = result.RuleViolationType,
-                Tile = result.FirstTile,
+                Tile = new Tile(result.FirstTile),
                 Coords = result.FirstTileCoords,
                 Orientation = result.FirstTileOrientation,
 
@@ -41,7 +41,7 @@
         {
             CheckType(msg.Type, ServerResponseType.StartGame);
             CheckHasValue(msg.RuleViolation, "Rule violation must be specified.");
-            
+
             if (msg.RuleViolation.Value == RuleViolationType.Ok)
             {
                 CheckHasValue(msg.Tile, "First tile must be specified.");
@@ -65,7 +65,7 @@
                     }
                 };
 
-                return new StartGameExecutionResult(gameParams, msg.Tile, msg.Coords.Value, msg.Orientation.Value);
+                return new StartGameExecutionResult(gameParams, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
             }
 
             return new StartGameExecutionResult(msg.RuleViolation.Value);
@@ -82,7 +82,7 @@
             {
                 Type = ServerResponseType.PlaceFollower,
                 RuleViolation = result.RuleViolationType,
-                Tile = result.Tile,
+                Tile = new Tile(result.Tile),
                 Color = result.Color
             };
         }
@@ -102,7 +102,7 @@
                 CheckHasValue(msg.Tile, "Tile must be specified.");
                 CheckHasValue(msg.Color, "Player on move must be specified.");
 
-                return new StartMoveExecutionResult(msg.Tile, msg.Color.Value);
+                return new StartMoveExecutionResult(msg.Tile.Scheme, msg.Color.Value);
             }
 
             return new StartMoveExecutionResult(msg.RuleViolation.Value);
@@ -120,7 +120,7 @@
                 Type = ServerResponseType.PlaceFollower,
                 RuleViolation = result.RuleViolationType,
                 Color = result.Color,
-                Tile = result.Tile,
+                Tile = new Tile(result.Tile),
                 Coords = result.Coords,
                 Orientation = result.Orientation
             };
@@ -143,7 +143,7 @@
                 CheckHasValue(msg.Coords, "Tile coordinates must be specified.");
                 CheckHasValue(msg.Orientation, "Tile orientation must be specified.");
 
-                return new PlaceTileExecutionResult(msg.Color.Value, msg.Tile, msg.Coords.Value, msg.Orientation.Value);
+                return new PlaceTileExecutionResult(msg.Color.Value, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
             }
 
             return new PlaceTileExecutionResult(msg.RuleViolation.Value);

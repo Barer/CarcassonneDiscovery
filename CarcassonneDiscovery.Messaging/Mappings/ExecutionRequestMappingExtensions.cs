@@ -20,7 +20,7 @@
             {
                 Type = ClientRequestType.PlaceTile,
                 Color = request.Color,
-                Tile = request.Tile,
+                Tile = new Tile(request.Tile),
                 Coords = request.Coords,
                 Orientation = request.Orientation
             };
@@ -40,7 +40,7 @@
             CheckHasValue(msg.Coords, "Tile coordinates must be specified.");
             CheckHasValue(msg.Orientation, "Orientation must be specified.");
 
-            return new PlaceTileExecutionRequest(msg.Color.Value, msg.Tile, msg.Coords.Value, msg.Orientation.Value);
+            return new PlaceTileExecutionRequest(msg.Color.Value, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
         }
 
         /// <summary>

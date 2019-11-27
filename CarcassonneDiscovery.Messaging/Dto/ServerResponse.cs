@@ -27,7 +27,7 @@
         /// <summary>
         /// Placed tile.
         /// </summary>
-        public ITileScheme Tile { get; set; } = null;
+        public Tile Tile { get; set; } = null;
 
         /// <summary>
         /// Coordinates of tile.

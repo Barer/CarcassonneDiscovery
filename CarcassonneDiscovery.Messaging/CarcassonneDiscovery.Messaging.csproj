@@ -44,6 +44,7 @@
     <Compile Include="Dto\ServerResponse.cs" />
     <Compile Include="Dto\ClientRequestType.cs" />
     <Compile Include="Dto\ServerResponseType.cs" />
+    <Compile Include="Dto\Tile.cs" />
     <Compile Include="Mappings\ExecutionRequestMappingExtensions.cs" />
     <Compile Include="Mappings\ExecutionResultMappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -59,6 +60,13 @@
       <Project>{4b8d8c51-a614-41ce-89d3-163fb6eed828}</Project>
       <Name>CarcassonneDiscovery.Logic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Tools\CarcassonneDiscovery.Tools.csproj">
+      <Project>{467BA373-88BD-4895-9B98-C87A8A0F853D}</Project>
+      <Name>CarcassonneDiscovery.Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Socketing\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
