@@ -1,6 +1,7 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
     using CarcassonneDiscovery.Entity;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Remove follower action.
@@ -37,7 +38,7 @@
             {
                 case GameExecutionRequestExitCode.Ok:
                     ServerServiceProvider.Logger.Log("Tile placed.", LogLevel.Normal, LogType.SimulationExecution);
-                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult);
+                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult.ToServerResponse());
                     new StartMoveAction().Execute();
                     break;
 
@@ -47,7 +48,7 @@
 
                 case GameExecutionRequestExitCode.Error:
                     ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.Warning, LogType.SimulationExecutionError);
-                    ServerServiceProvider.ClientMessager.SendToPlayer(Color, result.ExecutionResult);
+                    ServerServiceProvider.ClientMessager.SendToPlayer(Color, result.ExecutionResult.ToServerResponse());
                     break;
             }
         }

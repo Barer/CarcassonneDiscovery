@@ -1,6 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
-    using CarcassonneDiscovery.Logic;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Handler of client connection.

@@ -30,18 +30,15 @@
             switch (result.ExitCode)
             {
                 case AddPlayerRequestExitCode.Ok:
-                    // TODO
-                    break;
+                    throw new System.NotImplementedException(); // TODO
 
                 case AddPlayerRequestExitCode.WrongSimulationState:
-                    // TODO
-                    break;
+                    throw new System.NotImplementedException(); // TODO
 
                 case AddPlayerRequestExitCode.ColorAlreadyAdded:
                 case AddPlayerRequestExitCode.InvalidColor:
                 case AddPlayerRequestExitCode.TooManyPlayers:
                     throw new System.NotImplementedException(); // TODO
-                    break;
             }
         }
     }

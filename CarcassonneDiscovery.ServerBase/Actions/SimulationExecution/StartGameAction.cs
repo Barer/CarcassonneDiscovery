@@ -1,5 +1,7 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
+    using CarcassonneDiscovery.Messaging;
+
     /// <summary>
     /// Start game action.
     /// </summary>
@@ -14,7 +16,7 @@
             {
                 case GameExecutionRequestExitCode.Ok:
                     ServerServiceProvider.Logger.Log("Game started.", LogLevel.Normal, LogType.SimulationExecution);
-                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult);
+                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult.ToServerResponse());
                     new StartMoveAction().Execute();
                     break;
 

@@ -31,7 +31,7 @@
             {
                 ServerServiceProvider.Logger.Log($"Unknown client: {clientId}", LogLevel.Warning, LogType.Messaging);
                 return;
-            };
+            }
 
             clientHandler.SendMessage(msg);
 

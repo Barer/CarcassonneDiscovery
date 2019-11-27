@@ -16,7 +16,7 @@
             {
                 case GameExecutionRequestExitCode.Ok:
                     ServerServiceProvider.Logger.Log("Game ended.", LogLevel.Normal, LogType.SimulationExecution);
-                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult.ToDto());
+                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult.ToServerResponse());
                     new StartMoveAction().Execute();
                     break;
 

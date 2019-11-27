@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace CarcassonneDiscovery.Server
+﻿namespace CarcassonneDiscovery.Server
 {
     /// <summary>
     /// Provider of service classes.
@@ -30,12 +28,11 @@ namespace CarcassonneDiscovery.Server
         /// <summary>
         /// Initializer of the provider.
         /// </summary>
-        public static void Init(
-            GameSimulator gameSimulator,
-            ClientMessager clientMessager,
-            Logger logger,
-            ServerController serverController
-            )
+        /// <param name="gameSimulator">Game simulator.</param>
+        /// <param name="clientMessager">Client messager.</param>
+        /// <param name="logger">Event logger.</param>
+        /// <param name="serverController">Server controller.</param>
+        public static void Init(GameSimulator gameSimulator, ClientMessager clientMessager, Logger logger, ServerController serverController)
         {
             GameSimulator = gameSimulator;
             ClientMessager = clientMessager;
@@ -58,7 +55,5 @@ namespace CarcassonneDiscovery.Server
         {
             ServerController.Stop();
         }
-
-
     }
 }

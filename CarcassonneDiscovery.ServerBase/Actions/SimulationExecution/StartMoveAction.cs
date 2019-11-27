@@ -1,6 +1,7 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
     using CarcassonneDiscovery.Logic;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Start move action.
@@ -16,7 +17,7 @@
             {
                 case GameExecutionRequestExitCode.Ok:
                     ServerServiceProvider.Logger.Log("Move started.", LogLevel.Normal, LogType.SimulationExecution);
-                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult);
+                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult.ToServerResponse());
                     break;
 
                 case GameExecutionRequestExitCode.WrongSimulationState:
@@ -32,6 +33,7 @@
                     {
                         ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.ProgramError, LogType.SimulationExecutionError);
                     }
+
                     break;
             }
         }

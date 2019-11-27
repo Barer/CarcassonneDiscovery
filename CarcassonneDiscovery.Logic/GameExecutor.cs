@@ -63,7 +63,7 @@
 
             state.MovePhase = MoveWorkflow.FirstTilePlaced;
 
-            return new StartGameExecutionResult(firstTile, firstCoords, firstOrientation);
+            return new StartGameExecutionResult(state.Params, firstTile, firstCoords, firstOrientation);
         }
 
         /// <summary>

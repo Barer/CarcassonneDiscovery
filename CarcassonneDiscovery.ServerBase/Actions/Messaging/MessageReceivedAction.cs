@@ -1,7 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
-    using ClientRequest = System.Object;
-    using ClientId = System.String;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Message received action.
@@ -11,7 +10,7 @@
         /// <summary>
         /// Identifier of a client sending the message.
         /// </summary>
-        protected ClientId ClientId { get; set; }
+        protected string ClientId { get; set; }
 
         /// <summary>
         /// Message received from the client.
@@ -25,6 +24,8 @@
             switch (Message)
             {
                 // TODO
+                default:
+                    throw new System.NotImplementedException();
             }
         }
     }

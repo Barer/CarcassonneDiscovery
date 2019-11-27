@@ -1,9 +1,8 @@
 ﻿namespace CarcassonneDiscovery.Tests.Server.GameSimulator
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
+    /// <summary>
+    /// TODO: Add tests
+    /// </summary>
     public class GameSimulatorTestBase
     {
     }

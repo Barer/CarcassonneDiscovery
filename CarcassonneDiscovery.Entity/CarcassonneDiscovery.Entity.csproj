@@ -50,7 +50,9 @@
     <Compile Include="Grid\TilePlacement.cs" />
     <Compile Include="ITileScheme.cs" />
     <Compile Include="ITileSupplier.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Enums\TileOrientation.cs" />
     <Compile Include="TileSetParams.cs" />
   </ItemGroup>

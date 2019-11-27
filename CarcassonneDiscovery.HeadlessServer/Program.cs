@@ -12,14 +12,14 @@
         /// <summary>
         /// Abort event.
         /// </summary>
-        private static ManualResetEventSlim AbortEvent = new ManualResetEventSlim();
+        private static ManualResetEventSlim abortEvent = new ManualResetEventSlim();
 
         /// <summary>
         /// Aborts the program.
         /// </summary>
         public static void Abort()
         {
-            AbortEvent.Set();
+            abortEvent.Set();
         }
 
         /// <summary>
@@ -33,17 +33,20 @@
             var serverController = new ServerController();
             ServerServiceProvider.Init(gameSimulator, clientMessager, logger, serverController);
 
-            AbortEvent.Reset();
+            abortEvent.Reset();
 
             new Task(Test).Start();
 
             ServerServiceProvider.Start();
 
-            AbortEvent.Wait();
+            abortEvent.Wait();
 
             ServerServiceProvider.Stop();
         }
 
+        /// <summary>
+        /// TODO: Documentation
+        /// </summary>
         private static void Test()
         {
             ServerServiceProvider.ServerController.EnqueueAction(new StartGameAction());

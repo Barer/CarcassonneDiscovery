@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Windows;
-
-namespace CarcassonneDiscovery.Server.Gui
+﻿namespace CarcassonneDiscovery.Server.Gui
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Data;
+    using System.Linq;
+    using System.Windows;
+
     /// <summary>
-    /// Interakční logika pro App.xaml
+    /// TODO: Documentation.
     /// </summary>
     public partial class App : Application
     {
