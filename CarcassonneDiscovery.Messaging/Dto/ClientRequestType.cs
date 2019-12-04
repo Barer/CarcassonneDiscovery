@@ -5,6 +5,11 @@
     /// </summary>
     public enum ClientRequestType
     {
+        /// <summary>
+        /// Join as player request.
+        /// </summary>
+        JoinAsPlayer,
+
         #region Game execution request
         /// <summary>
         /// Place tile execution request.

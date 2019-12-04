@@ -36,5 +36,10 @@
         /// Id of region.
         /// </summary>
         public int? RegionId { get; set; } = null;
+
+        /// <summary>
+        /// Name of the player.
+        /// </summary>
+        public string Name { get; set; }
     }
 }

@@ -22,6 +22,17 @@
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="color">Color of the player.</param>
+        /// <param name="name">Name of the player.</param>
+        public AddPlayerAction(PlayerColor color, string name)
+        {
+            Color = color;
+            Name = name;
+        }
+
         /// <inheritdoc />
         public override void Execute()
         {
@@ -29,16 +40,19 @@
 
             switch (result.ExitCode)
             {
-                case AddPlayerRequestExitCode.Ok:
-                    throw new System.NotImplementedException(); // TODO
+                case AddPlayerRequestExitCode.Ok: // TODO
+                    ServerServiceProvider.Logger.Log($"Added player: {Name}: {Color}", LogLevel.Normal, LogType.Messaging);                    
+                    break;
 
-                case AddPlayerRequestExitCode.WrongSimulationState:
-                    throw new System.NotImplementedException(); // TODO
+                case AddPlayerRequestExitCode.WrongSimulationState: // TODO
+                    ServerServiceProvider.Logger.Log("Add player failed: WrongSimulationState", LogLevel.Normal, LogType.Messaging);
+                    break;
 
                 case AddPlayerRequestExitCode.ColorAlreadyAdded:
                 case AddPlayerRequestExitCode.InvalidColor:
-                case AddPlayerRequestExitCode.TooManyPlayers:
-                    throw new System.NotImplementedException(); // TODO
+                case AddPlayerRequestExitCode.TooManyPlayers: // TODO
+                    ServerServiceProvider.Logger.Log($"Add player failed: {result.ExitCode}", LogLevel.Normal, LogType.Messaging);
+                    break;
             }
         }
     }
