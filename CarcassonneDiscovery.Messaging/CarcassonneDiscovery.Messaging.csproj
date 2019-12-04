@@ -50,6 +50,10 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Socketing\ClientHandlerSocket.cs" />
+    <Compile Include="Socketing\MessageSocket.cs" />
+    <Compile Include="Socketing\ClientSocket.cs" />
+    <Compile Include="Socketing\ServerSocket.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CarcassonneDiscovery.Entity\CarcassonneDiscovery.Entity.csproj">
@@ -65,8 +69,6 @@
       <Name>CarcassonneDiscovery.Tools</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Socketing\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
