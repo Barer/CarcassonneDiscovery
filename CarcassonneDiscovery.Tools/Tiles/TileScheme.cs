@@ -10,10 +10,10 @@
     public class TileScheme : ITileScheme
     {
         /// <inheritdoc />
-        public string Id { get; internal set; }
+        public string Id { get; set; }
 
         /// <inheritdoc />
-        public int CityAmount { get; internal set; }
+        public int CityAmount { get; set; }
 
         /// <inheritdoc />
         public int RegionAmount => Regions?.Length ?? 0;

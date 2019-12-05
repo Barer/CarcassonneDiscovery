@@ -15,12 +15,12 @@
         /// <summary>
         /// Connected clients.
         /// </summary>
-        protected Dictionary<ClientId, IClientHandler> Clients { get; set; }
+        protected Dictionary<ClientId, IClientHandler> Clients { get; set; } = new Dictionary<ClientId, IClientHandler>();
 
         /// <summary>
         /// Ids of the players.
         /// </summary>
-        public Dictionary<PlayerColor, ClientId> Players { get; set; }
+        public Dictionary<PlayerColor, ClientId> Players { get; set; } = new Dictionary<PlayerColor, ClientId>();
 
         /// <summary>
         /// Server socket.
@@ -41,6 +41,8 @@
                     var clientId = Guid.NewGuid().ToString();
                     var rch = new RemoteClientHandler(chs);
                     Clients.Add(clientId, rch);
+
+                    ServerServiceProvider.Logger.Log($"New client connected: {clientId}", LogLevel.Normal, LogType.Messaging);
                 }
             };
             Socket.Start();

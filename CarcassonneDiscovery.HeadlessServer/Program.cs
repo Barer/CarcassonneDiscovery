@@ -38,9 +38,11 @@
             new Task(Test).Start();
 
             ServerServiceProvider.Start();
+            ServerServiceProvider.ClientMessager.StartSocket(4263);
 
             abortEvent.Wait();
 
+            ServerServiceProvider.ClientMessager.StopSocket();
             ServerServiceProvider.Stop();
         }
 

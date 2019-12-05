@@ -9,9 +9,16 @@
     public class Tile
     {
         /// <summary>
-        /// Scheme of 
+        /// Scheme of the tile.
         /// </summary>
         public TileScheme Scheme { get; set; }
+
+        /// <summary>
+        /// Empty constructor.
+        /// </summary>
+        public Tile()
+        {
+        }
 
         /// <summary>
         /// Default constructor.

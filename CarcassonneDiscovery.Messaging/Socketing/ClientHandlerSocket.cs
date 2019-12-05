@@ -12,29 +12,13 @@
     public class ClientHandlerSocket : MessageSocket<ServerResponse, ClientRequest>
     {
         /// <summary>
-        /// Event when client has disconnected.
-        /// </summary>
-        public event Action Disconnected = () => { };
-
-        /// <summary>
-        /// Parent server socket.
-        /// </summary>
-        protected ServerSocket Parent;
-
-        /// <summary>
         /// Default constructor.
         /// </summary>
-        /// <param name="parent">Parent server socket.</param>
         /// <param name="socket">Socket to the client.</param>
-        public ClientHandlerSocket(ServerSocket parent, Socket socket)
+        public ClientHandlerSocket(Socket socket)
         {
             Socket = socket;
-            Parent = parent;
-
-            MessageReceived += () => parent.GetMessagesFromClientHandler(this);
-            Disconnected += () => parent.DisconnectedClient(this);
         }
-
 
         /// <inheritdoc />
         protected override void ListeningLoop()
@@ -57,7 +41,6 @@
                     }
                     catch (SocketException)
                     {
-                        Disconnected.Invoke();
                         Stop();
                         break;
                     }
