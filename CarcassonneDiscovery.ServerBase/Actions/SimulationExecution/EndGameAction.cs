@@ -1,7 +1,5 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
-    using CarcassonneDiscovery.Messaging;
-
     /// <summary>
     /// End game action.
     /// </summary>

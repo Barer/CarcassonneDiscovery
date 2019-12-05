@@ -1,9 +1,10 @@
-﻿namespace CarcassonneDiscovery.Messaging
+﻿namespace CarcassonneDiscovery.Server
 {
     using System;
     using System.Linq;
     using CarcassonneDiscovery.Entity;
     using CarcassonneDiscovery.Logic;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Extensions methods for mappings from <see cref="GameExecutionResult"/> to <see cref="ServerResponse"/>

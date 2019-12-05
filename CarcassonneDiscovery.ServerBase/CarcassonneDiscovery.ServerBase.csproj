@@ -55,6 +55,8 @@
     <Compile Include="Logging\LogType.cs" />
     <Compile Include="Messaging\IClientHandler.cs" />
     <Compile Include="Messaging\ClientMessager.cs" />
+    <Compile Include="Messaging\Mappings\ExecutionRequestMappingExtensions.cs" />
+    <Compile Include="Messaging\Mappings\ExecutionResultMappingExtensions.cs" />
     <Compile Include="ServerController.cs" />
     <Compile Include="ServerServiceProvider.cs" />
     <Compile Include="Simulation\GameSimulator.cs" />
@@ -89,6 +91,10 @@
     <ProjectReference Include="..\CarcassonneDiscovery.Messaging\CarcassonneDiscovery.Messaging.csproj">
       <Project>{DF3BD70B-0CC6-44B8-8924-C81778627399}</Project>
       <Name>CarcassonneDiscovery.Messaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Tools\CarcassonneDiscovery.Tools.csproj">
+      <Project>{467BA373-88BD-4895-9B98-C87A8A0F853D}</Project>
+      <Name>CarcassonneDiscovery.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
