@@ -57,6 +57,7 @@
     <Compile Include="Messaging\ClientMessager.cs" />
     <Compile Include="Messaging\Mappings\ExecutionRequestMappingExtensions.cs" />
     <Compile Include="Messaging\Mappings\ExecutionResultMappingExtensions.cs" />
+    <Compile Include="Messaging\RemoteClientHandler.cs" />
     <Compile Include="ServerController.cs" />
     <Compile Include="ServerServiceProvider.cs" />
     <Compile Include="Simulation\GameSimulator.cs" />

@@ -1,5 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
+    using System;
     using CarcassonneDiscovery.Messaging;
 
     /// <summary>
@@ -7,6 +8,16 @@
     /// </summary>
     public interface IClientHandler
     {
+        /// <summary>
+        /// Client id.
+        /// </summary>
+        string Id { get; }
+
+        /// <summary>
+        /// Invokes when request was received from client.
+        /// </summary>
+        event Action<ClientRequest> MessageReceived;
+
         /// <summary>
         /// Disconnects client from the server.
         /// </summary>

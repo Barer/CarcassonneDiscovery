@@ -40,17 +40,18 @@
 
             switch (result.ExitCode)
             {
-                case AddPlayerRequestExitCode.Ok: // TODO
+                case AddPlayerRequestExitCode.Ok: // TODO - send response
+                    ServerServiceProvider.ClientMessager.AddPlayer(Color, ClientId);
                     ServerServiceProvider.Logger.Log($"Added player: {Name}: {Color}", LogLevel.Normal, LogType.Messaging);                    
                     break;
 
-                case AddPlayerRequestExitCode.WrongSimulationState: // TODO
+                case AddPlayerRequestExitCode.WrongSimulationState: // TODO - send response
                     ServerServiceProvider.Logger.Log("Add player failed: WrongSimulationState", LogLevel.Normal, LogType.Messaging);
                     break;
 
                 case AddPlayerRequestExitCode.ColorAlreadyAdded:
                 case AddPlayerRequestExitCode.InvalidColor:
-                case AddPlayerRequestExitCode.TooManyPlayers: // TODO
+                case AddPlayerRequestExitCode.TooManyPlayers: // TODO - send response
                     ServerServiceProvider.Logger.Log($"Add player failed: {result.ExitCode}", LogLevel.Normal, LogType.Messaging);
                     break;
             }

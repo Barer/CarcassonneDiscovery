@@ -1,8 +1,10 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
+    using System;
     using System.Collections.Generic;
     using CarcassonneDiscovery.Entity;
     using CarcassonneDiscovery.Messaging;
+
     using ClientId = System.String;
 
     /// <summary>
@@ -19,6 +21,59 @@
         /// Ids of the players.
         /// </summary>
         public Dictionary<PlayerColor, ClientId> Players { get; set; }
+
+        /// <summary>
+        /// Server socket.
+        /// </summary>
+        protected ServerSocket Socket { get; set; }
+
+        /// <summary>
+        /// Starts the socket.
+        /// </summary>
+        /// <param name="port">Port number.</param>
+        public void StartSocket(int port)
+        {
+            Socket = new ServerSocket { Port = port };
+            Socket.ClientConnected += (chs) =>
+            {
+                lock (Clients)
+                {
+                    var clientId = Guid.NewGuid().ToString();
+                    var rch = new RemoteClientHandler(chs);
+                    Clients.Add(clientId, rch);
+                }
+            };
+            Socket.Start();
+        }
+
+        /// <summary>
+        /// Stops the socket.
+        /// </summary>
+        public void StopSocket()
+        {
+            Socket?.Stop();
+        }
+
+        /// <summary>
+        /// Disconnects all clients from the server.
+        /// </summary>
+        public void DisconnectAll()
+        {
+            foreach (var client in Clients.Values)
+            {
+                client.Disconnect();
+            }
+        }
+
+        /// <summary>
+        /// Adds player client record.
+        /// </summary>
+        /// <param name="color">Color of player.</param>
+        /// <param name="clientId">Client controlling the player.</param>
+        public void AddPlayer(PlayerColor color, ClientId clientId)
+        {
+            Players.Add(color, clientId);
+        }
 
         /// <summary>
         /// Sends execution result to a client.

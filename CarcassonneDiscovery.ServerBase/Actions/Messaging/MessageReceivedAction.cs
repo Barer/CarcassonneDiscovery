@@ -17,6 +17,17 @@
         /// </summary>
         protected ClientRequest Message { get; set; }
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="clientId">Identifier of a client sending the message.</param>
+        /// <param name="msg">Message received from the client.</param>
+        public MessageReceivedAction(string clientId, ClientRequest msg)
+        {
+            ClientId = clientId;
+            Message = msg;
+        }
+
         /// <inheritdoc />
         public override void Execute()
         {
