@@ -1,13 +1,15 @@
 ﻿namespace CarcassonneDiscovery.UserClient
 {
-    using CarcassonneDiscovery.CommunicationLibrary;
-    using CarcassonneDiscovery.SimulationLibrary;
     using System;
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
+    using CarcassonneDiscovery.Entity;
+    using CarcassonneDiscovery.Logic;
+    using CarcassonneDiscovery.Messaging;
+    using CarcassonneDiscovery.Tools;
 
     /// <summary>
     /// Game board window.
@@ -28,11 +30,6 @@
         /// Local game executor.
         /// </summary>
         private GameExecutor PrivateExecutor;
-
-        /// <summary>
-        /// Local game rule checker.
-        /// </summary>
-        private RuleChecker PrivateChecker;
 
         /// <summary>
         /// Local game state.
@@ -57,12 +54,12 @@
         /// <summary>
         /// Current player on move.
         /// </summary>
-        private PlayerColor CurrentOnMove = PlayerColor.NONE;
+        private PlayerColor CurrentOnMove = PlayerColor.None;
 
         /// <summary>
         /// Current tile scheme.
         /// </summary>
-        private TileScheme CurrentScheme;
+        private ITileScheme CurrentScheme;
 
         /// <summary>
         /// Current coordinates.
@@ -77,7 +74,7 @@
         /// <summary>
         /// Localization of the result messages.
         /// </summary>
-        private GameExecutionResultLocalization MsgLocalization = new GameExecutionResultLocalization();
+        private RuleViolationTypeLocalization MsgLocalization = new RuleViolationTypeLocalization();
 
         /// <summary>
         /// Default constructor.
@@ -95,42 +92,54 @@
         /// <summary>
         /// Starts the game board window.
         /// </summary>
-        /// <param name="socket">Socket on client side.</param>
-        /// <param name="color">Color of the player.</param>
-        /// <param name="gameParams">Parameters of the game.</param>
-        /// <param name="names">Names of the players.</param>
-        public void Start(GameParameters gameParams, string[] names)
+        /// <param name="gameStartMsg">Message for game start.</param>
+        public void Start(ServerResponse gameStartMsg)
         {
-            Dispatcher.Invoke(() =>
+            Dispatcher.Invoke(new Action(() =>
             {
-                for (int i = 0; i < gameParams.PlayerAmount; i++)
+                for (int i = 0; i < gameStartMsg.PlayerAmount; i++)
                 {
-                    ScoreBoardRecord record = new ScoreBoardRecord(names[i], gameParams.PlayerOrder[i])
+                    ScoreBoardRecord record = new ScoreBoardRecord(gameStartMsg.PlayerNames[i], gameStartMsg.PlayerOrder[i])
                     {
-                        Followers = gameParams.FollowerAmount
+                        Followers = gameStartMsg.FollowerAmount.Value
                     };
-                    PlayerScoreRecords.Add(gameParams.PlayerOrder[i], record);
+                    PlayerScoreRecords.Add(gameStartMsg.PlayerOrder[i], record);
                     ScoreBoardPanel.Children.Add(record);
                 }
 
-                InitializeGame(gameParams);
-            });
+                InitializeGame(gameStartMsg);
+            }));
         }
 
         /// <summary>
         /// Initializes the board.
         /// </summary>
-        /// <param name="gameParams">Game parameters.</param>
-        private void InitializeGame(GameParameters gameParams)
+        /// <param name="gameStartMsg">Message for game start.</param>
+        public void InitializeGame(ServerResponse gameStartMsg)
         {
-            PrivateChecker = new RuleChecker();
             PrivateExecutor = new GameExecutor();
-            gameParams.TileSet = TileSetType.Unknown; // Force this rule!
             GameState = new GameState()
             {
-                Params = gameParams
+                Params = new GameParams
+                {
+                    FollowerAmount = gameStartMsg.FollowerAmount.Value,
+                    PlayerAmount = gameStartMsg.PlayerAmount.Value,
+                    PlayerOrder = gameStartMsg.PlayerOrder,
+                    TileSetParams = new TileSetParams
+                    {
+                        Name = gameStartMsg.TileSetName
+                    }
+                }
             };
-            PrivateExecutor.StartGame(GameState);
+            PrivateExecutor.SetStartGame(GameState);
+            ResolveGameEventMessage(new ServerResponse
+            {
+                Type = ServerResponseType.PlaceTile,
+                Color = PlayerColor.None,
+                Tile = gameStartMsg.Tile,
+                Coords = gameStartMsg.Coords,
+                Orientation = gameStartMsg.Orientation
+            });
         }
 
         /// <summary>
@@ -138,91 +147,56 @@
         /// </summary>
         public void ResolveGameEventMessage(ServerResponse msg)
         {
-            Dispatcher.Invoke(() =>
+            Dispatcher.Invoke(new Action(() =>
             {
                 lock (PrivateExecutor)
                 {
                     switch (msg.Type)
                     {
-                        case ServerResponseType.EXECUTION_REQUEST_RESULT:
-                            if (msg.ExecutionResult != GameExecutionResult.OK)
+                        case ServerResponseType.StartMove:
+                            PrivateExecutor.SetStartMove(GameState, msg.Color.Value, msg.Tile.Scheme);
+                            MoveStart(msg.Tile.Scheme, msg.Color.Value);
+                            break;
+
+                        case ServerResponseType.PlaceTile:
+                            if (msg.Color != PlayerColor.None)
                             {
-                                MessageBox.Show($"Move was incorrect: {MsgLocalization[msg.ExecutionResult]}");
+                                PrivateExecutor.SetPlaceTile(GameState, msg.Color.Value, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
                             }
 
+                            PlaceTile(msg.Color.Value, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
                             break;
-                        case ServerResponseType.MOVE_START:
-                            PrivateExecutor.StartMove(GameState, msg.Color, msg.Scheme);
-                            MoveStart(msg.Scheme, msg.Color);
-                            break;
-                        case ServerResponseType.TILE_PLACEMENT:
-                            try
-                            {
-                                if (msg.Color != PlayerColor.NONE)
-                                {
-                                    PrivateChecker.AssertTilePlacement(GameState, msg.Color, msg.Scheme, msg.Coords, msg.Orientation);
-                                    PrivateExecutor.PlaceTile(GameState, msg.Color, msg.Scheme, msg.Coords, msg.Orientation);
-                                }
-                                else
-                                {
-                                    PrivateExecutor.PlaceFirstTile(GameState, msg.Scheme, msg.Coords, msg.Orientation);
-                                }
 
-                                PlaceTile(msg.Color, msg.Scheme, msg.Coords, msg.Orientation);
-                            }
-                            catch (GameException ex)
-                            {
-                                MessageBox.Show($"Server result is not corresponding to local simulation result: {MsgLocalization[ex.ToExecutionResult()]}");
-                            }
+                        case ServerResponseType.PlaceFollower:
+                            PrivateExecutor.SetPlaceFollower(GameState, msg.Color.Value, msg.Coords.Value, msg.RegionId.Value);
+                            PlaceFollower(msg.Color.Value, msg.Coords.Value, msg.RegionId.Value);
                             break;
-                        case ServerResponseType.FOLLOWER_PLACEMENT:
-                            try
-                            {
-                                PrivateChecker.AssertFollowerPlacement(GameState, msg.Color, msg.Coords, msg.RegionId);
-                                PrivateExecutor.PlaceFollower(GameState, msg.Color, msg.Coords, msg.RegionId);
-                                PlaceFollower(msg.Color, msg.Coords, msg.RegionId);
-                            }
-                            catch (GameException ex)
-                            {
-                                MessageBox.Show($"Server result is not corresponding to local simulation result: {MsgLocalization[ex.ToExecutionResult()]}");
-                            }
+
+                        case ServerResponseType.RemoveFollower:
+                            PrivateExecutor.SetRemoveFollower(GameState, msg.Color.Value, msg.Coords.Value);
+                            RemoveFollower(msg.Color.Value, msg.Coords.Value, msg.Score.Value);
                             break;
-                        case ServerResponseType.FOLLOWER_REMOVEMENT:
-                            try
-                            {
-                                PrivateChecker.AssertFollowerRemovement(GameState, msg.Color, msg.Coords);
-                                PrivateExecutor.RemoveFollower(GameState, msg.Color, msg.Coords);
-                                RemoveFollower(msg.Color, msg.Coords, msg.Score);
-                            }
-                            catch (GameException ex)
-                            {
-                                MessageBox.Show($"Server result is not corresponding to local simulation result: {MsgLocalization[ex.ToExecutionResult()]}");
-                            }
+
+                        case ServerResponseType.PassMove:
+                            PrivateExecutor.SetPassMove(GameState, msg.Color.Value);
+                            PassMove(msg.Color.Value);
                             break;
-                        case ServerResponseType.NO_FOLLOWER_PLACEMENT:
-                            try
+
+                        case ServerResponseType.EndGame:
+                            PrivateExecutor.SetEndGame(GameState);
+                            foreach (var frMsg in msg.FollowerRemovements)
                             {
-                                PrivateChecker.AssertMovePassing(GameState, msg.Color);
-                                PrivateExecutor.NoFollowerPlacement(GameState, msg.Color);
-                                NoFollowerPlacement(msg.Color);
+                                RemoveFollower(frMsg.Color.Value, frMsg.Coords.Value, frMsg.Score.Value);
                             }
-                            catch (GameException ex)
-                            {
-                                MessageBox.Show($"Server result is not corresponding to local simulation result: {MsgLocalization[ex.ToExecutionResult()]}");
-                            }
-                            break;
-                        case ServerResponseType.GAME_PAUSE:
-                            GameEnd("Game has been paused by the server.");
-                            break;
-                        case ServerResponseType.GAME_END:
                             GameEnd("Game over.");
                             break;
+
                         default:
                             throw new Exception($"Got unexpected message: {msg}");
                     }
 
                 }
-            });
+            }));
         }
 
         /// <summary>
@@ -249,7 +223,7 @@
         /// <summary>
         /// Performs actions when there is no follower placement.
         /// </summary>
-        private void NoFollowerPlacement(PlayerColor color)
+        private void PassMove(PlayerColor color)
         {
             // Nothing to be done
         }
@@ -299,7 +273,7 @@
         /// <param name="scheme">Scheme of the tile.</param>
         /// <param name="coords">Coordinates of the tile.</param>
         /// <param name="orientation">Orientation of the tile.</param>
-        private void PlaceTile(PlayerColor color, TileScheme scheme, Coords coords, TileOrientation orientation)
+        private void PlaceTile(PlayerColor color, ITileScheme scheme, Coords coords, TileOrientation orientation)
         {
             // Place the tile
             TileRectangle newRectangle = new TileRectangle();
@@ -322,9 +296,9 @@
                 EmptyTiles.Remove(coords);
             }
 
-            foreach (var or in new TileOrientationEnumerator())
+            foreach (var or in new TileOrientation[] { TileOrientation.N, TileOrientation.E, TileOrientation.S, TileOrientation.W })
             {
-                var neigh = coords.GetNeighbouringCoords(or);
+                var neigh = coords.GetNeighboringCoords(or);
 
                 if (!PlacedTiles.ContainsKey(neigh) && !EmptyTiles.ContainsKey(neigh))
                 {
@@ -372,7 +346,7 @@
         /// </summary>
         /// <param name="scheme">Scheme of the tile.</param>
         /// <param name="color">Color of the player making the move.</param>
-        private void MoveStart(TileScheme scheme, PlayerColor color)
+        private void MoveStart(ITileScheme scheme, PlayerColor color)
         {
             CurrentTileRectangle.SetLayout(scheme, TileOrientation.N);
 
@@ -461,15 +435,14 @@
         }
         #endregion
 
-
         #region Tiles request mouse events
 
         private void EmptyTile_MouseClick(Coords coords)
         {
-            _ParentController.SendGameMessage(new PlayerRequest()
+            _ParentController.SendGameMessage(new ClientRequest()
             {
-                Type = PlayerRequestType.TILE_PLACEMENT,
-                Scheme = CurrentScheme,
+                Type = ClientRequestType.PlaceTile,
+                Tile = new Tile(CurrentScheme),
                 Color = PlayerColor,
                 Coords = coords,
                 Orientation = CurrentTileRectangle.Orientation
@@ -478,9 +451,9 @@
 
         private void PlacedTile_RegionMouseClick(Coords coords, int regionId)
         {
-            _ParentController.SendGameMessage(new PlayerRequest()
+            _ParentController.SendGameMessage(new ClientRequest()
             {
-                Type = PlayerRequestType.FOLLOWER_PLACEMENT,
+                Type = ClientRequestType.PlaceFollower,
                 Color = PlayerColor,
                 Coords = coords,
                 RegionId = regionId
@@ -489,9 +462,9 @@
 
         private void PlacedTile_FollowerMouseClick(Coords coords)
         {
-            _ParentController.SendGameMessage(new PlayerRequest()
+            _ParentController.SendGameMessage(new ClientRequest()
             {
-                Type = PlayerRequestType.FOLLOWER_REMOVEMENT,
+                Type = ClientRequestType.RemoveFollower,
                 Color = PlayerColor,
                 Coords = coords
             });
@@ -508,9 +481,9 @@
 
         private void PassMoveClick(object sender, RoutedEventArgs e)
         {
-            _ParentController.SendGameMessage(new PlayerRequest()
+            _ParentController.SendGameMessage(new ClientRequest()
             {
-                Type = PlayerRequestType.NO_FOLLOWER_PLACEMENT,
+                Type = ClientRequestType.PassMove,
                 Color = PlayerColor
             });
         }

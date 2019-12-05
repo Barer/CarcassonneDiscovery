@@ -153,7 +153,8 @@
                 return new StartGameRequestResult
                 {
                     ExitCode = GameExecutionRequestExitCode.Ok,
-                    ExecutionResult = result
+                    ExecutionResult = result,
+                    PlayerNames = playerOrder.Select(c => Players[c]).ToArray()
                 };
             }
 

@@ -55,7 +55,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientState.cs" />
-    <Compile Include="GameExecutionResultLocalization.cs" />
+    <Compile Include="Game\TileSchemeLayout.cs" />
+    <Compile Include="RuleViolationTypeLocalization.cs" />
     <Compile Include="UserClientController.cs" />
     <Page Include="Game\GameBoard.xaml">
       <SubType>Designer</SubType>
@@ -124,6 +125,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarcassonneDiscovery.Entity\CarcassonneDiscovery.Entity.csproj">
+      <Project>{77863305-256a-4d0f-b7e6-1522d8ae469d}</Project>
+      <Name>CarcassonneDiscovery.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Logic\CarcassonneDiscovery.Logic.csproj">
+      <Project>{4b8d8c51-a614-41ce-89d3-163fb6eed828}</Project>
+      <Name>CarcassonneDiscovery.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Messaging\CarcassonneDiscovery.Messaging.csproj">
+      <Project>{df3bd70b-0cc6-44b8-8924-c81778627399}</Project>
+      <Name>CarcassonneDiscovery.Messaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Tools\CarcassonneDiscovery.Tools.csproj">
+      <Project>{467BA373-88BD-4895-9B98-C87A8A0F853D}</Project>
+      <Name>CarcassonneDiscovery.Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

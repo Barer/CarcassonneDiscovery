@@ -14,7 +14,9 @@
             {
                 case GameExecutionRequestExitCode.Ok:
                     ServerServiceProvider.Logger.Log("Game started.", LogLevel.Normal, LogType.SimulationExecution);
-                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult.ToServerResponse());
+                    var response = result.ExecutionResult.ToServerResponse();
+                    response.PlayerNames = result.PlayerNames;
+                    ServerServiceProvider.ClientMessager.SendToAll(response);
                     new StartMoveAction().Execute();
                     break;
 

@@ -6,7 +6,7 @@
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Shapes;
-    using CarcassonneDiscovery.SimulationLibrary;
+    using CarcassonneDiscovery.Entity;
 
     /// <summary>
     /// Empty tile place indicator.
@@ -80,7 +80,7 @@
         {
             if (MouseEventEnabled)
             {
-                Application.Current.Dispatcher.Invoke(() => { Opacity = 0.5; });
+                Application.Current.Dispatcher.Invoke(new Action(() => { Opacity = 0.5; }));
             }
         }
 
@@ -93,7 +93,7 @@
         {
             if (MouseEventEnabled)
             {
-                Application.Current.Dispatcher.Invoke(() => { Opacity = 1; });
+                Application.Current.Dispatcher.Invoke(new Action(() => { Opacity = 1; }));
             }
         }
 

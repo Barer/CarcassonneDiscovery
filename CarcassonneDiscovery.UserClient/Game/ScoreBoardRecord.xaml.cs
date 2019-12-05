@@ -1,9 +1,10 @@
 ﻿namespace CarcassonneDiscovery.UserClient
 {
-    using CarcassonneDiscovery.SimulationLibrary;
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
+    using CarcassonneDiscovery.Entity;
 
     /// <summary>
     /// Interakční logika pro ScoreBoardRecord.xaml
@@ -35,7 +36,7 @@
             {
                 _Score = value;
 
-                Dispatcher.Invoke(() => ScoreLabel.Content = _Score.ToString());
+                Dispatcher.Invoke(new Action(() => ScoreLabel.Content = _Score.ToString()));
             }
         }
 
@@ -49,7 +50,7 @@
             {
                 _Followers = value;
 
-                Dispatcher.Invoke(() => FollowersLabel.Content = $"({_Followers})");
+                Dispatcher.Invoke(new Action(() => FollowersLabel.Content = $"({_Followers})"));
             }
         }
 
@@ -63,7 +64,7 @@
             {
                 _OnMove = value;
 
-                Dispatcher.Invoke(() => OnMoveEllipse.Visibility = (value ? Visibility.Visible : Visibility.Hidden));
+                Dispatcher.Invoke(new Action(() => OnMoveEllipse.Visibility = (value ? Visibility.Visible : Visibility.Hidden)));
             }
         }
 
@@ -76,23 +77,23 @@
 
             switch(color)
             {
-                case PlayerColor.BLACK:
+                case PlayerColor.Black:
                     backgroundBrush = Brushes.Black;
                     foregroundBrush = Brushes.White;
                     break;
-                case PlayerColor.RED:
+                case PlayerColor.Red:
                     backgroundBrush = Brushes.Red;
                     foregroundBrush = Brushes.Black;
                     break;
-                case PlayerColor.GREEN:
+                case PlayerColor.Green:
                     backgroundBrush = Brushes.Green;
                     foregroundBrush = Brushes.Black;
                     break;
-                case PlayerColor.BLUE:
+                case PlayerColor.Blue:
                     backgroundBrush = Brushes.Blue;
                     foregroundBrush = Brushes.Black;
                     break;
-                case PlayerColor.YELLOW:
+                case PlayerColor.Yellow:
                     backgroundBrush = Brushes.Yellow;
                     foregroundBrush = Brushes.Black;
                     break;

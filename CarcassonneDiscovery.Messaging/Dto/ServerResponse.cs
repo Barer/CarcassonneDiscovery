@@ -75,6 +75,11 @@
         /// Name of the tile set.
         /// </summary>
         public string TileSetName { get; set; } = null;
+
+        /// <summary>
+        /// Names of the players.
+        /// </summary>
+        public string[] PlayerNames { get; set; } = null;
         #endregion
     }
 }

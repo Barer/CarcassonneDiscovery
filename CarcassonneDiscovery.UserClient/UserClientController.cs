@@ -2,8 +2,8 @@
 {
     using System;
     using System.Windows;
-    using CarcassonneDiscovery.CommunicationLibrary;
-    using CarcassonneDiscovery.SimulationLibrary;
+    using CarcassonneDiscovery.Entity;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Controller of the user client application.
@@ -33,7 +33,7 @@
         /// <summary>
         /// Localization of the result messages.
         /// </summary>
-        private GameExecutionResultLocalization MsgLocalization = new GameExecutionResultLocalization();
+        private RuleViolationTypeLocalization MsgLocalization = new RuleViolationTypeLocalization();
 
         /// <summary>
         /// Is the game resumed?
@@ -113,9 +113,9 @@
         /// <param name="color">Color of the player.</param>
         public void RegisterAs(string name, PlayerColor color)
         {
-            _Socket.SendMessage(new PlayerRequest()
+            _Socket.SendMessage(new ClientRequest()
             {
-                Type = PlayerRequestType.CONNECT,
+                Type = ClientRequestType.JoinAsPlayer,
                 Name = name,
                 Color = color
             });
@@ -138,6 +138,7 @@
 
                 switch (msg.Type)
                 {
+                    /*
                     case ServerResponseType.EXECUTION_REQUEST_RESULT:
                         if (CurrentState == ClientState.GAME_IN_PLAY)
                         {
@@ -162,48 +163,50 @@
                         }
 
                         break;
+                        */
 
-                    case ServerResponseType.GAME_START:
+                    case ServerResponseType.StartGame:
                         CurrentState = ClientState.GAME_IN_PLAY;
-                        Application.Current.Dispatcher.Invoke(() =>
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
                             _WaitingLobbyWindow.Close();
-                            _GameBoardWindow.Start(msg.Parameters, msg.PlayerNames);
+                            _GameBoardWindow.Start(msg);
                             _GameBoardWindow.Show();
-                        });
+                        }));
                         break;
 
-                    case ServerResponseType.MOVE_START:
-                    case ServerResponseType.TILE_PLACEMENT:
-                    case ServerResponseType.FOLLOWER_PLACEMENT:
-                    case ServerResponseType.FOLLOWER_REMOVEMENT:
-                    case ServerResponseType.NO_FOLLOWER_PLACEMENT:
+                    case ServerResponseType.StartMove:
+                    case ServerResponseType.PlaceTile:
+                    case ServerResponseType.PlaceFollower:
+                    case ServerResponseType.RemoveFollower:
+                    case ServerResponseType.PassMove:
                         _GameBoardWindow.ResolveGameEventMessage(msg);
                         break;
 
+                    case ServerResponseType.EndGame:
+                        SocketForceClose();
+                        CurrentState = ClientState.GAME_ENDED;
+                        _GameBoardWindow.ResolveGameEventMessage(msg);
+                        break;
+                        /*
                     case ServerResponseType.DISCONNECT:
                         HandleDisconnection();
                         break;
 
-                    case ServerResponseType.GAME_END:
-                        SocketForceClose();
-                        CurrentState = ClientState.GAME_ENDED;
-                        _GameBoardWindow.ResolveGameEventMessage(msg);
-                        break;
+                        case ServerResponseType.GAME_PAUSE:
+                            SocketForceClose();
+                            CurrentState = ClientState.GAME_ENDED;
+                            _GameBoardWindow.ResolveGameEventMessage(msg);
+                            break;
 
-                    case ServerResponseType.GAME_PAUSE:
-                        SocketForceClose();
-                        CurrentState = ClientState.GAME_ENDED;
-                        _GameBoardWindow.ResolveGameEventMessage(msg);
-                        break;
+                        case ServerResponseType.GAME_HISTORY:
+                            _ResumeMode = true;
+                            break;
 
-                    case ServerResponseType.GAME_HISTORY:
-                        _ResumeMode = true;
-                        break;
-
-                    case ServerResponseType.GAME_RESUME:
-                        _ResumeMode = false;
-                        break;
+                        case ServerResponseType.GAME_RESUME:
+                            _ResumeMode = false;
+                            break;
+                        */
                 }
             }
         }
@@ -218,7 +221,7 @@
                 case ClientState.BEFORE_CONNECTING:
                 case ClientState.BEFORE_SIGNING:
                 case ClientState.WAITING_FOR_START:
-                    _Socket.SendMessage(new PlayerRequest() { Type = PlayerRequestType.DISCONNECT });
+                    //_Socket.SendMessage(new PlayerRequest() { Type = PlayerRequestType.DISCONNECT });
                     SocketForceClose();
                     Application.Current.Shutdown();
                     break;
@@ -233,7 +236,7 @@
             switch (CurrentState)
             {
                 case ClientState.GAME_IN_PLAY:
-                    _Socket.SendMessage(new PlayerRequest() { Type = PlayerRequestType.DISCONNECT });
+                    //_Socket.SendMessage(new PlayerRequest() { Type = PlayerRequestType.DISCONNECT });
                     SocketForceClose();
                     Application.Current.Shutdown();
                     break;
@@ -288,7 +291,7 @@
         /// Sends message with game action request.
         /// </summary>
         /// <param name="msg">Request message.</param>
-        public void SendGameMessage(PlayerRequest msg)
+        public void SendGameMessage(ClientRequest msg)
         {
             if (CurrentState == ClientState.GAME_IN_PLAY && !_ResumeMode)
             {

@@ -7,5 +7,9 @@
     /// </summary>
     public class StartGameRequestResult : GameExecutionRequestResultBase<StartGameExecutionResult>
     {
+        /// <summary>
+        /// Names of players.
+        /// </summary>
+        public string[] PlayerNames { get; set; }
     }
 }

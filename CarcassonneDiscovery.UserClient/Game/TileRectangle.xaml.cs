@@ -1,6 +1,5 @@
 ﻿namespace CarcassonneDiscovery.UserClient
 {
-    using CarcassonneDiscovery.SimulationLibrary;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -9,6 +8,8 @@
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Shapes;
+    using CarcassonneDiscovery.Entity;
+    using CarcassonneDiscovery.Tools;
 
     /// <summary>
     /// Tile in the grid.
@@ -55,7 +56,7 @@
             {
                 if (!(_RegionMouseEventEnabled = value))
                 {
-                    App.Current.Dispatcher.Invoke(() => RegionMouseExit(-1));
+                    App.Current.Dispatcher.Invoke(new Action(() => RegionMouseExit(-1)));
                 }
             }
         }
@@ -78,7 +79,7 @@
         /// <summary>
         /// Scheme of the tile.
         /// </summary>
-        protected TileScheme Scheme;
+        protected ITileScheme Scheme;
 
         /// <summary>
         /// Orientation of the tile.
@@ -321,9 +322,9 @@
         /// </summary>
         protected readonly Dictionary<RegionType, Brush> REGION_TO_COLOR = new Dictionary<RegionType, Brush>()
         {
-            { RegionType.MOUNTAIN, Brushes.Gray },
-            { RegionType.GRASSLAND, Brushes.LightGreen },
-            { RegionType.SEA, Brushes.LightCyan }
+            { RegionType.Mountain, Brushes.Gray },
+            { RegionType.Grassland, Brushes.LightGreen },
+            { RegionType.Sea, Brushes.LightCyan }
         };
 
         /// <summary>
@@ -336,11 +337,11 @@
         /// </summary>
         protected readonly Dictionary<PlayerColor, Brush> FOLLOWER_COLOR = new Dictionary<PlayerColor, Brush>()
         {
-            { PlayerColor.RED, Brushes.Red },
-            { PlayerColor.GREEN, Brushes.Green },
-            { PlayerColor.BLUE, Brushes.Blue },
-            { PlayerColor.YELLOW, Brushes.Yellow },
-            { PlayerColor.BLACK, Brushes.Black }
+            { PlayerColor.Red, Brushes.Red },
+            { PlayerColor.Green, Brushes.Green },
+            { PlayerColor.Blue, Brushes.Blue },
+            { PlayerColor.Yellow, Brushes.Yellow },
+            { PlayerColor.Black, Brushes.Black }
         };
 
         /// <summary>
@@ -373,14 +374,14 @@
         /// </summary>
         /// <param name="scheme">Scheme of the tile.</param>
         /// <param name="orientation">Orientation of the tile.</param>
-        public void SetLayout(TileScheme scheme, TileOrientation orientation)
+        public void SetLayout(ITileScheme scheme, TileOrientation orientation)
         {
             Scheme = scheme;
             Orientation = orientation;
 
             if (scheme != null)
             {
-                App.Current.Dispatcher.Invoke(() => Draw());
+                App.Current.Dispatcher.Invoke(new Action(() => Draw()));
             }
         }
 
@@ -403,7 +404,7 @@
 
             if (Scheme != null)
             {
-                App.Current.Dispatcher.Invoke(() => Draw());
+                App.Current.Dispatcher.Invoke(new Action(() => Draw()));
             }
         }
 
@@ -415,7 +416,22 @@
             // Get the layout data
             if (Scheme != null && LAYOUT_DATA.TryGetValue(Scheme.Layout, out TileLayoutData data))
             {
-                int orientation = 4 - (int)Orientation;
+                int orientation = 0;
+                switch(Orientation)
+                {
+                    case TileOrientation.N:
+                        orientation = 4;
+                        break;
+                    case TileOrientation.E:
+                        orientation = 3;
+                        break;
+                    case TileOrientation.S:
+                        orientation = 2;
+                        break;
+                    case TileOrientation.W:
+                        orientation = 1;
+                        break;
+                }
 
                 Border_N.Stroke = Brushes.Black;
                 Border_E.Stroke = Brushes.Black;
@@ -434,7 +450,7 @@
                 // Set corresponding ids to regions
                 RegionShapes.Clear();
 
-                for (int i = 0; i < Scheme.RegionCount; i++)
+                for (int i = 0; i < Scheme.RegionAmount; i++)
                 {
                     RegionShapes[i] = new List<Shape>();
                 }
@@ -449,7 +465,7 @@
                 RegionShapes[data.RegionIds[((3 + orientation) & 0b11) + 4]].Add(Fill_WC);
 
                 // Draw the regions
-                for (int i = 0; i < Scheme.RegionCount; i++)
+                for (int i = 0; i < Scheme.RegionAmount; i++)
                 {
                     Brush fill = REGION_TO_COLOR[Scheme.GetRegionType(i)];
 
@@ -468,25 +484,25 @@
                 CityShapes.Clear();
 
                 // Find the cities
-                for (int c = 0; c < Scheme.CityCount; c++)
+                for (int c = 0; c < Scheme.CityAmount; c++)
                 {
                     // Get the regions
                     int region1 = -1;
                     int region2 = -1;
 
                     int r = 0;
-                    for (; r < Scheme.RegionCount; r++)
+                    for (; r < Scheme.RegionAmount; r++)
                     {
-                        if (Scheme.GetNeighbouringCities(r).Contains(c))
+                        if (Scheme.GetRegionCities(r).Contains(c))
                         {
                             region1 = r;
                             r++;
                             break;
                         }
                     }
-                    for (; r < Scheme.RegionCount; r++)
+                    for (; r < Scheme.RegionAmount; r++)
                     {
-                        if (Scheme.GetNeighbouringCities(r).Contains(c))
+                        if (Scheme.GetRegionCities(r).Contains(c))
                         {
                             region2 = r;
                             r++;
@@ -588,7 +604,7 @@
         {
             int p;
 
-            if (Scheme.Layout == TileSchemeLayout.UNKNOWN)
+            if (Scheme.Layout == TileSchemeLayout.None)
             {
                 p = (int)OnTilePosition.CC;
             }
@@ -599,13 +615,13 @@
 
             var position = FOLLOWER_POSITION[(p & 0b1100) | ((p + (int)Orientation) & 0b11)];
 
-            App.Current.Dispatcher.Invoke(() => {
+            App.Current.Dispatcher.Invoke(new Action(() => {
                 Follower.Visibility = Visibility.Visible;
                 Follower.Fill = FOLLOWER_COLOR[color];
                 Follower.Stroke = Brushes.Black;
                 Canvas.SetLeft(Follower, position.X);
                 Canvas.SetTop(Follower, position.Y);
-            });
+            }));
         }
 
         /// <summary>
@@ -613,7 +629,7 @@
         /// </summary>
         public void RemoveFollower()
         {
-            App.Current.Dispatcher.Invoke(() => { Follower.Visibility = Visibility.Collapsed; });
+            App.Current.Dispatcher.Invoke(new Action(() => { Follower.Visibility = Visibility.Collapsed; }));
         }
 
         /// <summary>
