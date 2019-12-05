@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="CarcassonneDiscovery.UserClient.TileRectangle"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CarcassonneDiscovery.UserClient"
+             mc:Ignorable="d" 
+             Width="100" Height="100"
+             d:DesignHeight="100" d:DesignWidth="100">
+    <Canvas x:Name="Canvas" Width="100" Height="100">
+        <Path x:Name="Fill_NC" Data="M 0 0 C 30 30 70 30 100 0 L 50 50 L 0 0" MouseEnter="Fill_MouseEnter" MouseLeave="Fill_MouseLeave" MouseLeftButtonUp="Fill_MouseLeftButtonUp" />
+        <Path x:Name="Fill_EC" Data="M 100 0 C 70 30 70 70 100 100 L 50 50 L 100 0" MouseEnter="Fill_MouseEnter" MouseLeave="Fill_MouseLeave" MouseLeftButtonUp="Fill_MouseLeftButtonUp" />
+        <Path x:Name="Fill_SC" Data="M 100 100 C 70 70 30 70 0 100 L 50 50 L 100 100" MouseEnter="Fill_MouseEnter" MouseLeave="Fill_MouseLeave" MouseLeftButtonUp="Fill_MouseLeftButtonUp" />
+        <Path x:Name="Fill_WC" Data="M 0 100 C 30 70 30 30 0 0 L 50 50 L 0 100" MouseEnter="Fill_MouseEnter" MouseLeave="Fill_MouseLeave" MouseLeftButtonUp="Fill_MouseLeftButtonUp" />
+        <Path x:Name="Border_NC_Fill_N" Data="M 0 0 C 30 30 70 30 100 0" MouseEnter="Fill_MouseEnter" MouseLeave="Fill_MouseLeave" MouseLeftButtonUp="Fill_MouseLeftButtonUp" />
+        <Path x:Name="Border_EC_Fill_E" Data="M 100 0 C 70 30 70 70 100 100" MouseEnter="Fill_MouseEnter" MouseLeave="Fill_MouseLeave" MouseLeftButtonUp="Fill_MouseLeftButtonUp" />
+        <Path x:Name="Border_SC_Fill_S" Data="M 100 100 C 70 70 30 70 0 100" MouseEnter="Fill_MouseEnter" MouseLeave="Fill_MouseLeave" MouseLeftButtonUp="Fill_MouseLeftButtonUp" />
+        <Path x:Name="Border_WC_Fill_W" Data="M 0 100 C 30 70 30 30 0 0" MouseEnter="Fill_MouseEnter" MouseLeave="Fill_MouseLeave" MouseLeftButtonUp="Fill_MouseLeftButtonUp" />
+        <Line x:Name="Border_N" X1="0" Y1="0" X2="100" Y2="0" />
+        <Line x:Name="Border_E" X1="100" Y1="0" X2="100" Y2="100"  />
+        <Line x:Name="Border_S" X1="100" Y1="100" X2="0" Y2="100"  />
+        <Line x:Name="Border_W" X1="0" Y1="100" X2="0" Y2="0"  />
+        <Line x:Name="Border_NE" X1="0" Y1="100" X2="50" Y2="50" />
+        <Line x:Name="Border_SE" X1="100" Y1="100" X2="50" Y2="50" />
+        <Line x:Name="Border_SW" X1="100" Y1="0" X2="50" Y2="50" />
+        <Line x:Name="Border_NW" X1="0" Y1="0" X2="50" Y2="50" />
+        <Rectangle x:Name="City_NW" Width="20" Height="20" Canvas.Left="15" Canvas.Top="15" />
+        <Rectangle x:Name="City_NC" Width="20" Height="20" Canvas.Left="40" Canvas.Top="15" />
+        <Rectangle x:Name="City_NE" Width="20" Height="20" Canvas.Left="65" Canvas.Top="15" />
+        <Rectangle x:Name="City_WC" Width="20" Height="20" Canvas.Left="15" Canvas.Top="40" />
+        <Rectangle x:Name="City_CC" Width="20" Height="20" Canvas.Left="40" Canvas.Top="40" />
+        <Rectangle x:Name="City_EC" Width="20" Height="20" Canvas.Left="65" Canvas.Top="40" />
+        <Rectangle x:Name="City_SW" Width="20" Height="20" Canvas.Left="15" Canvas.Top="65" />
+        <Rectangle x:Name="City_SC" Width="20" Height="20" Canvas.Left="40" Canvas.Top="65" />
+        <Rectangle x:Name="City_SE" Width="20" Height="20" Canvas.Left="65" Canvas.Top="65" />
+        <Path x:Name="Follower" Data="M 0 20 L 10 0 L 20 20 M 0 20" Visibility="Collapsed" MouseEnter="Follower_MouseEnter"  MouseLeave="Follower_MouseLeave" MouseLeftButtonUp="Follower_MouseLeftMouseButtonUp" />
+    </Canvas>
+</UserControl>
