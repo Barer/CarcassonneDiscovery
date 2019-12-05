@@ -93,6 +93,10 @@
       <Project>{DF3BD70B-0CC6-44B8-8924-C81778627399}</Project>
       <Name>CarcassonneDiscovery.Messaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.StandardTileSet\CarcassonneDiscovery.StandardTileSet.csproj">
+      <Project>{9635A9F0-F6BB-4447-9E57-A61B682AAD72}</Project>
+      <Name>CarcassonneDiscovery.StandardTileSet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CarcassonneDiscovery.Tools\CarcassonneDiscovery.Tools.csproj">
       <Project>{467BA373-88BD-4895-9B98-C87A8A0F853D}</Project>
       <Name>CarcassonneDiscovery.Tools</Name>

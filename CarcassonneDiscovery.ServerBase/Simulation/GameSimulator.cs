@@ -5,6 +5,7 @@
     using System.Linq;
     using CarcassonneDiscovery.Entity;
     using CarcassonneDiscovery.Logic;
+    using CarcassonneDiscovery.SimulationLibrary;
 
     /// <summary>
     /// Simulator of the game.
@@ -40,6 +41,9 @@
             Players = new Dictionary<PlayerColor, string>();
             Executor = new GameExecutor();
             GameState = new GameState();
+
+            // TEMP:
+            GameState.Params.TileSetParams.TileSupplierBuilder = new Func<ITileSupplier>(() => new StandardTileSetSupplier());
         }
 
         #region Add or remove players

@@ -76,12 +76,12 @@
                 Id = scheme.Id,
                 CityAmount = scheme.CityAmount,
                 Regions = new RegionInfo[scheme.RegionAmount],
-                RegionsOnBorders = new Dictionary<TileOrientation, int>
+                RegionsOnBorders = new int[4]
                 {
-                    { TileOrientation.N, scheme.GetRegionOnBorder(TileOrientation.N) },
-                    { TileOrientation.E, scheme.GetRegionOnBorder(TileOrientation.E) },
-                    { TileOrientation.S, scheme.GetRegionOnBorder(TileOrientation.S) },
-                    { TileOrientation.W, scheme.GetRegionOnBorder(TileOrientation.W) }
+                    scheme.GetRegionOnBorder(TileOrientation.N),
+                    scheme.GetRegionOnBorder(TileOrientation.E),
+                    scheme.GetRegionOnBorder(TileOrientation.S),
+                    scheme.GetRegionOnBorder(TileOrientation.W)
                 }
             };
 

@@ -199,10 +199,10 @@
         /// <summary>
         /// Data about the layout. It is entirely based on TileSchemeLayout (and given tile orientation).
         /// </summary>
-        protected readonly Dictionary<TileSchemeLayout, TileLayoutData> LAYOUT_DATA = new Dictionary<TileSchemeLayout, TileLayoutData>()
+        protected readonly Dictionary<string, TileLayoutData> LAYOUT_DATA = new Dictionary<string, TileLayoutData>()
         {
             {
-                TileSchemeLayout.L8, new TileLayoutData(
+                "L8", new TileLayoutData(
                     new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 },
                     new bool[8] { false, false, false, false, false, false, false, false },
                     new Tuple<int,int, OnTilePosition>[] { },
@@ -210,7 +210,7 @@
                 )
             } ,
             {
-                TileSchemeLayout.L44, new TileLayoutData(
+                "L44", new TileLayoutData(
                     new int[8] { 0, 0, 1, 1, 0, 0, 1, 1  },
                     new bool[8] { false, true, false, true, false, false, false, false },
                     new Tuple<int,int, OnTilePosition>[] {
@@ -220,7 +220,7 @@
                 )
             } ,
             {
-                TileSchemeLayout.L116, new TileLayoutData(
+                "L116", new TileLayoutData(
                     new int[8] { 0, 1, 2, 2, 2, 2, 2, 2  },
                     new bool[8] { false, false, false, false, true, true, false, false },
                     new Tuple<int,int, OnTilePosition>[] {
@@ -231,7 +231,7 @@
                 )
             } ,
             {
-                TileSchemeLayout.L161, new TileLayoutData(
+                "L161", new TileLayoutData(
                     new int[8] { 0, 1, 2, 1, 1, 1, 1, 1  },
                     new bool[8] { false, false, false, false, true, false, true, false },
                     new Tuple<int,int, OnTilePosition>[] {
@@ -242,7 +242,7 @@
                 )
             } ,
             {
-                TileSchemeLayout.L17, new TileLayoutData(
+                "L17", new TileLayoutData(
                     new int[8] { 0, 1, 1, 1, 1, 1, 1, 1  },
                     new bool[8] { false, false, false, false, true, false, false, false },
                     new Tuple<int,int, OnTilePosition>[] {
@@ -252,7 +252,7 @@
                 )
             } ,
             {
-                TileSchemeLayout.L11114, new TileLayoutData(
+                "L11114", new TileLayoutData(
                     new int[8] { 0, 1, 2, 3, 4, 4, 4, 4  },
                     new bool[8] { false, false, false, false, true, true, true, true },
                     new Tuple<int,int, OnTilePosition>[] {
@@ -265,7 +265,7 @@
                 )
             } ,
             {
-                TileSchemeLayout.L422, new TileLayoutData(
+                "L422", new TileLayoutData(
                     new int[8] { 0, 0, 1, 2, 0, 0, 1, 2  },
                     new bool[8] { false, true, true, true, false, false, false, false },
                     new Tuple<int,int, OnTilePosition>[] {
@@ -277,7 +277,7 @@
                 )
             } ,
             {
-                TileSchemeLayout.L1115, new TileLayoutData(
+                "L1115", new TileLayoutData(
                     new int[8] { 0, 1, 2, 3, 3, 3, 3, 3  },
                     new bool[8] { false, false, false, false, true, true, true, false },
                     new Tuple<int, int, OnTilePosition>[] {
@@ -289,7 +289,7 @@
                 )
             } ,
             {
-                TileSchemeLayout.L2231, new TileLayoutData(
+                "L2231", new TileLayoutData(
                     new int[8] { 0, 1, 2, 3, 0, 1, 2, 2   },
                     new bool[8] { true, true, false, true, false, false, false, true },
                     new Tuple<int,int, OnTilePosition>[] {
@@ -301,9 +301,8 @@
                     new OnTilePosition[4]{ OnTilePosition.N, OnTilePosition.E, OnTilePosition.SC, OnTilePosition.W }
                 )
             } ,
-
             {
-                TileSchemeLayout.L2213, new TileLayoutData(
+                "L2213", new TileLayoutData(
                     new int[8] { 0, 1, 2, 3, 0, 1, 3, 3   },
                     new bool[8] { true, true, false, true, false, false, true, false },
                     new Tuple<int,int, OnTilePosition>[] {
@@ -414,7 +413,7 @@
         public void Draw()
         {
             // Get the layout data
-            if (Scheme != null && LAYOUT_DATA.TryGetValue(Scheme.Layout, out TileLayoutData data))
+            if (Scheme != null && LAYOUT_DATA.TryGetValue(Scheme.Id, out TileLayoutData data))
             {
                 int orientation = 0;
                 switch(Orientation)
@@ -602,16 +601,7 @@
         /// <param name="regionId">Region on the tile.</param>
         public void PlaceFollower(PlayerColor color, int regionId)
         {
-            int p;
-
-            if (Scheme.Layout == TileSchemeLayout.None)
-            {
-                p = (int)OnTilePosition.CC;
-            }
-            else
-            {
-                p = (int)LAYOUT_DATA[Scheme.Layout].FollowerPositions[regionId];
-            }
+            int p = (int)LAYOUT_DATA[Scheme.Id].FollowerPositions[regionId];            
 
             var position = FOLLOWER_POSITION[(p & 0b1100) | ((p + (int)Orientation) & 0b11)];
 

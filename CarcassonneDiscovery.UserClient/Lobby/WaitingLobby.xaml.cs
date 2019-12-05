@@ -1,7 +1,8 @@
 ﻿namespace CarcassonneDiscovery.UserClient
 {
-    using CarcassonneDiscovery.SimulationLibrary;
+    using System;
     using System.Windows;
+    using CarcassonneDiscovery.Entity;
 
     /// <summary>
     /// Waiting lobby window.
@@ -55,11 +56,11 @@
         /// <param name="enabled">Is player enabled to connect as a player?</param>
         public void SetPlayerRegisteringEnabled(bool enabled)
         {
-            Dispatcher.Invoke(() => {
+            Dispatcher.Invoke(new Action(() => {
                 tbName.IsEnabled = enabled;
                 cbColor.IsEnabled = enabled;
                 btnRegister.IsEnabled = enabled;
-            });
+            }));
         }
 
         /// <summary>
@@ -68,11 +69,11 @@
         /// <param name="enabled">Is player enabled to connect to the server?</param>
         public void SetServerConnectingEnabled(bool enabled)
         {
-            Dispatcher.Invoke(() => {
+            Dispatcher.Invoke(new Action(() => {
                 tbIP.IsEnabled = enabled;
                 tbPort.IsEnabled = enabled;
                 btnConnect.IsEnabled = enabled;
-            });
+            }));
         }
     }
 }

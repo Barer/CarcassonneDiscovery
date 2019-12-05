@@ -55,7 +55,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientState.cs" />
-    <Compile Include="Game\TileSchemeLayout.cs" />
     <Compile Include="RuleViolationTypeLocalization.cs" />
     <Compile Include="UserClientController.cs" />
     <Page Include="Game\GameBoard.xaml">

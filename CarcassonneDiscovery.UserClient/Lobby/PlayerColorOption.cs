@@ -1,6 +1,6 @@
 ﻿namespace CarcassonneDiscovery.UserClient
 {
-    using CarcassonneDiscovery.SimulationLibrary;
+    using CarcassonneDiscovery.Entity;
 
     /// <summary>
     /// Player color option to be selected in waiting lobby.

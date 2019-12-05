@@ -43,6 +43,17 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="StandardTileSetSupplier.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarcassonneDiscovery.Entity\CarcassonneDiscovery.Entity.csproj">
+      <Project>{77863305-256A-4D0F-B7E6-1522D8AE469D}</Project>
+      <Name>CarcassonneDiscovery.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Tools\CarcassonneDiscovery.Tools.csproj">
+      <Project>{467BA373-88BD-4895-9B98-C87A8A0F853D}</Project>
+      <Name>CarcassonneDiscovery.Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

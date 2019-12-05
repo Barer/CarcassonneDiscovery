@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Xml.Serialization;
     using CarcassonneDiscovery.Entity;
 
     /// <summary>
@@ -21,12 +22,12 @@
         /// <summary>
         /// Information about regions.
         /// </summary>
-        internal RegionInfo[] Regions { get; set; }
+        public RegionInfo[] Regions { get; set; }
 
         /// <summary>
-        /// Regions on tile borders.
+        /// Regions on tile borders implementation.
         /// </summary>
-        internal Dictionary<TileOrientation, int> RegionsOnBorders { get; set; }
+        public int[] RegionsOnBorders { get; set; }
 
         /// <inheritdoc />
         public TileOrientation GetRegionBorders(int id)
@@ -55,9 +56,16 @@
         /// <inheritdoc />
         public int GetRegionOnBorder(TileOrientation border)
         {
-            if (RegionsOnBorders.TryGetValue(border, out int regionId))
+            switch(border)
             {
-                return regionId;
+                case TileOrientation.N:
+                    return RegionsOnBorders[0];
+                case TileOrientation.E:
+                    return RegionsOnBorders[1];
+                case TileOrientation.S:
+                    return RegionsOnBorders[2];
+                case TileOrientation.W:
+                    return RegionsOnBorders[3];
             }
 
             throw new ArgumentOutOfRangeException("Invalid border specified. Expected cardinal direction.");
