@@ -67,6 +67,45 @@
         }
 
         /// <summary>
+        /// Starts new game.
+        /// </summary>
+        /// <param name="state">Current game state.</param>
+        /// <returns>Game execution result.</returns>
+        public StartGameExecutionResult SetStartGame(GameState state, ITileScheme firstTile, Coords firstCoords, TileOrientation firstOrientation)
+        {
+            // Initialize game state
+            state.CurrentPlayerIndex = -1;
+
+            state.Grid = new Dictionary<Coords, TilePlacement>();
+            state.PlacedFollowers = new Dictionary<PlayerColor, List<FollowerPlacement>>();
+            state.Scores = new Dictionary<PlayerColor, int>();
+
+            foreach (var player in state.Params.PlayerOrder)
+            {
+                state.PlacedFollowers.Add(player, new List<FollowerPlacement>());
+                state.Scores.Add(player, 0);
+            }
+
+            state.TileSupplier = state.Params.TileSetParams.TileSupplierBuilder();
+
+            // Place first tile
+            state.Grid.Add(
+                firstCoords,
+                new TilePlacement
+                {
+                    Coords = firstCoords,
+                    Orientation = firstOrientation,
+                    TileScheme = firstTile,
+                    FollowerPlacement = null
+                });
+
+            state.MovePhase = MoveWorkflow.FirstTilePlaced;
+
+            return new StartGameExecutionResult(state.Params, firstTile, firstCoords, firstOrientation);
+        }
+
+
+        /// <summary>
         /// Tries to start new game.
         /// </summary>
         /// <param name="state">Current game state.</param>

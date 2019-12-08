@@ -416,19 +416,19 @@
             if (Scheme != null && LAYOUT_DATA.TryGetValue(Scheme.Id, out TileLayoutData data))
             {
                 int orientation = 0;
-                switch(Orientation)
+                switch (Orientation)
                 {
                     case TileOrientation.N:
-                        orientation = 4;
+                        orientation = 0;
                         break;
                     case TileOrientation.E:
-                        orientation = 3;
+                        orientation = 1;
                         break;
                     case TileOrientation.S:
                         orientation = 2;
                         break;
                     case TileOrientation.W:
-                        orientation = 1;
+                        orientation = 3;
                         break;
                 }
 
@@ -512,7 +512,7 @@
                     // Draw it on correct position
                     int position = (int)data.CityRegionData.Where(t => ((t.Item1 == region1 && t.Item2 == region2) || (t.Item2 == region1 && t.Item1 == region1))).First().Item3;
 
-                    switch (((position + (int)Orientation) & 0b11) | (position & 0b1100))
+                    switch (((position + orientation) & 0b11) | (position & 0b1100))
                     {
                         case 0:
                             CityShapes.Add(City_NE);
@@ -601,11 +601,12 @@
         /// <param name="regionId">Region on the tile.</param>
         public void PlaceFollower(PlayerColor color, int regionId)
         {
-            int p = (int)LAYOUT_DATA[Scheme.Id].FollowerPositions[regionId];            
+            int p = (int)LAYOUT_DATA[Scheme.Id].FollowerPositions[regionId];
 
             var position = FOLLOWER_POSITION[(p & 0b1100) | ((p + (int)Orientation) & 0b11)];
 
-            App.Current.Dispatcher.Invoke(new Action(() => {
+            App.Current.Dispatcher.Invoke(new Action(() =>
+            {
                 Follower.Visibility = Visibility.Visible;
                 Follower.Fill = FOLLOWER_COLOR[color];
                 Follower.Stroke = Brushes.Black;

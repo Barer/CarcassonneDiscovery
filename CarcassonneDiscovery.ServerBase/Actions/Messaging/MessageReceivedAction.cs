@@ -34,7 +34,7 @@
             switch (Message.Type)
             {
                 case ClientRequestType.JoinAsPlayer:
-                    new AddPlayerAction(Message.Color.Value, Message.Name).Execute();
+                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(new AddPlayerAction(Message.Color.Value, Message.Name));
                     break;
 
                 case ClientRequestType.PlaceTile:
@@ -66,16 +66,16 @@
             switch (Message.Type)
             {
                 case ClientRequestType.PlaceTile:
-                    new PlaceTileAction(Message.ToPlaceTileExecutionRequest()).Execute();
+                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(new PlaceTileAction(Message.ToPlaceTileExecutionRequest()));
                     break;
                 case ClientRequestType.PlaceFollower:
-                    new PlaceFollowerAction(Message.ToPlaceFollowerExecutionRequest()).Execute();
+                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(new PlaceFollowerAction(Message.ToPlaceFollowerExecutionRequest()));
                     break;
                 case ClientRequestType.RemoveFollower:
-                    new RemoveFollowerAction(Message.ToRemoveFollowerExecutionRequest()).Execute();
+                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(new RemoveFollowerAction(Message.ToRemoveFollowerExecutionRequest()));
                     break;
                 case ClientRequestType.PassMove:
-                    new PassMoveAction(Message.ToPassMoveExecutionRequest()).Execute();
+                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(new PassMoveAction(Message.ToPassMoveExecutionRequest()));
                     break;
             }
         }

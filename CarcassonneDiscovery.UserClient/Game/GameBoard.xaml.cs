@@ -24,7 +24,7 @@
         /// <summary>
         /// Color of the player.
         /// </summary>
-        public PlayerColor PlayerColor { get; set; }
+        public PlayerColor PlayerColor { get; set; } = PlayerColor.None;
 
         /// <summary>
         /// Local game executor.
@@ -118,7 +118,7 @@
         public void InitializeGame(ServerResponse gameStartMsg)
         {
             PrivateExecutor = new GameExecutor();
-            GameState = new GameState()
+            GameState = new GameState
             {
                 Params = new GameParams
                 {
@@ -131,15 +131,7 @@
                     }
                 }
             };
-            PrivateExecutor.SetStartGame(GameState);
-            ResolveGameEventMessage(new ServerResponse
-            {
-                Type = ServerResponseType.PlaceTile,
-                Color = PlayerColor.None,
-                Tile = gameStartMsg.Tile,
-                Coords = gameStartMsg.Coords,
-                Orientation = gameStartMsg.Orientation
-            });
+            ResolveGameEventMessage(gameStartMsg);
         }
 
         /// <summary>
@@ -153,6 +145,11 @@
                 {
                     switch (msg.Type)
                     {
+                        case ServerResponseType.StartGame:
+                            PrivateExecutor.SetStartGame(GameState, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
+                            PlaceTile(PlayerColor.None, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
+                            break;
+
                         case ServerResponseType.StartMove:
                             PrivateExecutor.SetStartMove(GameState, msg.Color.Value, msg.Tile.Scheme);
                             MoveStart(msg.Tile.Scheme, msg.Color.Value);

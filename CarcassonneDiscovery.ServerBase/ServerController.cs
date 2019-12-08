@@ -1,5 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading;
 
@@ -9,9 +10,14 @@
     public class ServerController
     {
         /// <summary>
+        /// Server action has been performed.
+        /// </summary>
+        public event Action<ServerAction> ActionExecuted = (sa) => { };
+
+        /// <summary>
         /// Queue with actions.
         /// </summary>
-        protected Queue<ServerAction> ActionQueue { get; set; } = new Queue<ServerAction>();
+        protected LinkedList<ServerAction> ActionQueue { get; set; } = new LinkedList<ServerAction>();
 
         /// <summary>
         /// Event when the queue has any action.
@@ -55,8 +61,11 @@
                 {
                     while (ActionQueue.Count > 0)
                     {
-                        var action = ActionQueue.Dequeue();
+                        var action = ActionQueue.First.Value;
+                        ActionQueue.RemoveFirst();
+
                         action.Execute();
+                        ActionExecuted.Invoke(action);
                     }
 
                     ActionQueueEvent.Reset();
@@ -72,7 +81,20 @@
         {
             lock (ActionQueue)
             {
-                ActionQueue.Enqueue(action);
+                ActionQueue.AddLast(action);
+                ActionQueueEvent.Set();
+            }
+        }
+
+        /// <summary>
+        /// Adds action into the queue at the first spot.
+        /// </summary>
+        /// <param name="action">Action to be added to the queue.</param>
+        public void EnqueueActionAsFirst(ServerAction action)
+        {
+            lock (ActionQueue)
+            {
+                ActionQueue.AddFirst(action);
                 ActionQueueEvent.Set();
             }
         }

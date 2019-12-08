@@ -15,6 +15,6 @@
         /// <summary>
         /// Tile supplier builder function.
         /// </summary>
-        public Func<ITileSupplier> TileSupplierBuilder { get; set; }
+        public Func<ITileSupplier> TileSupplierBuilder { get; set; } = new Func<ITileSupplier>(() => null);
     }
 }

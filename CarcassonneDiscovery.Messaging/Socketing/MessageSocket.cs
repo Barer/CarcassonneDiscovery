@@ -42,6 +42,11 @@
         public event Action MessageReceived = () => { };
 
         /// <summary>
+        /// Event when the connection is lost.
+        /// </summary>
+        public event Action ConnectionLost = () => { };
+
+        /// <summary>
         /// Queue of unhandled responses from server.
         /// </summary>
         protected Queue<R> ReceivedQueue;
@@ -108,7 +113,65 @@
         /// <summary>
         /// Loop that serves as listener to the server responses.
         /// </summary>
-        protected abstract void ListeningLoop();
+        protected void ListeningLoop()
+        {
+            const int BUFFER_SIZE = 4096;
+            var DELIM = new char[] { '$' };
+
+            var backBuffer = new StringBuilder();
+            var buffer = new byte[BUFFER_SIZE];
+
+            int received;
+
+            try
+            {
+                while (true)
+                {
+                    try
+                    {
+                        received = Socket.Receive(buffer);
+                    }
+                    catch (SocketException)
+                    {
+                        ConnectionLost.Invoke();
+                        Stop();
+                        break;
+                    }
+
+                    backBuffer.Append(Encoding.UTF8.GetString(buffer, 0, received));
+
+                    if (received == BUFFER_SIZE)
+                    {
+                        continue;
+                    }
+
+                    string[] msgStr = backBuffer.ToString().Split(DELIM, StringSplitOptions.RemoveEmptyEntries);
+                    backBuffer = new StringBuilder();
+
+                    foreach (string s in msgStr)
+                    {
+                        var msgReader = new StringReader(s);
+
+                        try
+                        {
+                            var msg = (R)ReceiveMsgSerializer.Deserialize(msgReader);
+
+                            EnqueueMessage(msg);
+
+                            MessageReceived.Invoke();
+                        }
+                        catch (Exception)
+                        {
+                            // TODO
+                            continue;
+                        }
+                    }
+                }
+            }
+            catch (ThreadAbortException)
+            {
+            }
+        }
 
         /// <summary>
         /// Sends message.
@@ -122,6 +185,8 @@
 
                 SendMsgSerializer.Serialize(msgWriter, msg);
                 msgWriter.Write('$');
+                //TEMP
+                Console.WriteLine(msgWriter.ToString());
 
                 try
                 {
@@ -151,14 +216,6 @@
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Invokes the MessageReceived event.
-        /// </summary>
-        protected void MessageReceivedInvoke()
-        {
-            MessageReceived.Invoke();
         }
 
         /// <summary>

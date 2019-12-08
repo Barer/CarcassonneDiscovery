@@ -18,7 +18,7 @@
         /// <summary>
         /// Order of players in the game.
         /// </summary>
-        public PlayerColor[] PlayerOrder { get; set; }
+        public PlayerColor[] PlayerOrder { get; set; } = null;
 
         /// <summary>
         /// Parameters of the tile set.

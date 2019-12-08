@@ -41,5 +41,37 @@
         /// Name of the player.
         /// </summary>
         public string Name { get; set; }
+
+        #region Serialization settings
+        public bool ShouldSerializeColor()
+        {
+            return Color.HasValue;
+        }
+
+        public bool ShouldSerializeTile()
+        {
+            return Tile != null;
+        }
+
+        public bool ShouldSerializeCoords()
+        {
+            return Coords.HasValue;
+        }
+
+        public bool ShouldSerializeOrientation()
+        {
+            return Orientation.HasValue;
+        }
+
+        public bool ShouldSerializeRegionId()
+        {
+            return RegionId.HasValue;
+        }
+
+        public bool ShouldSerializeName()
+        {
+            return Name != null;
+        }
+        #endregion
     }
 }

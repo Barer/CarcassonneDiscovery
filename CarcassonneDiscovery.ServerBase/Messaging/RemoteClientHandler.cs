@@ -26,18 +26,8 @@
         public RemoteClientHandler(ClientHandlerSocket socket)
         {
             Socket = socket;
-            Socket.MessageReceived += () =>
-            {
-                while (true)
-                {
-                    var msg = Socket.GetNextMessage();
-
-                    if (msg == null)
-                        break;
-
-                    ServerServiceProvider.ServerController.EnqueueAction(new MessageReceivedAction(Id, msg));
-                }
-            };
+            Socket.MessageReceived += OnMessageReceived;
+            OnMessageReceived();
         }
 
         /// <iheritdoc />
@@ -52,6 +42,22 @@
         {
             Socket.SendMessage(msg);
             ServerServiceProvider.Logger.Log("Message sent to client.", LogLevel.Normal, LogType.Messaging);
+        }
+
+        /// <summary>
+        /// When a message is recevied, enqueues it in the action queue.
+        /// </summary>
+        public void OnMessageReceived()
+        {
+            while (true)
+            {
+                var msg = Socket.GetNextMessage();
+
+                if (msg == null)
+                    break;
+
+                ServerServiceProvider.ServerController.EnqueueAction(new MessageReceivedAction(Id, msg));
+            }
         }
     }
 }

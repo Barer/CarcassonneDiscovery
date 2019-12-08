@@ -26,7 +26,7 @@
                 case GameExecutionRequestExitCode.Error:
                     if (result.ExecutionResult.RuleViolationType == RuleViolationType.NoTileRemaining)
                     {
-                        new EndGameAction().Execute();
+                        ServerServiceProvider.ServerController.EnqueueActionAsFirst(new EndGameAction());
                     }
                     else
                     {

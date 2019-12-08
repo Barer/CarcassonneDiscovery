@@ -31,11 +31,22 @@
             var clientMessager = new ClientMessager();
             var logger = new Logger();
             var serverController = new ServerController();
+
+            serverController.ActionExecuted += (sa) =>
+            {
+                if (sa.GetType() == typeof(AddPlayerAction))
+                {
+                    if (gameSimulator.PlayerCount == 2)
+                    {
+                        serverController.EnqueueAction(new StartGameAction());
+                    }
+                }
+            };
+
+
             ServerServiceProvider.Init(gameSimulator, clientMessager, logger, serverController);
 
             abortEvent.Reset();
-
-            new Task(Test).Start();
 
             ServerServiceProvider.Start();
             ServerServiceProvider.ClientMessager.StartSocket(4263);
@@ -44,14 +55,6 @@
 
             ServerServiceProvider.ClientMessager.StopSocket();
             ServerServiceProvider.Stop();
-        }
-
-        /// <summary>
-        /// TODO: Documentation
-        /// </summary>
-        private static void Test()
-        {
-            ServerServiceProvider.ServerController.EnqueueAction(new StartGameAction());
         }
     }
 }

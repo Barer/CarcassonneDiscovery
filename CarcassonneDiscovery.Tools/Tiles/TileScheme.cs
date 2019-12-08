@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Xml.Serialization;
     using CarcassonneDiscovery.Entity;
 
     /// <summary>
@@ -85,7 +84,7 @@
         /// <param name="id">Id of the region.</param>
         protected void RegionIdRangeCheck(int id)
         {
-            if (id < 0 || id >= CityAmount)
+            if (id < 0 || id >= RegionAmount)
             {
                 throw new ArgumentOutOfRangeException("Invalid identifier of region.");
             }

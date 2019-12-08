@@ -81,5 +81,63 @@
         /// </summary>
         public string[] PlayerNames { get; set; } = null;
         #endregion
+
+
+        #region Serialization settings
+        public bool ShouldSerializeColor()
+        {
+            return Color.HasValue;
+        }
+
+        public bool ShouldSerializeTile()
+        {
+            return Tile != null;
+        }
+
+        public bool ShouldSerializeCoords()
+        {
+            return Coords.HasValue;
+        }
+
+        public bool ShouldSerializeOrientation()
+        {
+            return Orientation.HasValue;
+        }
+
+        public bool ShouldSerializeRegionId()
+        {
+            return RegionId.HasValue;
+        }
+
+        public bool ShouldSerializeScore()
+        {
+            return Score.HasValue;
+        }
+
+        public bool ShouldSerializePlayerAmount()
+        {
+            return PlayerAmount.HasValue;
+        }
+
+        public bool ShouldSerializeFollowerAmount()
+        {
+            return FollowerAmount.HasValue;
+        }
+
+        public bool ShouldSerializePlayerOrder()
+        {
+            return PlayerOrder != null;
+        }
+
+        public bool ShouldSerializeTileSetName()
+        {
+            return TileSetName != null;
+        }
+
+        public bool ShouldSerializePlayerNames()
+        {
+            return PlayerNames != null;
+        }
+        #endregion
     }
 }

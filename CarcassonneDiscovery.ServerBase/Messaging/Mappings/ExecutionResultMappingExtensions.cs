@@ -81,7 +81,7 @@
         {
             return new ServerResponse
             {
-                Type = ServerResponseType.PlaceFollower,
+                Type = ServerResponseType.StartMove,
                 RuleViolation = result.RuleViolationType,
                 Tile = new Tile(result.Tile),
                 Color = result.Color

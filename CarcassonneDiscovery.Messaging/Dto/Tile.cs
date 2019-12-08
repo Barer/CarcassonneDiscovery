@@ -26,7 +26,7 @@
         /// <param name="scheme">Scheme of the tile.</param>
         public Tile(ITileScheme scheme)
         {
-            Scheme = scheme.Copy();
+            Scheme = scheme?.Copy();
         }
     }
 }

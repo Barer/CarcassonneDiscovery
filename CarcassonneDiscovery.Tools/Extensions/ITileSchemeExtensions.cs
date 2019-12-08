@@ -85,7 +85,7 @@
                 }
             };
 
-            for (int rId = 0; rId < result.CityAmount; rId++)
+            for (int rId = 0; rId < result.RegionAmount; rId++)
             {
                 result.Regions[rId] = new RegionInfo
                 {

@@ -42,7 +42,9 @@
             Executor = new GameExecutor();
             GameState = new GameState();
 
-            // TEMP:
+            // TODO: proper values
+            GameState.Params.FollowerAmount = 4;
+            GameState.Params.TileSetParams.Name = "Standard";
             GameState.Params.TileSetParams.TileSupplierBuilder = new Func<ITileSupplier>(() => new StandardTileSetSupplier());
         }
 
@@ -122,6 +124,11 @@
                 Color = color
             };
         }
+
+        /// <summary>
+        /// Number of players in the game.
+        /// </summary>
+        public int PlayerCount => Players?.Count ?? 0;
         #endregion
 
         #region Change game parameters
@@ -147,6 +154,7 @@
             var playerOrder = Players.Keys.OrderBy(x => rnd.Next()).ToArray();
 
             GameState.Params.PlayerOrder = playerOrder;
+            GameState.Params.PlayerAmount = playerOrder.Length;
 
             var result = Executor.TryStartGame(GameState);
 

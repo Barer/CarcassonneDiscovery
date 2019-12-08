@@ -1,10 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Messaging
 {
-    using System;
-    using System.IO;
     using System.Net.Sockets;
-    using System.Text;
-    using System.Threading;
 
     /// <summary>
     /// Socket on the server side handling communication with single client.
@@ -21,66 +17,6 @@
         }
 
         /// <inheritdoc />
-        protected override void ListeningLoop()
-        {
-            const int BUFFER_SIZE = 4096;
-            char[] DELIM = new char[] { '$' };
-
-            StringBuilder backBuffer = new StringBuilder();
-            byte[] buffer = new byte[BUFFER_SIZE];
-
-            int received = -1;
-
-            try
-            {
-                while (true)
-                {
-                    try
-                    {
-                        received = Socket.Receive(buffer);
-                    }
-                    catch (SocketException)
-                    {
-                        Stop();
-                        break;
-                    }
-
-                    backBuffer.Append(Encoding.UTF8.GetString(buffer, 0, received));
-
-                    if (received == BUFFER_SIZE)
-                    {
-                        continue;
-                    }
-
-                    string[] msgStr = backBuffer.ToString().Split(DELIM, StringSplitOptions.RemoveEmptyEntries);
-                    backBuffer = new StringBuilder();
-
-                    foreach (string s in msgStr)
-                    {
-                        StringReader msgReader = new StringReader(s);
-                        ClientRequest msg = null;
-
-                        try
-                        {
-                            msg = (ClientRequest)ReceiveMsgSerializer.Deserialize(msgReader);
-                        }
-                        catch (Exception)
-                        {
-                            continue;
-                        }
-
-                        EnqueueMessage(msg);
-
-                        MessageReceivedInvoke();
-                    }
-                }
-            }
-            catch (ThreadAbortException)
-            {
-            }
-        }
-
-        /// <inheritdoc />
         protected override void StartSocket()
         {
             // Nothing to be done, socket has been already started
@@ -92,6 +28,7 @@
             try
             {
                 // TODO: Send disconnect message
+                // TODO: Maybe move to common base class
             }
             catch
             {
