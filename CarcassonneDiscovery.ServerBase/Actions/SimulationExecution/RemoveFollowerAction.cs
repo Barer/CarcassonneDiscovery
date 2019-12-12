@@ -24,7 +24,7 @@
         /// <inheritdoc />
         public override void Execute()
         {
-            var result = ServerServiceProvider.GameSimulator.RemoveFollower(Request.Color, Request.Coords);
+            var result = ServerServiceProvider.GameSimulator.RemoveFollower(Request);
 
             var response = new RemoveFollowerResponse(result.ExecutionResult, result.ExitCode).ToServerResponse();
 

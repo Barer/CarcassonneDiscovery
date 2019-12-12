@@ -419,16 +419,16 @@
                 switch (Orientation)
                 {
                     case TileOrientation.N:
-                        orientation = 0;
+                        orientation = 4;
                         break;
                     case TileOrientation.E:
-                        orientation = 1;
+                        orientation = 3;
                         break;
                     case TileOrientation.S:
                         orientation = 2;
                         break;
                     case TileOrientation.W:
-                        orientation = 3;
+                        orientation = 1;
                         break;
                 }
 
@@ -512,7 +512,7 @@
                     // Draw it on correct position
                     int position = (int)data.CityRegionData.Where(t => ((t.Item1 == region1 && t.Item2 == region2) || (t.Item2 == region1 && t.Item1 == region1))).First().Item3;
 
-                    switch (((position + orientation) & 0b11) | (position & 0b1100))
+                    switch (((position + 4 - orientation) & 0b11) | (position & 0b1100))
                     {
                         case 0:
                             CityShapes.Add(City_NE);
@@ -603,7 +603,24 @@
         {
             int p = (int)LAYOUT_DATA[Scheme.Id].FollowerPositions[regionId];
 
-            var position = FOLLOWER_POSITION[(p & 0b1100) | ((p + (int)Orientation) & 0b11)];
+            int orientation = 0;
+            switch (Orientation)
+            {
+                case TileOrientation.N:
+                    orientation = 0;
+                    break;
+                case TileOrientation.E:
+                    orientation = 1;
+                    break;
+                case TileOrientation.S:
+                    orientation = 2;
+                    break;
+                case TileOrientation.W:
+                    orientation = 3;
+                    break;
+            }
+
+            var position = FOLLOWER_POSITION[(p & 0b1100) | ((p + orientation) & 0b11)];
 
             App.Current.Dispatcher.Invoke(new Action(() =>
             {

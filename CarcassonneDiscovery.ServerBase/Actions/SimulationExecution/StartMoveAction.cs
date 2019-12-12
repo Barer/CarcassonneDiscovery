@@ -25,7 +25,6 @@
             if (result.ExitCode == ExitCode.Ok)
             {
                 ServerServiceProvider.ClientMessager.SendToAll(response);
-                ServerServiceProvider.ServerController.EnqueueAction(new StartMoveAction());
             }
         }
     }

@@ -139,7 +139,7 @@
                 return new StartGameResponse(result, ExitCode.Ok, playerOrder.Select(c => Players[c]).ToArray());
             }
 
-            return new StartGameResponse(result, ExitCode.RuleViolationError, null);
+            return new StartGameResponse(result, ExitCode.Error, null);
         }
 
         /// <summary>
@@ -162,20 +162,17 @@
         /// <summary>
         /// Places a tile.
         /// </summary>
-        /// <param name="color">Color of player making the move.</param>
-        /// <param name="tile">Tile to be placed.</param>
-        /// <param name="coords">Coordinates of the tile.</param>
-        /// <param name="orientation">Orientation of the tile.</param>
+        /// <param name="request">Execution request.</param>
         /// <returns>Request result.</returns>
-        public PlaceTileResponse PlaceTile(PlayerColor color, ITileScheme tile, Coords coords, TileOrientation orientation)
+        public PlaceTileResponse PlaceTile(PlaceTileExecutionRequest request)
         {
             if (SimulationState != SimulationWorkflow.InGame)
             {
                 return new PlaceTileResponse(null, ExitCode.InvalidTimeError);
             }
 
-            var result = Executor.TryPlaceTile(GameState, color, tile, coords, orientation);
-            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.Error;
+            var result = Executor.TryPlaceTile(GameState, request.Color, request.Tile, request.Coords, request.Orientation);
+            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.RuleViolationError;
 
             return new PlaceTileResponse(result, exitCode);
         }
@@ -183,19 +180,17 @@
         /// <summary>
         /// Places a follower.
         /// </summary>
-        /// <param name="color">Color of player making the move.</param>
-        /// <param name="coords">Coordinates of the follower.</param>
-        /// <param name="regionId">Identifier of region for the follower placement.</param>
+        /// <param name="request">Execution request.</param>
         /// <returns>Request result.</returns>
-        public PlaceFollowerResponse PlaceFollower(PlayerColor color, Coords coords, int regionId)
+        public PlaceFollowerResponse PlaceFollower(PlaceFollowerExecutionRequest request)
         {
             if (SimulationState != SimulationWorkflow.InGame)
             {
                 return new PlaceFollowerResponse(null, ExitCode.InvalidTimeError);
             }
 
-            var result = Executor.TryPlaceFollower(GameState, color, coords, regionId);
-            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.Error;
+            var result = Executor.TryPlaceFollower(GameState, request.Color, request.Coords, request.RegionId);
+            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.RuleViolationError;
 
             return new PlaceFollowerResponse(result, exitCode);
         }
@@ -203,18 +198,17 @@
         /// <summary>
         /// Removes a follower.
         /// </summary>
-        /// <param name="color">Color of player making the move.</param>
-        /// <param name="coords">Coordinates of the follower.</param>
+        /// <param name="request">Execution request.</param>
         /// <returns>Request result.</returns>
-        public RemoveFollowerResponse RemoveFollower(PlayerColor color, Coords coords)
+        public RemoveFollowerResponse RemoveFollower(RemoveFollowerExecutionRequest request)
         {
             if (SimulationState != SimulationWorkflow.InGame)
             {
                 return new RemoveFollowerResponse(null, ExitCode.InvalidTimeError);
             }
 
-            var result = Executor.TryRemoveFollower(GameState, color, coords);
-            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.Error;
+            var result = Executor.TryRemoveFollower(GameState, request.Color, request.Coords);
+            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.RuleViolationError;
 
             return new RemoveFollowerResponse(result, exitCode);
         }
@@ -222,17 +216,17 @@
         /// <summary>
         /// Passes the move.
         /// </summary>
-        /// <param name="color">Color of player making the move.</param>
+        /// <param name="request">Execution request.</param>
         /// <returns>Request result.</returns>
-        public PassMoveResponse PassMove(PlayerColor color)
+        public PassMoveResponse PassMove(PassMoveExecutionRequest request)
         {
             if (SimulationState != SimulationWorkflow.InGame)
             {
                 return new PassMoveResponse(null, ExitCode.InvalidTimeError);
             }
 
-            var result = Executor.TryPassMove(GameState, color);
-            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.Error;
+            var result = Executor.TryPassMove(GameState, request.Color);
+            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.RuleViolationError;
 
             return new PassMoveResponse(result, exitCode);
         }

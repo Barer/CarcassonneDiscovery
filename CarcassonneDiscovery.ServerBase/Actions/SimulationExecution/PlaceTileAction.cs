@@ -24,7 +24,7 @@
         /// <inheritdoc />
         public override void Execute()
         {
-            var result = ServerServiceProvider.GameSimulator.PlaceTile(Request.Color, Request.Tile, Request.Coords, Request.Orientation);
+            var result = ServerServiceProvider.GameSimulator.PlaceTile(Request);
 
             var response = new PlaceTileResponse(result.ExecutionResult, result.ExitCode).ToServerResponse();
 

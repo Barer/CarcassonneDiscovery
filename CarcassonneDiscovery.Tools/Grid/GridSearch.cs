@@ -229,6 +229,7 @@
         {
             var result = new GridSearchResult
             {
+                RegionInformation = new Dictionary<Coords, RegionSearchInfo>(),
                 IsClosed = true,
                 IsOccupied = false,
             };

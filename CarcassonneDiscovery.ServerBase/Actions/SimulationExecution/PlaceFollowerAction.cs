@@ -24,7 +24,7 @@
         /// <inheritdoc />
         public override void Execute()
         {
-            var result = ServerServiceProvider.GameSimulator.PlaceFollower(Request.Color, Request.Coords, Request.RegionId);
+            var result = ServerServiceProvider.GameSimulator.PlaceFollower(Request);
 
             var response = new PlaceFollowerResponse(result.ExecutionResult, result.ExitCode).ToServerResponse();
 

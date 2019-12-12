@@ -24,7 +24,7 @@
         /// <inheritdoc />
         public override void Execute()
         {
-            var result = ServerServiceProvider.GameSimulator.PassMove(Request.Color);
+            var result = ServerServiceProvider.GameSimulator.PassMove(Request);
 
             var response = new PassMoveResponse(result.ExecutionResult, result.ExitCode).ToServerResponse();
 
