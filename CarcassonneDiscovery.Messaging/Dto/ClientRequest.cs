@@ -43,31 +43,55 @@
         public string Name { get; set; }
 
         #region Serialization settings
+        /// <summary>
+        /// Should the <see cref="Color"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeColor()
         {
             return Color.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="Tile"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeTile()
         {
             return Tile != null;
         }
 
+        /// <summary>
+        /// Should the <see cref="Coords"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeCoords()
         {
             return Coords.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="Orientation"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeOrientation()
         {
             return Orientation.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="RegionId"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeRegionId()
         {
             return RegionId.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="Name"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeName()
         {
             return Name != null;

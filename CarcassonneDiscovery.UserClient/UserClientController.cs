@@ -138,32 +138,20 @@
 
                 switch (msg.Type)
                 {
-                    /*
-                    case ServerResponseType.EXECUTION_REQUEST_RESULT:
-                        if (CurrentState == ClientState.GAME_IN_PLAY)
+                    case ServerResponseType.AddPlayer:
+                        var addPlayerResponse = new AddPlayerResponse(msg);
+                        if (addPlayerResponse.ExitCode == ExitCode.Ok)
                         {
-                            _GameBoardWindow.ResolveGameEventMessage(msg);
-                        }
-                        else if (CurrentState == ClientState.BEFORE_SIGNING && msg.Request != null && msg.Request.Type == PlayerRequestType.CONNECT)
-                        {
-                            if (msg.ExecutionResult == GameExecutionResult.OK)
-                            {
-                                _WaitingLobbyWindow.SetPlayerRegisteringEnabled(false);
-                                CurrentState = ClientState.WAITING_FOR_START;
-                                _GameBoardWindow.PlayerColor = msg.Request.Color;
-                            }
-                            else
-                            {
-                                MessageBox.Show(MsgLocalization[msg.ExecutionResult]);
-                            }
+                            _WaitingLobbyWindow.SetPlayerRegisteringEnabled(false);
+                            CurrentState = ClientState.WAITING_FOR_START;
+                            _GameBoardWindow.PlayerColor = addPlayerResponse.Color;
                         }
                         else
                         {
-                            throw new Exception("Received unexpected message.");
+                            // TODO: Exit code localization
+                            MessageBox.Show("Cannot connect as player.");
                         }
-
                         break;
-                        */
 
                     case ServerResponseType.StartGame:
                         CurrentState = ClientState.GAME_IN_PLAY;

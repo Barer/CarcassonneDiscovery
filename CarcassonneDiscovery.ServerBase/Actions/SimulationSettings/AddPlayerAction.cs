@@ -1,6 +1,7 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
     using CarcassonneDiscovery.Entity;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Add player action.
@@ -25,10 +26,12 @@
         /// <summary>
         /// Default constructor.
         /// </summary>
+        /// <param name="clientId">Id of client.</param>
         /// <param name="color">Color of the player.</param>
         /// <param name="name">Name of the player.</param>
-        public AddPlayerAction(PlayerColor color, string name)
+        public AddPlayerAction(string clientId, PlayerColor color, string name)
         {
+            ClientId = clientId;
             Color = color;
             Name = name;
         }
@@ -38,22 +41,19 @@
         {
             var result = ServerServiceProvider.GameSimulator.AddPlayer(Color, Name);
 
-            switch (result.ExitCode)
+            var response = new AddPlayerResponse(result.ExitCode, Color, Name).ToServerResponse();
+
+            if (result.ExitCode == ExitCode.Ok)
             {
-                case AddPlayerRequestExitCode.Ok: // TODO - send response
-                    ServerServiceProvider.ClientMessager.AddPlayer(Color, ClientId);
-                    ServerServiceProvider.Logger.Log($"Added player: {Name}: {Color}", LogLevel.Normal, LogType.Messaging);                    
-                    break;
+                ServerServiceProvider.ClientMessager.AddPlayer(Color, ClientId);
 
-                case AddPlayerRequestExitCode.WrongSimulationState: // TODO - send response
-                    ServerServiceProvider.Logger.Log("Add player failed: WrongSimulationState", LogLevel.Normal, LogType.Messaging);
-                    break;
-
-                case AddPlayerRequestExitCode.ColorAlreadyAdded:
-                case AddPlayerRequestExitCode.InvalidColor:
-                case AddPlayerRequestExitCode.TooManyPlayers: // TODO - send response
-                    ServerServiceProvider.Logger.Log($"Add player failed: {result.ExitCode}", LogLevel.Normal, LogType.Messaging);
-                    break;
+                ServerServiceProvider.Logger.Log($"Added player: {Name}: {Color}", LogLevel.Normal, LogType.Messaging);
+                ServerServiceProvider.ClientMessager.SendToClient(ClientId, response);
+            }
+            else
+            {
+                ServerServiceProvider.Logger.LogExitCode(result.ExitCode, "AddPlayer", LogType.Messaging);
+                ServerServiceProvider.ClientMessager.SendToClient(ClientId, response);
             }
         }
     }

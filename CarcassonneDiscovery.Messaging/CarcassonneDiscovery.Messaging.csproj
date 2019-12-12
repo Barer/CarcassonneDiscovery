@@ -40,18 +40,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dto\ClientRequest.cs" />
-    <Compile Include="Dto\ServerResponse.cs" />
-    <Compile Include="Dto\ClientRequestType.cs" />
-    <Compile Include="Dto\ServerResponseType.cs" />
-    <Compile Include="Dto\Tile.cs" />
+    <Compile Include="DTO\ClientRequest.cs" />
+    <Compile Include="DTO\ExitCode.cs" />
+    <Compile Include="DTO\ServerResponse.cs" />
+    <Compile Include="DTO\ClientRequestType.cs" />
+    <Compile Include="DTO\ServerResponseType.cs" />
+    <Compile Include="DTO\Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Request\IRequest.cs" />
+    <Compile Include="Request\GameExecution\PassMoveExecutionRequest.cs" />
+    <Compile Include="Request\GameExecution\PlaceFollowerExecutionRequest.cs" />
+    <Compile Include="Request\GameExecution\PlaceTileExecutionRequest.cs" />
+    <Compile Include="Request\GameExecution\RemoveFollowerExecutionRequest.cs" />
+    <Compile Include="Response\GameExecution\EndGameResponse.cs" />
+    <Compile Include="Response\GameExecution\GameExecutionResponseBase.cs" />
+    <Compile Include="Response\GameExecution\PassMoveResponse.cs" />
+    <Compile Include="Response\GameExecution\PlaceFollowerResponse.cs" />
+    <Compile Include="Response\GameExecution\PlaceTileResponse.cs" />
+    <Compile Include="Response\GameExecution\RemoveFollowerResponse.cs" />
+    <Compile Include="Response\GameSettings\RemovePlayerResponse.cs" />
+    <Compile Include="Response\GameExecution\StartGameResponse.cs" />
+    <Compile Include="Response\GameExecution\StartMoveResponse.cs" />
+    <Compile Include="Response\GameSettings\AddPlayerResponse.cs" />
+    <Compile Include="Response\IResponse.cs" />
     <Compile Include="Socketing\ClientHandlerSocket.cs" />
     <Compile Include="Socketing\MessageSocket.cs" />
     <Compile Include="Socketing\ClientSocket.cs" />
     <Compile Include="Socketing\ServerSocket.cs" />
+    <Compile Include="ValidationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CarcassonneDiscovery.Entity\CarcassonneDiscovery.Entity.csproj">
@@ -67,6 +85,8 @@
       <Name>CarcassonneDiscovery.Tools</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Request\GameSettings\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,7 +11,7 @@
         /// <summary>
         /// Scheme of the tile.
         /// </summary>
-        public TileScheme Scheme { get; set; }
+        public TileScheme Value { get; set; }
 
         /// <summary>
         /// Empty constructor.
@@ -26,7 +26,7 @@
         /// <param name="scheme">Scheme of the tile.</param>
         public Tile(ITileScheme scheme)
         {
-            Scheme = scheme?.Copy();
+            Value = scheme?.Copy();
         }
     }
 }

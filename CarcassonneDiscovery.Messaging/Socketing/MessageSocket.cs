@@ -28,12 +28,12 @@
         /// <summary>
         /// Serializer of request objects.
         /// </summary>
-        protected static XmlSerializer SendMsgSerializer;
+        protected static XmlSerializer SendMsgSerializer { get; set; }
 
         /// <summary>
         /// Serializer of response objects.
         /// </summary>
-        protected static XmlSerializer ReceiveMsgSerializer;
+        protected static XmlSerializer ReceiveMsgSerializer { get; set; }
         #endregion
 
         /// <summary>
@@ -49,17 +49,17 @@
         /// <summary>
         /// Queue of unhandled responses from server.
         /// </summary>
-        protected Queue<R> ReceivedQueue;
+        protected Queue<R> ReceivedQueue { get; set; }
 
         /// <summary>
         /// Thread that listens to server responses.
         /// </summary>
-        protected Thread ListeningLoopThread;
+        protected Thread ListeningLoopThread { get; set; }
 
         /// <summary>
         /// Actual socket.
         /// </summary>
-        protected Socket Socket;
+        protected Socket Socket { get; set; }
 
         /// <summary>
         /// Default constructor.
@@ -111,15 +111,15 @@
         protected abstract void StopSocket();
 
         /// <summary>
-        /// Loop that serves as listener to the server responses.
+        /// Loop that serves as listener to messages.
         /// </summary>
         protected void ListeningLoop()
         {
-            const int BUFFER_SIZE = 4096;
-            var DELIM = new char[] { '$' };
+            int bufferSize = 4096;
+            var delimiter = new char[] { '$' };
 
             var backBuffer = new StringBuilder();
-            var buffer = new byte[BUFFER_SIZE];
+            var buffer = new byte[bufferSize];
 
             int received;
 
@@ -140,12 +140,12 @@
 
                     backBuffer.Append(Encoding.UTF8.GetString(buffer, 0, received));
 
-                    if (received == BUFFER_SIZE)
+                    if (received == bufferSize)
                     {
                         continue;
                     }
 
-                    string[] msgStr = backBuffer.ToString().Split(DELIM, StringSplitOptions.RemoveEmptyEntries);
+                    string[] msgStr = backBuffer.ToString().Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
                     backBuffer = new StringBuilder();
 
                     foreach (string s in msgStr)
@@ -185,8 +185,6 @@
 
                 SendMsgSerializer.Serialize(msgWriter, msg);
                 msgWriter.Write('$');
-                //TEMP
-                Console.WriteLine(msgWriter.ToString());
 
                 try
                 {

@@ -41,5 +41,17 @@
         /// </summary>
         EndGame,
         #endregion
+
+        #region Game settings
+        /// <summary>
+        /// Adding player in game.
+        /// </summary>
+        AddPlayer,
+
+        /// <summary>
+        /// Removing player in game.
+        /// </summary>
+        RemovePlayer
+        #endregion
     }
 }

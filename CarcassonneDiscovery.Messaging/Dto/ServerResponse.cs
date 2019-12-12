@@ -13,6 +13,11 @@
         /// </summary>
         public ServerResponseType Type { get; set; }
 
+        /// <summary>
+        /// Exit code of the response.
+        /// </summary>
+        public ExitCode ExitCode { get; set; }
+
         #region Game execution
         /// <summary>
         /// Type of rule violation.
@@ -82,58 +87,108 @@
         public string[] PlayerNames { get; set; } = null;
         #endregion
 
+        #region Game settings
+        /// <summary>
+        /// Name of the player.
+        /// </summary>
+        public string Name { get; set; } = null;
+        #endregion
 
         #region Serialization settings
+        /// <summary>
+        /// Should the <see cref="Color"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeColor()
         {
             return Color.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="Tile"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeTile()
         {
             return Tile != null;
         }
 
+        /// <summary>
+        /// Should the <see cref="Coords"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeCoords()
         {
             return Coords.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="Orientation"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeOrientation()
         {
             return Orientation.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="RegionId"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeRegionId()
         {
             return RegionId.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="Score"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeScore()
         {
             return Score.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="PlayerAmount"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializePlayerAmount()
         {
             return PlayerAmount.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="FollowerAmount"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeFollowerAmount()
         {
             return FollowerAmount.HasValue;
         }
 
+        /// <summary>
+        /// Should the <see cref="PlayerOrder"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializePlayerOrder()
         {
             return PlayerOrder != null;
         }
 
+        /// <summary>
+        /// Should the <see cref="TileSetName"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializeTileSetName()
         {
             return TileSetName != null;
         }
 
+        /// <summary>
+        /// Should the <see cref="PlayerNames"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializePlayerNames()
         {
             return PlayerNames != null;

@@ -1,6 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
-    using CarcassonneDiscovery.Logic;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Start move action.
@@ -12,28 +12,20 @@
         {
             var result = ServerServiceProvider.GameSimulator.StartMove();
 
-            switch (result.ExitCode)
+            var response = new StartMoveResponse(result.ExecutionResult, result.ExitCode).ToServerResponse();
+
+            if (result.ExitCode == ExitCode.RuleViolationError && result.ExecutionResult.RuleViolationType == Logic.RuleViolationType.NoTileRemaining)
             {
-                case GameExecutionRequestExitCode.Ok:
-                    ServerServiceProvider.Logger.Log("Move started.", LogLevel.Normal, LogType.SimulationExecution);
-                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult.ToServerResponse());
-                    break;
+                ServerServiceProvider.ServerController.EnqueueActionAsFirst(new EndGameAction());
+                return;
+            }
 
-                case GameExecutionRequestExitCode.WrongSimulationState:
-                    ServerServiceProvider.Logger.Log("WrongSimulationState.", LogLevel.ProgramError, LogType.SimulationExecutionError);
-                    break;
+            ServerServiceProvider.Logger.LogGameExecution(result.ExitCode, result.ExecutionResult);
 
-                case GameExecutionRequestExitCode.Error:
-                    if (result.ExecutionResult.RuleViolationType == RuleViolationType.NoTileRemaining)
-                    {
-                        ServerServiceProvider.ServerController.EnqueueActionAsFirst(new EndGameAction());
-                    }
-                    else
-                    {
-                        ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.ProgramError, LogType.SimulationExecutionError);
-                    }
-
-                    break;
+            if (result.ExitCode == ExitCode.Ok)
+            {
+                ServerServiceProvider.ClientMessager.SendToAll(response);
+                ServerServiceProvider.ServerController.EnqueueAction(new StartMoveAction());
             }
         }
     }

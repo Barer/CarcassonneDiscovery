@@ -40,11 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExecutionRequest\GameExecutionRequest.cs" />
-    <Compile Include="ExecutionRequest\PassMoveExecutionRequest.cs" />
-    <Compile Include="ExecutionRequest\PlaceFollowerExecutionRequest.cs" />
-    <Compile Include="ExecutionRequest\PlaceTileExecutionRequest.cs" />
-    <Compile Include="ExecutionRequest\RemoveFollowerExecutionRequest.cs" />
     <Compile Include="ExecutionResult\EndGameExecutionResult.cs" />
     <Compile Include="ExecutionResult\GameExecutionResult.cs" />
     <Compile Include="ExecutionResult\PassMoveExecutionResult.cs" />

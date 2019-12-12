@@ -1,6 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
-    using CarcassonneDiscovery.Logic;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Remove follower action.
@@ -26,22 +26,18 @@
         {
             var result = ServerServiceProvider.GameSimulator.RemoveFollower(Request.Color, Request.Coords);
 
-            switch (result.ExitCode)
+            var response = new RemoveFollowerResponse(result.ExecutionResult, result.ExitCode).ToServerResponse();
+
+            ServerServiceProvider.Logger.LogGameExecution(result.ExitCode, result.ExecutionResult);
+            
+            if (result.ExitCode == ExitCode.Ok)
             {
-                case GameExecutionRequestExitCode.Ok:
-                    ServerServiceProvider.Logger.Log("Tile placed.", LogLevel.Normal, LogType.SimulationExecution);
-                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult.ToServerResponse());
-                    new StartMoveAction().Execute();
-                    break;
-
-                case GameExecutionRequestExitCode.WrongSimulationState:
-                    ServerServiceProvider.Logger.Log("WrongSimulationState.", LogLevel.ProgramError, LogType.SimulationExecutionError);
-                    break;
-
-                case GameExecutionRequestExitCode.Error:
-                    ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.Warning, LogType.SimulationExecutionError);
-                    ServerServiceProvider.ClientMessager.SendToPlayer(Request.Color, result.ExecutionResult.ToServerResponse());
-                    break;
+                ServerServiceProvider.ClientMessager.SendToAll(response);
+                ServerServiceProvider.ServerController.EnqueueAction(new StartMoveAction());
+            }
+            else
+            {
+                ServerServiceProvider.ClientMessager.SendToPlayer(Request.Color, response);
             }
         }
     }

@@ -1,5 +1,7 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
+    using CarcassonneDiscovery.Messaging;
+
     /// <summary>
     /// Start game action.
     /// </summary>
@@ -10,23 +12,13 @@
         {
             var result = ServerServiceProvider.GameSimulator.StartGame();
 
-            switch (result.ExitCode)
+            ServerServiceProvider.Logger.LogGameExecution(result.ExitCode, result.ExecutionResult);
+
+            if (result.ExitCode == ExitCode.Ok)
             {
-                case GameExecutionRequestExitCode.Ok:
-                    ServerServiceProvider.Logger.Log("Game started.", LogLevel.Normal, LogType.SimulationExecution);
-                    var response = result.ExecutionResult.ToServerResponse();
-                    response.PlayerNames = result.PlayerNames;
-                    ServerServiceProvider.ClientMessager.SendToAll(response);
-                    new StartMoveAction().Execute();
-                    break;
-
-                case GameExecutionRequestExitCode.WrongSimulationState:
-                    ServerServiceProvider.Logger.Log("WrongSimulationState.", LogLevel.ProgramError, LogType.SimulationExecutionError);
-                    break;
-
-                case GameExecutionRequestExitCode.Error:
-                    ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.ProgramError, LogType.SimulationExecutionError);
-                    break;
+                var response = new StartGameResponse(result.ExecutionResult, ExitCode.Ok, result.PlayerNames).ToServerResponse();
+                ServerServiceProvider.ClientMessager.SendToAll(response);
+                ServerServiceProvider.ServerController.EnqueueAction(new StartMoveAction());
             }
         }
     }

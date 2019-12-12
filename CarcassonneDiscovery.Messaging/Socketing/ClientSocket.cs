@@ -41,6 +41,7 @@
         /// <inheritdoc />
         protected override void StopSocket()
         {
+            /*
             try
             {
                 // TODO: Send disconnect message
@@ -49,6 +50,7 @@
             catch
             {
             }
+            */
 
             if (Socket != null)
             {

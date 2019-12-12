@@ -8,10 +8,10 @@
     /// </summary>
     public class RemoteClientHandler : IClientHandler
     {
-        /// <iheritdoc />
+        /// <inheritdoc />
         public event Action<ClientRequest> MessageReceived = (cr) => { };
 
-        /// <iheritdoc />
+        /// <inheritdoc />
         public string Id { get; protected set; }
 
         /// <summary>
@@ -23,21 +23,23 @@
         /// Default constructor.
         /// </summary>
         /// <param name="socket">Socket to client.</param>
-        public RemoteClientHandler(ClientHandlerSocket socket)
+        /// <param name="id">Id of the client.</param>
+        public RemoteClientHandler(ClientHandlerSocket socket, string id)
         {
+            Id = id;
             Socket = socket;
             Socket.MessageReceived += OnMessageReceived;
             OnMessageReceived();
         }
 
-        /// <iheritdoc />
+        /// <inheritdoc />
         public void Disconnect()
         {
             Socket.Stop();
             ServerServiceProvider.Logger.Log("Client was disconnected from the server.", LogLevel.Normal, LogType.Messaging);
         }
 
-        /// <iheritdoc />
+        /// <inheritdoc />
         public void SendMessage(ServerResponse msg)
         {
             Socket.SendMessage(msg);
@@ -45,7 +47,7 @@
         }
 
         /// <summary>
-        /// When a message is recevied, enqueues it in the action queue.
+        /// When a message is received, enqueues it in the action queue.
         /// </summary>
         public void OnMessageReceived()
         {
@@ -54,7 +56,9 @@
                 var msg = Socket.GetNextMessage();
 
                 if (msg == null)
+                {
                     break;
+                }
 
                 ServerServiceProvider.ServerController.EnqueueAction(new MessageReceivedAction(Id, msg));
             }

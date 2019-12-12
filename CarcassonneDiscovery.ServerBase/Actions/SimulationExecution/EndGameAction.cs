@@ -1,5 +1,7 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
+    using CarcassonneDiscovery.Messaging;
+
     /// <summary>
     /// End game action.
     /// </summary>
@@ -10,21 +12,12 @@
         {
             var result = ServerServiceProvider.GameSimulator.EndGame();
 
-            switch (result.ExitCode)
+            ServerServiceProvider.Logger.LogGameExecution(result.ExitCode, result.ExecutionResult);
+
+            if (result.ExitCode == ExitCode.Ok)
             {
-                case GameExecutionRequestExitCode.Ok:
-                    ServerServiceProvider.Logger.Log("Game ended.", LogLevel.Normal, LogType.SimulationExecution);
-                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult.ToServerResponse());
-                    new StartMoveAction().Execute();
-                    break;
-
-                case GameExecutionRequestExitCode.WrongSimulationState:
-                    ServerServiceProvider.Logger.Log("WrongSimulationState.", LogLevel.ProgramError, LogType.SimulationExecutionError);
-                    break;
-
-                case GameExecutionRequestExitCode.Error:
-                    ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.ProgramError, LogType.SimulationExecutionError);
-                    break;
+                var response = new EndGameResponse(result.ExecutionResult, ExitCode.Ok).ToServerResponse();
+                ServerServiceProvider.ClientMessager.SendToAll(response);
             }
         }
     }

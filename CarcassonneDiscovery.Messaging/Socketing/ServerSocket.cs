@@ -19,6 +19,7 @@
         /// Event when client has disconnected from the server.
         /// </summary>
         public event Action<ClientHandlerSocket> ClientDisconnected = (chs) => { };
+
         /// <summary>
         /// Port of the socket.
         /// </summary>
@@ -27,12 +28,12 @@
         /// <summary>
         /// Thread that listens to server responses.
         /// </summary>
-        protected Thread ListeningLoopThread;
+        protected Thread ListeningLoopThread { get; set; }
 
         /// <summary>
         /// Actual socket.
         /// </summary>
-        protected Socket Socket;
+        protected Socket Socket { get; set; }
 
         /// <summary>
         /// Starts connection and listening to the server.
@@ -68,7 +69,9 @@
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Loop that serves as listener to the server responses.
+        /// </summary>
         protected void ListeningLoop()
         {
             try

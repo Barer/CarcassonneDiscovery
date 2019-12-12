@@ -39,7 +39,7 @@
                 lock (Clients)
                 {
                     var clientId = Guid.NewGuid().ToString();
-                    var rch = new RemoteClientHandler(chs);
+                    var rch = new RemoteClientHandler(chs, clientId);
                     Clients.Add(clientId, rch);
 
                     ServerServiceProvider.Logger.Log($"New client connected: {clientId}", LogLevel.Normal, LogType.Messaging);

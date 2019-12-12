@@ -1,6 +1,6 @@
 ﻿namespace CarcassonneDiscovery.Server
 {
-    using CarcassonneDiscovery.Logic;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Place tile action.
@@ -26,21 +26,17 @@
         {
             var result = ServerServiceProvider.GameSimulator.PlaceTile(Request.Color, Request.Tile, Request.Coords, Request.Orientation);
 
-            switch (result.ExitCode)
+            var response = new PlaceTileResponse(result.ExecutionResult, result.ExitCode).ToServerResponse();
+
+            ServerServiceProvider.Logger.LogGameExecution(result.ExitCode, result.ExecutionResult);
+
+            if (result.ExitCode == ExitCode.Ok)
             {
-                case GameExecutionRequestExitCode.Ok:
-                    ServerServiceProvider.Logger.Log("Tile placed.", LogLevel.Normal, LogType.SimulationExecution);
-                    ServerServiceProvider.ClientMessager.SendToAll(result.ExecutionResult.ToServerResponse());
-                    break;
-
-                case GameExecutionRequestExitCode.WrongSimulationState:
-                    ServerServiceProvider.Logger.Log("WrongSimulationState.", LogLevel.ProgramError, LogType.SimulationExecutionError);
-                    break;
-
-                case GameExecutionRequestExitCode.Error:
-                    ServerServiceProvider.Logger.Log($"Error: {result.ExecutionResult.RuleViolationType}", LogLevel.Warning, LogType.SimulationExecutionError);
-                    ServerServiceProvider.ClientMessager.SendToPlayer(Request.Color, result.ExecutionResult.ToServerResponse());
-                    break;
+                ServerServiceProvider.ClientMessager.SendToAll(response);
+            }
+            else
+            {
+                ServerServiceProvider.ClientMessager.SendToPlayer(Request.Color, response);
             }
         }
     }

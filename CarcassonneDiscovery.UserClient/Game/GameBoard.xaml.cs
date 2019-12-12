@@ -141,57 +141,73 @@
         {
             Dispatcher.Invoke(new Action(() =>
             {
-                lock (PrivateExecutor)
+                if (msg.ExitCode == ExitCode.Ok)
                 {
-                    switch (msg.Type)
+                    lock (PrivateExecutor)
                     {
-                        case ServerResponseType.StartGame:
-                            PrivateExecutor.SetStartGame(GameState, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
-                            PlaceTile(PlayerColor.None, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
-                            break;
+                        switch (msg.Type)
+                        {
+                            case ServerResponseType.StartGame:
+                                var startGameResult = new StartGameResponse(msg).ExecutionResult;
+                                PrivateExecutor.SetStartGame(GameState, startGameResult.FirstTile, startGameResult.FirstTileCoords, startGameResult.FirstTileOrientation);
+                                PlaceTile(PlayerColor.None, startGameResult.FirstTile, startGameResult.FirstTileCoords, startGameResult.FirstTileOrientation);
+                                break;
 
-                        case ServerResponseType.StartMove:
-                            PrivateExecutor.SetStartMove(GameState, msg.Color.Value, msg.Tile.Scheme);
-                            MoveStart(msg.Tile.Scheme, msg.Color.Value);
-                            break;
+                            case ServerResponseType.StartMove:
+                                var startMoveResult = new StartMoveResponse(msg).ExecutionResult;
+                                PrivateExecutor.SetStartMove(GameState, startMoveResult.Color, startMoveResult.Tile);
+                                MoveStart(startMoveResult.Tile, startMoveResult.Color);
+                                break;
 
-                        case ServerResponseType.PlaceTile:
-                            if (msg.Color != PlayerColor.None)
-                            {
-                                PrivateExecutor.SetPlaceTile(GameState, msg.Color.Value, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
-                            }
+                            case ServerResponseType.PlaceTile:
+                                var placeTileResult = new PlaceTileResponse(msg).ExecutionResult;
+                                PrivateExecutor.SetPlaceTile(GameState, placeTileResult.Color, placeTileResult.Tile, placeTileResult.Coords, placeTileResult.Orientation);
+                                PlaceTile(placeTileResult.Color, placeTileResult.Tile, placeTileResult.Coords, placeTileResult.Orientation);
+                                break;
 
-                            PlaceTile(msg.Color.Value, msg.Tile.Scheme, msg.Coords.Value, msg.Orientation.Value);
-                            break;
+                            case ServerResponseType.PlaceFollower:
+                                var placeFollowerResult = new PlaceFollowerResponse(msg).ExecutionResult;
+                                PrivateExecutor.SetPlaceFollower(GameState, placeFollowerResult.Color, placeFollowerResult.Coords, placeFollowerResult.RegionId);
+                                PlaceFollower(placeFollowerResult.Color, placeFollowerResult.Coords, placeFollowerResult.RegionId);
+                                break;
 
-                        case ServerResponseType.PlaceFollower:
-                            PrivateExecutor.SetPlaceFollower(GameState, msg.Color.Value, msg.Coords.Value, msg.RegionId.Value);
-                            PlaceFollower(msg.Color.Value, msg.Coords.Value, msg.RegionId.Value);
-                            break;
+                            case ServerResponseType.RemoveFollower:
+                                var removeFollowerResult = new RemoveFollowerResponse(msg).ExecutionResult;
+                                PrivateExecutor.SetRemoveFollower(GameState, removeFollowerResult.Color, removeFollowerResult.Coords);
+                                RemoveFollower(removeFollowerResult.Color, removeFollowerResult.Coords, removeFollowerResult.Score);
+                                break;
 
-                        case ServerResponseType.RemoveFollower:
-                            PrivateExecutor.SetRemoveFollower(GameState, msg.Color.Value, msg.Coords.Value);
-                            RemoveFollower(msg.Color.Value, msg.Coords.Value, msg.Score.Value);
-                            break;
+                            case ServerResponseType.PassMove:
+                                var passMoveResult = new PassMoveResponse(msg).ExecutionResult;
+                                PrivateExecutor.SetPassMove(GameState, passMoveResult.Color);
+                                PassMove(passMoveResult.Color);
+                                break;
 
-                        case ServerResponseType.PassMove:
-                            PrivateExecutor.SetPassMove(GameState, msg.Color.Value);
-                            PassMove(msg.Color.Value);
-                            break;
+                            case ServerResponseType.EndGame:
+                                var endGameResult = new EndGameResponse(msg).ExecutionResult;
+                                PrivateExecutor.SetEndGame(GameState);
+                                foreach (var frMsg in endGameResult.FollowerRemovements)
+                                {
+                                    RemoveFollower(frMsg.Color, frMsg.Coords, frMsg.Score);
+                                }
+                                GameEnd("Game over.");
+                                break;
 
-                        case ServerResponseType.EndGame:
-                            PrivateExecutor.SetEndGame(GameState);
-                            foreach (var frMsg in msg.FollowerRemovements)
-                            {
-                                RemoveFollower(frMsg.Color.Value, frMsg.Coords.Value, frMsg.Score.Value);
-                            }
-                            GameEnd("Game over.");
-                            break;
+                            default:
+                                throw new Exception($"Got unexpected message: {msg}");
+                        }
 
-                        default:
-                            throw new Exception($"Got unexpected message: {msg}");
                     }
-
+                }
+                else if (msg.ExitCode == ExitCode.RuleViolationError)
+                {
+                    // TODO: Localization
+                    MessageBox.Show(msg.RuleViolation.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    // TODO: Localization
+                    MessageBox.Show("Unexpected: " + msg.ExitCode.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }));
         }

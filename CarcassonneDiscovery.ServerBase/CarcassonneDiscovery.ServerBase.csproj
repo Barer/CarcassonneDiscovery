@@ -55,8 +55,6 @@
     <Compile Include="Logging\LogType.cs" />
     <Compile Include="Messaging\IClientHandler.cs" />
     <Compile Include="Messaging\ClientMessager.cs" />
-    <Compile Include="Messaging\Mappings\ExecutionRequestMappingExtensions.cs" />
-    <Compile Include="Messaging\Mappings\ExecutionResultMappingExtensions.cs" />
     <Compile Include="Messaging\RemoteClientHandler.cs" />
     <Compile Include="ServerController.cs" />
     <Compile Include="ServerServiceProvider.cs" />
@@ -64,20 +62,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Simulation\RequestResult\EndGameRequestResult.cs" />
-    <Compile Include="Simulation\RequestResult\PassMoveRequestResult.cs" />
-    <Compile Include="Simulation\RequestResult\PlaceTileRequestResult.cs" />
-    <Compile Include="Simulation\RequestResult\PlaceFollowerRequestResult.cs" />
-    <Compile Include="Simulation\RequestResult\RemoveFollowerRequestResult.cs" />
-    <Compile Include="Simulation\RequestResult\StartGameRequestResult.cs" />
-    <Compile Include="Simulation\RequestResult\ExitCode\GameExecutionRequestExitCode.cs" />
-    <Compile Include="Simulation\RequestResult\GameExecutionRequestResultBase.cs" />
-    <Compile Include="Simulation\RequestResult\ExitCode\RemovePlayerRequestExitCode.cs" />
-    <Compile Include="Simulation\RequestResult\ExitCode\AddPlayerRequestExitCode.cs" />
-    <Compile Include="Simulation\RequestResult\RemovePlayerRequestResult.cs" />
-    <Compile Include="Simulation\RequestResult\AddPlayerRequestResult.cs" />
-    <Compile Include="Simulation\RequestResult\RequestResultBase.cs" />
-    <Compile Include="Simulation\RequestResult\StartMoveRequestResult.cs" />
     <Compile Include="Simulation\SimulationWorkflow.cs" />
   </ItemGroup>
   <ItemGroup>

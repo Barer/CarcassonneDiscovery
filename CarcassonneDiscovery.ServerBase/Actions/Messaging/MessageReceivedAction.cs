@@ -31,10 +31,13 @@
         /// <inheritdoc />
         public override void Execute()
         {
+            ServerAction action;
+
             switch (Message.Type)
             {
                 case ClientRequestType.JoinAsPlayer:
-                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(new AddPlayerAction(Message.Color.Value, Message.Name));
+                    action = new AddPlayerAction(ClientId, Message.Color.Value, Message.Name); // TODO - by response
+                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(action);
                     break;
 
                 case ClientRequestType.PlaceTile:
@@ -63,19 +66,28 @@
                 return;
             }
 
+            ServerAction action;
+
             switch (Message.Type)
             {
                 case ClientRequestType.PlaceTile:
-                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(new PlaceTileAction(Message.ToPlaceTileExecutionRequest()));
+                    action = new PlaceTileAction(new PlaceTileExecutionRequest(Message));
+                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(action);
                     break;
+
                 case ClientRequestType.PlaceFollower:
-                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(new PlaceFollowerAction(Message.ToPlaceFollowerExecutionRequest()));
+                    action = new PlaceFollowerAction(new PlaceFollowerExecutionRequest(Message));
+                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(action);
                     break;
+
                 case ClientRequestType.RemoveFollower:
-                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(new RemoveFollowerAction(Message.ToRemoveFollowerExecutionRequest()));
+                    action = new RemoveFollowerAction(new RemoveFollowerExecutionRequest(Message));
+                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(action);
                     break;
+
                 case ClientRequestType.PassMove:
-                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(new PassMoveAction(Message.ToPassMoveExecutionRequest()));
+                    action = new PassMoveAction(new PassMoveExecutionRequest(Message));
+                    ServerServiceProvider.ServerController.EnqueueActionAsFirst(action);
                     break;
             }
         }

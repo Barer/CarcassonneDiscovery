@@ -5,6 +5,7 @@
     using System.Linq;
     using CarcassonneDiscovery.Entity;
     using CarcassonneDiscovery.Logic;
+    using CarcassonneDiscovery.Messaging;
     using CarcassonneDiscovery.SimulationLibrary;
 
     /// <summary>
@@ -55,42 +56,28 @@
         /// <param name="color">Color of the player.</param>
         /// <param name="name">Name of the player.</param>
         /// <returns>Request result.</returns>
-        public AddPlayerRequestResult AddPlayer(PlayerColor color, string name)
+        public AddPlayerResponse AddPlayer(PlayerColor color, string name)
         {
             if (SimulationState != SimulationWorkflow.BeforeGame)
             {
-                return new AddPlayerRequestResult
-                {
-                    ExitCode = AddPlayerRequestExitCode.WrongSimulationState
-                };
+                return new AddPlayerResponse(ExitCode.InvalidTimeError);
             }
 
             if (color == PlayerColor.None)
             {
-                return new AddPlayerRequestResult
-                {
-                    ExitCode = AddPlayerRequestExitCode.InvalidColor
-                };
+                return new AddPlayerResponse(ExitCode.InvalidColor);
             }
 
             if (Players.ContainsKey(color))
             {
-                return new AddPlayerRequestResult
-                {
-                    ExitCode = AddPlayerRequestExitCode.ColorAlreadyAdded
-                };
+                return new AddPlayerResponse(ExitCode.ColorAlreadyAdded);
             }
 
             name = name ?? string.Empty;
 
             Players.Add(color, name);
 
-            return new AddPlayerRequestResult
-            {
-                ExitCode = AddPlayerRequestExitCode.Ok,
-                Color = color,
-                Name = name
-            };
+            return new AddPlayerResponse(ExitCode.Ok, color, name);
         }
 
         /// <summary>
@@ -98,31 +85,21 @@
         /// </summary>
         /// <param name="color">Color of the player.</param>
         /// <returns>Request result.</returns>
-        public RemovePlayerRequestResult RemovePlayer(PlayerColor color)
+        public RemovePlayerResponse RemovePlayer(PlayerColor color)
         {
             if (SimulationState != SimulationWorkflow.BeforeGame)
             {
-                return new RemovePlayerRequestResult
-                {
-                    ExitCode = RemovePlayerRequestExitCode.WrongSimulationState
-                };
+                return new RemovePlayerResponse(ExitCode.InvalidTimeError);
             }
 
             if (!Players.ContainsKey(color))
             {
-                return new RemovePlayerRequestResult
-                {
-                    ExitCode = RemovePlayerRequestExitCode.ColorNotAdded
-                };
+                return new RemovePlayerResponse(ExitCode.ColorNotAdded);
             }
 
             Players.Remove(color);
 
-            return new RemovePlayerRequestResult
-            {
-                ExitCode = RemovePlayerRequestExitCode.Ok,
-                Color = color
-            };
+            return new RemovePlayerResponse(ExitCode.Ok, color);
         }
 
         /// <summary>
@@ -139,14 +116,11 @@
         /// Starts the game.
         /// </summary>
         /// <returns>Request result.</returns>
-        public StartGameRequestResult StartGame()
+        public StartGameResponse StartGame()
         {
             if (SimulationState != SimulationWorkflow.BeforeGame)
             {
-                return new StartGameRequestResult
-                {
-                    ExitCode = GameExecutionRequestExitCode.WrongSimulationState
-                };
+                return new StartGameResponse(null, ExitCode.InvalidTimeError, null);
             }
 
             // TODO: player order
@@ -162,42 +136,27 @@
             {
                 SimulationState = SimulationWorkflow.InGame;
 
-                return new StartGameRequestResult
-                {
-                    ExitCode = GameExecutionRequestExitCode.Ok,
-                    ExecutionResult = result,
-                    PlayerNames = playerOrder.Select(c => Players[c]).ToArray()
-                };
+                return new StartGameResponse(result, ExitCode.Ok, playerOrder.Select(c => Players[c]).ToArray());
             }
 
-            return new StartGameRequestResult
-            {
-                ExitCode = GameExecutionRequestExitCode.Error,
-                ExecutionResult = result
-            };
+            return new StartGameResponse(result, ExitCode.RuleViolationError, null);
         }
 
         /// <summary>
         /// Starts the move.
         /// </summary>
         /// <returns>Request result.</returns>
-        public StartMoveRequestResult StartMove()
+        public StartMoveResponse StartMove()
         {
             if (SimulationState != SimulationWorkflow.InGame)
             {
-                return new StartMoveRequestResult
-                {
-                    ExitCode = GameExecutionRequestExitCode.WrongSimulationState
-                };
+                return new StartMoveResponse(null, ExitCode.InvalidTimeError);
             }
 
             var result = Executor.TryStartMove(GameState);
+            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.RuleViolationError;
 
-            return new StartMoveRequestResult
-            {
-                ExitCode = result.IsValid ? GameExecutionRequestExitCode.Ok : GameExecutionRequestExitCode.Error,
-                ExecutionResult = result
-            };
+            return new StartMoveResponse(result, exitCode);
         }
 
         /// <summary>
@@ -208,23 +167,17 @@
         /// <param name="coords">Coordinates of the tile.</param>
         /// <param name="orientation">Orientation of the tile.</param>
         /// <returns>Request result.</returns>
-        public PlaceTileRequestResult PlaceTile(PlayerColor color, ITileScheme tile, Coords coords, TileOrientation orientation)
+        public PlaceTileResponse PlaceTile(PlayerColor color, ITileScheme tile, Coords coords, TileOrientation orientation)
         {
             if (SimulationState != SimulationWorkflow.InGame)
             {
-                return new PlaceTileRequestResult
-                {
-                    ExitCode = GameExecutionRequestExitCode.WrongSimulationState
-                };
+                return new PlaceTileResponse(null, ExitCode.InvalidTimeError);
             }
 
             var result = Executor.TryPlaceTile(GameState, color, tile, coords, orientation);
+            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.Error;
 
-            return new PlaceTileRequestResult
-            {
-                ExitCode = result.IsValid ? GameExecutionRequestExitCode.Ok : GameExecutionRequestExitCode.Error,
-                ExecutionResult = result
-            };
+            return new PlaceTileResponse(result, exitCode);
         }
 
         /// <summary>
@@ -234,23 +187,17 @@
         /// <param name="coords">Coordinates of the follower.</param>
         /// <param name="regionId">Identifier of region for the follower placement.</param>
         /// <returns>Request result.</returns>
-        public PlaceFollowerRequestResult PlaceFollower(PlayerColor color, Coords coords, int regionId)
+        public PlaceFollowerResponse PlaceFollower(PlayerColor color, Coords coords, int regionId)
         {
             if (SimulationState != SimulationWorkflow.InGame)
             {
-                return new PlaceFollowerRequestResult
-                {
-                    ExitCode = GameExecutionRequestExitCode.WrongSimulationState
-                };
+                return new PlaceFollowerResponse(null, ExitCode.InvalidTimeError);
             }
 
             var result = Executor.TryPlaceFollower(GameState, color, coords, regionId);
+            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.Error;
 
-            return new PlaceFollowerRequestResult
-            {
-                ExitCode = result.IsValid ? GameExecutionRequestExitCode.Ok : GameExecutionRequestExitCode.Error,
-                ExecutionResult = result
-            };
+            return new PlaceFollowerResponse(result, exitCode);
         }
 
         /// <summary>
@@ -259,23 +206,17 @@
         /// <param name="color">Color of player making the move.</param>
         /// <param name="coords">Coordinates of the follower.</param>
         /// <returns>Request result.</returns>
-        public RemoveFollowerRequestResult RemoveFollower(PlayerColor color, Coords coords)
+        public RemoveFollowerResponse RemoveFollower(PlayerColor color, Coords coords)
         {
             if (SimulationState != SimulationWorkflow.InGame)
             {
-                return new RemoveFollowerRequestResult
-                {
-                    ExitCode = GameExecutionRequestExitCode.WrongSimulationState
-                };
+                return new RemoveFollowerResponse(null, ExitCode.InvalidTimeError);
             }
 
             var result = Executor.TryRemoveFollower(GameState, color, coords);
+            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.Error;
 
-            return new RemoveFollowerRequestResult
-            {
-                ExitCode = result.IsValid ? GameExecutionRequestExitCode.Ok : GameExecutionRequestExitCode.Error,
-                ExecutionResult = result
-            };
+            return new RemoveFollowerResponse(result, exitCode);
         }
 
         /// <summary>
@@ -283,37 +224,28 @@
         /// </summary>
         /// <param name="color">Color of player making the move.</param>
         /// <returns>Request result.</returns>
-        public PassMoveRequestResult PassMove(PlayerColor color)
+        public PassMoveResponse PassMove(PlayerColor color)
         {
             if (SimulationState != SimulationWorkflow.InGame)
             {
-                return new PassMoveRequestResult
-                {
-                    ExitCode = GameExecutionRequestExitCode.WrongSimulationState
-                };
+                return new PassMoveResponse(null, ExitCode.InvalidTimeError);
             }
 
             var result = Executor.TryPassMove(GameState, color);
+            var exitCode = result.IsValid ? ExitCode.Ok : ExitCode.Error;
 
-            return new PassMoveRequestResult
-            {
-                ExitCode = result.IsValid ? GameExecutionRequestExitCode.Ok : GameExecutionRequestExitCode.Error,
-                ExecutionResult = result
-            };
+            return new PassMoveResponse(result, exitCode);
         }
 
         /// <summary>
         /// Ends the game.
         /// </summary>
         /// <returns>Request result.</returns>
-        public EndGameRequestResult EndGame()
+        public EndGameResponse EndGame()
         {
             if (SimulationState != SimulationWorkflow.InGame)
             {
-                return new EndGameRequestResult
-                {
-                    ExitCode = GameExecutionRequestExitCode.WrongSimulationState
-                };
+                return new EndGameResponse(null, ExitCode.InvalidTimeError);
             }
 
             var result = Executor.TryEndGame(GameState);
@@ -322,18 +254,10 @@
             {
                 SimulationState = SimulationWorkflow.AfterGame;
 
-                return new EndGameRequestResult
-                {
-                    ExitCode = GameExecutionRequestExitCode.Ok,
-                    ExecutionResult = result
-                };
+                return new EndGameResponse(result, ExitCode.Ok);
             }
 
-            return new EndGameRequestResult
-            {
-                ExitCode = GameExecutionRequestExitCode.Error,
-                ExecutionResult = result
-            };
+            return new EndGameResponse(result, ExitCode.Error);
         }
         #endregion
     }
