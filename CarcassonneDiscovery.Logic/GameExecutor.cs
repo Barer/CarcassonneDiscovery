@@ -245,6 +245,8 @@
                     return new PlaceTileExecutionResult(RuleViolationType.IncompatibleSurroundings);
                 case GridRuleViolation.NoNeighboringTile:
                     return new PlaceTileExecutionResult(RuleViolationType.NoNeighboringTile);
+                case GridRuleViolation.NotEmptyCoords:
+                    return new PlaceTileExecutionResult(RuleViolationType.NotEmptyCoords);
                 default:
                     throw new InvalidOperationException();
             }

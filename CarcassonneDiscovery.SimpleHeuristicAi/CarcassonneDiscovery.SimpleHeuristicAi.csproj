@@ -41,9 +41,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="SimpleHeuristicAiPlayer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarcassonneDiscovery.AiBase\CarcassonneDiscovery.AiBase.csproj">
+      <Project>{80ae70eb-a49e-41d0-a774-d0435ae10942}</Project>
+      <Name>CarcassonneDiscovery.AiBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Entity\CarcassonneDiscovery.Entity.csproj">
+      <Project>{77863305-256A-4D0F-B7E6-1522D8AE469D}</Project>
+      <Name>CarcassonneDiscovery.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Logic\CarcassonneDiscovery.Logic.csproj">
+      <Project>{4B8D8C51-A614-41CE-89D3-163FB6EED828}</Project>
+      <Name>CarcassonneDiscovery.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Messaging\CarcassonneDiscovery.Messaging.csproj">
+      <Project>{DF3BD70B-0CC6-44B8-8924-C81778627399}</Project>
+      <Name>CarcassonneDiscovery.Messaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Tools\CarcassonneDiscovery.Tools.csproj">
+      <Project>{467BA373-88BD-4895-9B98-C87A8A0F853D}</Project>
+      <Name>CarcassonneDiscovery.Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

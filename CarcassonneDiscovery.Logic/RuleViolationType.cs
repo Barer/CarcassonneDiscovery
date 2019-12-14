@@ -61,6 +61,11 @@
         /// Tile placement is invalid because the tile has no neighboring tile.
         /// </summary>
         NoNeighboringTile,
+
+        /// <summary>
+        /// Tile placemet is invalid because there already is a tile on the coordinates.
+        /// </summary>
+        NotEmptyCoords,
         #endregion
 
         #region Follower placement

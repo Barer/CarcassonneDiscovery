@@ -18,6 +18,15 @@
         public Coords Coords { get; set; }
 
         /// <summary>
+        /// Empty constructor.
+        /// </summary>
+        public RemoveFollowerExecutionRequest()
+        {
+            // TODO: Needs standard constructor (for both clients.
+            // Empty
+        }
+
+        /// <summary>
         /// Constructor from <see cref="ClientRequest"/>.
         /// </summary>
         /// <param name="request">Request DTO.</param>

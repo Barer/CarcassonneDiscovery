@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\CoordsExtensions.cs" />
+    <Compile Include="Extensions\GameStateExtensions.cs" />
     <Compile Include="Grid\CoordsRegionIdTuple.cs" />
     <Compile Include="Grid\GridRuleViolation.cs" />
     <Compile Include="Grid\GridSearch.cs" />

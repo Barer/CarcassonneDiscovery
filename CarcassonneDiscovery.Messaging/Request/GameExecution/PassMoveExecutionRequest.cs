@@ -13,6 +13,15 @@
         public PlayerColor Color { get; set; }
 
         /// <summary>
+        /// Empty constructor.
+        /// </summary>
+        public PassMoveExecutionRequest()
+        {
+            // TODO: Needs standard constructor (for both clients.
+            // Empty
+        }
+
+        /// <summary>
         /// Constructor from <see cref="ClientRequest"/>.
         /// </summary>
         /// <param name="request">Request DTO.</param>

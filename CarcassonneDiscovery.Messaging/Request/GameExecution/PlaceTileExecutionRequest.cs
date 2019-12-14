@@ -28,6 +28,15 @@
         public TileOrientation Orientation { get; set; }
 
         /// <summary>
+        /// Empty constructor.
+        /// </summary>
+        public PlaceTileExecutionRequest()
+        {
+            // TODO: Needs standard constructor (for both clients.
+            // Empty
+        }
+
+        /// <summary>
         /// Constructor from <see cref="ClientRequest"/>.
         /// </summary>
         /// <param name="request">Request DTO.</param>
