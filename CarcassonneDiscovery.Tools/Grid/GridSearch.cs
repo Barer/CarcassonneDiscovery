@@ -161,16 +161,16 @@
             var search = Search(grid, coords, regionId);
 
             var tileCount = search.RegionInformation.Count;
-            var isOpen = !search.IsClosed | forceOpen | tileCount <= 2;
+            var isOpen = !search.IsClosed || forceOpen || tileCount <= 2;
 
             switch (grid[coords].TileScheme.GetRegionType(regionId))
             {
                 case RegionType.Grassland:
-                    return forceOpen ? tileCount : tileCount * 2;
+                    return isOpen ? tileCount : tileCount * 2;
 
                 case RegionType.Sea:
                     var citiesOnSea = search.RegionInformation.Sum(x => x.Value.CitiesIds.Count);
-                    return forceOpen ? citiesOnSea : citiesOnSea + tileCount;
+                    return isOpen ? citiesOnSea : citiesOnSea + tileCount;
 
                 case RegionType.Mountain:
                     var citiesOnMountain = new Dictionary<Coords, SortedSet<int>>();
@@ -192,14 +192,14 @@
                                 {
                                     if (citiesOnMountain.TryGetValue(nTileInfo.Key, out var citiesOnTile))
                                     {
-                                        foreach (var cId in citiesOnTile)
+                                        foreach (var cId in grid[tileInfo.Key].TileScheme.GetRegionCities(nId))
                                         {
                                             citiesOnTile.Add(cId);
                                         }
                                     }
                                     else
                                     {
-                                        citiesOnMountain.Add(nTileInfo.Key, new SortedSet<int>(nTileInfo.Value.NeighboringRegionIds));
+                                        citiesOnMountain.Add(nTileInfo.Key, new SortedSet<int>(grid[tileInfo.Key].TileScheme.GetRegionCities(nId)));
                                     }
                                 }
                             }
@@ -207,7 +207,7 @@
                     }
 
                     var citiesOnMountainCount = citiesOnMountain.Sum(x => x.Value.Count);
-                    return forceOpen ? citiesOnMountainCount : citiesOnMountainCount * 2;
+                    return isOpen ? citiesOnMountainCount : citiesOnMountainCount * 2;
             }
 
             throw new ArgumentException("Invalid region type");

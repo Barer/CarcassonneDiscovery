@@ -173,7 +173,7 @@
 
                             case ServerResponseType.RemoveFollower:
                                 var removeFollowerResult = new RemoveFollowerResponse(msg).ExecutionResult;
-                                PrivateExecutor.SetRemoveFollower(GameState, removeFollowerResult.Color, removeFollowerResult.Coords);
+                                PrivateExecutor.SetRemoveFollower(GameState, removeFollowerResult.Color, removeFollowerResult.Coords, removeFollowerResult.Score);
                                 RemoveFollower(removeFollowerResult.Color, removeFollowerResult.Coords, removeFollowerResult.Score);
                                 break;
 

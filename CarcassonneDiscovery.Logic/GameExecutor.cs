@@ -319,15 +319,16 @@
         /// <param name="state">Current game state.</param>
         /// <param name="color">Current player on move.</param>
         /// <param name="coords">Coordinates of the tile where the follower is being removed from.</param>
+        /// <param name="score">Points scored</param>
         /// <returns>Game execution result.</returns>
-        public RemoveFollowerExecutionResult SetRemoveFollower(GameState state, PlayerColor color, Coords coords)
+        public RemoveFollowerExecutionResult SetRemoveFollower(GameState state, PlayerColor color, Coords coords, int score)
         {
             var placement = state.Grid[coords].FollowerPlacement;
 
             state.Grid[coords].FollowerPlacement = null;
             state.PlacedFollowers[color].Remove(placement);
 
-            var score = GridSearch.GetScoreForFollower(state.Grid, coords, placement.RegionId);
+            state.Scores[color] += score;
 
             state.MovePhase = MoveWorkflow.MoveEnded;
 
@@ -366,7 +367,9 @@
                 return new RemoveFollowerExecutionResult(RuleViolationType.InconsistentGameState);
             }
 
-            return SetRemoveFollower(state, color, coords);
+            var score = GridSearch.GetScoreForFollower(state.Grid, coords, fpInGrid.RegionId);
+
+            return SetRemoveFollower(state, color, coords, score);
         }
 
         /// <summary>
@@ -415,7 +418,7 @@
 
             foreach (var fp in allPlacements)
             {
-                var score = SetRemoveFollower(state, fp.Color, fp.Coords);
+                var score = TryRemoveFollower(state, fp.Color, fp.Coords);
                 allScores.Add(score);
             }
 
