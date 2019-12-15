@@ -8,6 +8,8 @@ Jednotlivé knihovny a jejich popis:
 - Messaging èást (komunikace mezi serverem a klienty)
   - [`CarcassonneDiscovery.Messaging.dll`](Messaging-Messaging.md) = tøídy, které slouí jako prostøedníci v komunikaci mezi serverem a klientem (jednotlivé "zprávy")
   - [`CarcassonneDiscovery.Socketing.dll`](Messaging-Socketing.md) = tøídy, které slouí jako sockety (koncové body komunikace)
+- Resources èást (spoleèné zdroje)
+  - [`CarcassonneDiscovery.StandardTileSet.dll`](Resources-StandardTileSet.md) = pomocné zdroje a tøídy, které obsahují standardní sadu kartièek (TODO: formulace)
 - Server èást
   - [`CarcassonneDiscovery.ServerBase.dll`](Server-ServerBase.md) = tøídy, které jsou základem herního serveru (TODO: s interfacem pro vstup a vıstup)
   - [`CarcassonneDiscovery.HeadlessServer.exe`](Server-HeadlessServer.md) = spusitelnı server v headless módu

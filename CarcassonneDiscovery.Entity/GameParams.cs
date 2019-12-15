@@ -21,8 +21,8 @@
         public PlayerColor[] PlayerOrder { get; set; } = null;
 
         /// <summary>
-        /// Parameters of the tile set.
+        /// Name (and parameters) of the tile set.
         /// </summary>
-        public TileSetParams TileSetParams { get; set; } = new TileSetParams();
+        public string TileSet { get; set; } = null;
     }
 }

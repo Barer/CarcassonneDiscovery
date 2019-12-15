@@ -40,18 +40,14 @@
                     ValidationHelper.CheckHasValue(response.PlayerAmount, "Player amount must be specified.");
                     ValidationHelper.CheckHasValue(response.FollowerAmount, "Follower amount must be specified.");
                     ValidationHelper.CheckHasValue(response.PlayerOrder, "Player order must be specified.");
-                    ValidationHelper.CheckHasValue(response.TileSetName, "Tile set name must be specified.");
+                    ValidationHelper.CheckHasValue(response.Name, "Tile set name must be specified.");
 
                     var gameParams = new GameParams
                     {
                         PlayerAmount = response.PlayerAmount.Value,
                         FollowerAmount = response.FollowerAmount.Value,
                         PlayerOrder = response.PlayerOrder,
-                        TileSetParams = new TileSetParams
-                        {
-                            Name = response.TileSetName,
-                            TileSupplierBuilder = null // TODO: ???
-                        }
+                        TileSet = response.Name
                     };
 
                     ExecutionResult = new StartGameExecutionResult(gameParams, response.Tile.Value, response.Coords.Value, response.Orientation.Value);
@@ -81,7 +77,7 @@
                 PlayerAmount = ExecutionResult?.GameParams.PlayerAmount,
                 FollowerAmount = ExecutionResult?.GameParams.FollowerAmount,
                 PlayerOrder = ExecutionResult?.GameParams.PlayerOrder,
-                TileSetName = ExecutionResult?.GameParams.TileSetParams.Name
+                Name = ExecutionResult?.GameParams.TileSet
             };
         }
     }

@@ -125,10 +125,7 @@
                     FollowerAmount = gameStartMsg.FollowerAmount.Value,
                     PlayerAmount = gameStartMsg.PlayerAmount.Value,
                     PlayerOrder = gameStartMsg.PlayerOrder,
-                    TileSetParams = new TileSetParams
-                    {
-                        Name = gameStartMsg.TileSetName
-                    }
+                    TileSet = gameStartMsg.Name
                 }
             };
             ResolveGameEventMessage(gameStartMsg);

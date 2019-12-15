@@ -7,7 +7,7 @@
     <ProjectGuid>{9635A9F0-F6BB-4447-9E57-A61B682AAD72}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CarcassonneDiscovery.StandardTileSet</RootNamespace>
+    <RootNamespace>CarcassonneDiscovery.Resources.StandardTileSet</RootNamespace>
     <AssemblyName>CarcassonneDiscovery.StandardTileSet</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

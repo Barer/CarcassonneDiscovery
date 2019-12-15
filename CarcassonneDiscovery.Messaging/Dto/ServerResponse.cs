@@ -18,7 +18,6 @@
         /// </summary>
         public ExitCode ExitCode { get; set; }
 
-        #region Game execution
         /// <summary>
         /// Type of rule violation.
         /// </summary>
@@ -58,9 +57,7 @@
         /// Removements of followers in the end of the game.
         /// </summary>
         public ServerResponse[] FollowerRemovements { get; set; } = null;
-        #endregion
 
-        #region Game parameters (in game execution)
         /// <summary>
         /// Number of players in the game.
         /// </summary>
@@ -77,22 +74,14 @@
         public PlayerColor[] PlayerOrder { get; set; } = null;
 
         /// <summary>
-        /// Name of the tile set.
-        /// </summary>
-        public string TileSetName { get; set; } = null;
-
-        /// <summary>
         /// Names of the players.
         /// </summary>
         public string[] PlayerNames { get; set; } = null;
-        #endregion
 
-        #region Game settings
         /// <summary>
-        /// Name of the player.
+        /// Name of player or tile set.
         /// </summary>
         public string Name { get; set; } = null;
-        #endregion
 
         #region Serialization settings
         /// <summary>
@@ -177,21 +166,21 @@
         }
 
         /// <summary>
-        /// Should the <see cref="TileSetName"/> property be serialized.
-        /// </summary>
-        /// <returns>True if the property should be serialized.</returns>
-        public bool ShouldSerializeTileSetName()
-        {
-            return TileSetName != null;
-        }
-
-        /// <summary>
         /// Should the <see cref="PlayerNames"/> property be serialized.
         /// </summary>
         /// <returns>True if the property should be serialized.</returns>
         public bool ShouldSerializePlayerNames()
         {
             return PlayerNames != null;
+        }
+
+        /// <summary>
+        /// Should the <see cref="Name"/> property be serialized.
+        /// </summary>
+        /// <returns>True if the property should be serialized.</returns>
+        public bool ShouldSerializeName()
+        {
+            return Name != null;
         }
         #endregion
     }

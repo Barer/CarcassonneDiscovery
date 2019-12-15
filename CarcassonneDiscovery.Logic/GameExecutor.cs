@@ -25,11 +25,12 @@
         }
 
         /// <summary>
-        /// Starts new game.
+        /// Starts new game. Variation for server.
         /// </summary>
         /// <param name="state">Current game state.</param>
+        /// <param name="tileSupplier">Tile supplier.</param>
         /// <returns>Game execution result.</returns>
-        public StartGameExecutionResult SetStartGame(GameState state)
+        public StartGameExecutionResult SetStartGame(GameState state, ITileSupplier tileSupplier)
         {
             // Initialize game state
             state.CurrentPlayerIndex = -1;
@@ -44,7 +45,7 @@
                 state.Scores.Add(player, 0);
             }
 
-            state.TileSupplier = state.Params.TileSetParams.TileSupplierBuilder();
+            state.TileSupplier = tileSupplier;
 
             // Place first tile
             var firstTile = state.TileSupplier.GetFirstTile();
@@ -67,7 +68,7 @@
         }
 
         /// <summary>
-        /// Starts new game.
+        /// Starts new game. Variation for client.
         /// </summary>
         /// <param name="state">Current game state.</param>
         /// <returns>Game execution result.</returns>
@@ -86,7 +87,7 @@
                 state.Scores.Add(player, 0);
             }
 
-            state.TileSupplier = state.Params.TileSetParams.TileSupplierBuilder();
+            state.TileSupplier = null;
 
             // Place first tile
             state.Grid.Add(
@@ -109,8 +110,9 @@
         /// Tries to start new game.
         /// </summary>
         /// <param name="state">Current game state.</param>
+        /// <param name="tileSupplierCollection">List of tile suppliers possible for the game.</param>
         /// <returns>Game execution result.</returns>
-        public StartGameExecutionResult TryStartGame(GameState state)
+        public StartGameExecutionResult TryStartGame(GameState state, IDictionary<string, ITileSupplier> tileSupplierCollection)
         {
             var stateParams = state.Params;
 
@@ -119,7 +121,7 @@
                 return new StartGameExecutionResult(RuleViolationType.InconsistentGameState);
             }
 
-            if (stateParams.TileSetParams == null)
+            if (stateParams.TileSet == null || tileSupplierCollection == null || !tileSupplierCollection.TryGetValue(stateParams.TileSet, out var tileSupplier))
             {
                 return new StartGameExecutionResult(RuleViolationType.InconsistentGameState);
             }
@@ -134,7 +136,7 @@
                 return new StartGameExecutionResult(RuleViolationType.InvalidMovePhase);
             }
 
-            return SetStartGame(state);
+            return SetStartGame(state, tileSupplier);
         }
 
         /// <summary>

@@ -6,7 +6,7 @@
     using CarcassonneDiscovery.Entity;
     using CarcassonneDiscovery.Logic;
     using CarcassonneDiscovery.Messaging;
-    using CarcassonneDiscovery.SimulationLibrary;
+    using CarcassonneDiscovery.Resources.StandardTileSet;
 
     /// <summary>
     /// Simulator of the game.
@@ -34,6 +34,14 @@
         protected GameState GameState { get; set; }
 
         /// <summary>
+        /// Tile sets recognized by the game simulator.
+        /// </summary>
+        protected readonly Dictionary<string, ITileSupplier> TileSupplierDict = new Dictionary<string, ITileSupplier>
+        {
+            { "Standard", new StandardTileSetSupplier() }
+        };
+        
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public GameSimulator()
@@ -45,8 +53,7 @@
 
             // TODO: proper values
             GameState.Params.FollowerAmount = 4;
-            GameState.Params.TileSetParams.Name = "Standard";
-            GameState.Params.TileSetParams.TileSupplierBuilder = new Func<ITileSupplier>(() => new StandardTileSetSupplier());
+            GameState.Params.TileSet = "Standard";
         }
 
         #region Add or remove players
@@ -130,7 +137,7 @@
             GameState.Params.PlayerOrder = playerOrder;
             GameState.Params.PlayerAmount = playerOrder.Length;
 
-            var result = Executor.TryStartGame(GameState);
+            var result = Executor.TryStartGame(GameState, TileSupplierDict);
 
             if (result.IsValid)
             {
@@ -139,7 +146,7 @@
                 return new StartGameResponse(result, ExitCode.Ok, playerOrder.Select(c => Players[c]).ToArray());
             }
 
-            return new StartGameResponse(result, ExitCode.Error, null);
+            return new StartGameResponse(result, ExitCode.RuleViolationError, null);
         }
 
         /// <summary>

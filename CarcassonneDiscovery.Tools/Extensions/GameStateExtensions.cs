@@ -25,11 +25,7 @@
                     FollowerAmount = gameState.Params.FollowerAmount,
                     PlayerAmount = gameState.Params.PlayerAmount,
                     PlayerOrder = (PlayerColor[])gameState.Params.PlayerOrder.Clone(),
-                    TileSetParams = new TileSetParams
-                    {
-                        Name = gameState.Params.TileSetParams.Name,
-                        TileSupplierBuilder = null
-                    }
+                    TileSet = gameState.Params.TileSet
                 },
                 MovePhase = gameState.MovePhase,
                 Grid = new Dictionary<Coords, TilePlacement>(),

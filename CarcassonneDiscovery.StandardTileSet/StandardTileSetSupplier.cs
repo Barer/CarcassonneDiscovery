@@ -1,4 +1,4 @@
-﻿namespace CarcassonneDiscovery.SimulationLibrary
+﻿namespace CarcassonneDiscovery.Resources.StandardTileSet
 {
     using System;
     using System.Collections.Generic;
