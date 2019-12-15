@@ -39,8 +39,8 @@
             {
                 for (int rId = 0; rId < regions; rId++)
                 {
-                    if (!RangeCheck(scheme.GetRegionCities(rId), other.GetRegionCities(rId)) ||
-                        !RangeCheck(scheme.GetRegionNeighbors(rId), other.GetRegionNeighbors(rId)) ||
+                    if (!SetEquality(scheme.GetRegionCities(rId), other.GetRegionCities(rId)) ||
+                        !SetEquality(scheme.GetRegionNeighbors(rId), other.GetRegionNeighbors(rId)) ||
                         (scheme.GetRegionBorders(rId) != other.GetRegionBorders(rId)) ||
                         (scheme.GetRegionType(rId) != other.GetRegionType(rId)))
                     {
@@ -200,7 +200,7 @@
         /// <param name="a">Enumerable.</param>
         /// <param name="b">Other enumerable.</param>
         /// <returns>True if the two collections contain same items; otherwise false.</returns>
-        private static bool RangeCheck<T>(IEnumerable<T> a, IEnumerable<T> b)
+        private static bool SetEquality<T>(IEnumerable<T> a, IEnumerable<T> b)
             where T : IComparable
         {
             var aAr = a.OrderBy(x => x).ToArray();

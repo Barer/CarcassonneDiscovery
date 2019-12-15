@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using CarcassonneDiscovery.Entity;
+
     using Grid = System.Collections.Generic.Dictionary<Entity.Coords, Entity.TilePlacement>;
 
     /// <summary>

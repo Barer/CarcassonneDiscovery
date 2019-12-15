@@ -21,12 +21,12 @@
         /// <summary>
         /// Information about regions.
         /// </summary>
-        public RegionInfo[] Regions { get; set; }
+        public RegionInfo[] Regions { get; set; } = null;
 
         /// <summary>
         /// Regions on tile borders implementation.
         /// </summary>
-        public int[] RegionsOnBorders { get; set; }
+        public int[] RegionsOnBorders { get; set; } = new int[4];
 
         /// <inheritdoc />
         public TileOrientation GetRegionBorders(int id)

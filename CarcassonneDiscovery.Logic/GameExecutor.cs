@@ -112,7 +112,7 @@
         /// <param name="state">Current game state.</param>
         /// <param name="tileSupplierCollection">List of tile suppliers possible for the game.</param>
         /// <returns>Game execution result.</returns>
-        public StartGameExecutionResult TryStartGame(GameState state, IDictionary<string, ITileSupplier> tileSupplierCollection)
+        public StartGameExecutionResult TryStartGame(GameState state, IDictionary<string, Func<ITileSupplier>> tileSupplierCollection)
         {
             var stateParams = state.Params;
 
@@ -121,7 +121,7 @@
                 return new StartGameExecutionResult(RuleViolationType.InconsistentGameState);
             }
 
-            if (stateParams.TileSet == null || tileSupplierCollection == null || !tileSupplierCollection.TryGetValue(stateParams.TileSet, out var tileSupplier))
+            if (stateParams.TileSet == null || tileSupplierCollection == null || !tileSupplierCollection.TryGetValue(stateParams.TileSet, out var tileSupplierBuilder))
             {
                 return new StartGameExecutionResult(RuleViolationType.InconsistentGameState);
             }
@@ -136,7 +136,7 @@
                 return new StartGameExecutionResult(RuleViolationType.InvalidMovePhase);
             }
 
-            return SetStartGame(state, tileSupplier);
+            return SetStartGame(state, tileSupplierBuilder.Invoke());
         }
 
         /// <summary>

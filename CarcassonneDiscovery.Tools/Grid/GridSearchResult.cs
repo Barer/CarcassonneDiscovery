@@ -11,7 +11,7 @@
         /// <summary>
         /// Information about the region.
         /// </summary>
-        public Dictionary<Coords, RegionSearchInfo> RegionInformation { get; set; }
+        public IDictionary<Coords, RegionSearchInfo> RegionInformation { get; set; }
 
         /// <summary>
         /// Is the region closed?

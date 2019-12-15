@@ -10,16 +10,16 @@
         /// <summary>
         /// Identifiers of regions on tile which are a part of the given landscape region.
         /// </summary>
-        public SortedSet<int> RegionIds { get; set; }
+        public SortedSet<int> RegionIds { get; set; } = new SortedSet<int>();
 
         /// <summary>
         /// Identifiers of regions on tile neighboring the given landscape region.
         /// </summary>
-        public SortedSet<int> NeighboringRegionIds { get; set; }
+        public SortedSet<int> NeighboringRegionIds { get; set; } = new SortedSet<int>();
 
         /// <summary>
         /// Identifiers of cities on tile located on the given landscape region.
         /// </summary>
-        public SortedSet<int> CitiesIds { get; set; }
+        public SortedSet<int> CitiesIds { get; set; } = new SortedSet<int>();
     }
 }

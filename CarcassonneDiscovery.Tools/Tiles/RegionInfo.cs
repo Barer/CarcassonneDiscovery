@@ -26,11 +26,11 @@
         /// <summary>
         /// List of cities located on the region.
         /// </summary>
-        public List<int> NeighboringCities { get; set; }
+        public List<int> NeighboringCities { get; set; } = new List<int>();
 
         /// <summary>
         /// List of regions neighboring the region.
         /// </summary>
-        public List<int> NeighboringRegions { get; set; }
+        public List<int> NeighboringRegions { get; set; } = new List<int>();
     }
 }
