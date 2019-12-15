@@ -77,6 +77,10 @@
       <Project>{DF3BD70B-0CC6-44B8-8924-C81778627399}</Project>
       <Name>CarcassonneDiscovery.Messaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Socketing\CarcassonneDiscovery.Socketing.csproj">
+      <Project>{1FA38B2D-E446-4236-834F-DF811D01A8B2}</Project>
+      <Name>CarcassonneDiscovery.Socketing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CarcassonneDiscovery.StandardTileSet\CarcassonneDiscovery.StandardTileSet.csproj">
       <Project>{9635A9F0-F6BB-4447-9E57-A61B682AAD72}</Project>
       <Name>CarcassonneDiscovery.StandardTileSet</Name>

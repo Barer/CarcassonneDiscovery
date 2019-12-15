@@ -138,6 +138,10 @@
       <Project>{df3bd70b-0cc6-44b8-8924-c81778627399}</Project>
       <Name>CarcassonneDiscovery.Messaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CarcassonneDiscovery.Socketing\CarcassonneDiscovery.Socketing.csproj">
+      <Project>{1FA38B2D-E446-4236-834F-DF811D01A8B2}</Project>
+      <Name>CarcassonneDiscovery.Socketing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CarcassonneDiscovery.Tools\CarcassonneDiscovery.Tools.csproj">
       <Project>{467BA373-88BD-4895-9B98-C87A8A0F853D}</Project>
       <Name>CarcassonneDiscovery.Tools</Name>

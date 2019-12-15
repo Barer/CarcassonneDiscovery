@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using CarcassonneDiscovery.Entity;
     using CarcassonneDiscovery.Messaging;
-
+    using CarcassonneDiscovery.Socketing;
     using ClientId = System.String;
 
     /// <summary>

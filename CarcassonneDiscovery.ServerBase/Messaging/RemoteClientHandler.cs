@@ -2,6 +2,7 @@
 {
     using System;
     using CarcassonneDiscovery.Messaging;
+    using CarcassonneDiscovery.Socketing;
 
     /// <summary>
     /// Client handler for remote clients.

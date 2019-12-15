@@ -1,6 +1,7 @@
-﻿namespace CarcassonneDiscovery.Messaging
+﻿namespace CarcassonneDiscovery.Socketing
 {
     using System.Net.Sockets;
+    using CarcassonneDiscovery.Messaging;
 
     /// <summary>
     /// Socket on the server side handling communication with single client.

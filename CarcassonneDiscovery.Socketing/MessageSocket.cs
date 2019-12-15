@@ -1,4 +1,4 @@
-﻿namespace CarcassonneDiscovery.Messaging
+﻿namespace CarcassonneDiscovery.Socketing
 {
     using System;
     using System.Collections.Generic;

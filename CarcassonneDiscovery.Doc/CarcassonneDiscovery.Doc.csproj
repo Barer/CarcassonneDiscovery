@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80AE70EB-A49E-41D0-A774-D0435AE10942}</ProjectGuid>
+    <ProjectGuid>{A90969CB-2627-4B9C-896F-86859444E7AD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CarcassonneDiscovery.Ai</RootNamespace>
-    <AssemblyName>CarcassonneDiscovery.AiBase</AssemblyName>
+    <RootNamespace>CarcassonneDiscovery.Doc</RootNamespace>
+    <AssemblyName>CarcassonneDiscovery.Doc</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -40,32 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AiArguments.cs" />
-    <Compile Include="AiClient.cs" />
-    <Compile Include="ArgumentParser.cs" />
-    <Compile Include="IPlayer.cs" />
-    <Compile Include="AiProgram.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CarcassonneDiscovery.Entity\CarcassonneDiscovery.Entity.csproj">
-      <Project>{77863305-256A-4D0F-B7E6-1522D8AE469D}</Project>
-      <Name>CarcassonneDiscovery.Entity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CarcassonneDiscovery.Logic\CarcassonneDiscovery.Logic.csproj">
-      <Project>{4B8D8C51-A614-41CE-89D3-163FB6EED828}</Project>
-      <Name>CarcassonneDiscovery.Logic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CarcassonneDiscovery.Messaging\CarcassonneDiscovery.Messaging.csproj">
-      <Project>{DF3BD70B-0CC6-44B8-8924-C81778627399}</Project>
-      <Name>CarcassonneDiscovery.Messaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CarcassonneDiscovery.Socketing\CarcassonneDiscovery.Socketing.csproj">
-      <Project>{1FA38B2D-E446-4236-834F-DF811D01A8B2}</Project>
-      <Name>CarcassonneDiscovery.Socketing</Name>
-    </ProjectReference>
+    <None Include="Doc\Tech\Core-Entity.md" />
+    <None Include="Doc\Tech\Core-Logic.md" />
+    <None Include="Doc\Tech\Core-Tools.md" />
+    <None Include="Doc\Tech\Index-Assemblies.md" />
+    <None Include="Doc\Tech\Server-ServerBase.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Doc\AI\" />
+    <Folder Include="Doc\User\" />
+    <Folder Include="Thesis\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Doc\Tech\Img\AssemblyDependency.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -65,10 +65,6 @@
     <Compile Include="Response\GameExecution\StartMoveResponse.cs" />
     <Compile Include="Response\GameSettings\AddPlayerResponse.cs" />
     <Compile Include="Response\IResponse.cs" />
-    <Compile Include="Socketing\ClientHandlerSocket.cs" />
-    <Compile Include="Socketing\MessageSocket.cs" />
-    <Compile Include="Socketing\ClientSocket.cs" />
-    <Compile Include="Socketing\ServerSocket.cs" />
     <Compile Include="ValidationHelper.cs" />
   </ItemGroup>
   <ItemGroup>

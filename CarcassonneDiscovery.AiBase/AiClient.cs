@@ -4,6 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using CarcassonneDiscovery.Messaging;
+    using CarcassonneDiscovery.Socketing;
 
     /// <summary>
     /// AI client logic.

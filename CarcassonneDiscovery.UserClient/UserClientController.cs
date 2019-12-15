@@ -4,6 +4,7 @@
     using System.Windows;
     using CarcassonneDiscovery.Entity;
     using CarcassonneDiscovery.Messaging;
+    using CarcassonneDiscovery.Socketing;
 
     /// <summary>
     /// Controller of the user client application.
